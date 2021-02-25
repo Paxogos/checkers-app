@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - MEMBER1
-- MEMBER2
+- Aaron Schulte
 - Tyler Talarico
 - Alexis Chiang
 
