@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Jack Sipley
-- Aaron Schulte
+- Aaron Schulte 
 - Tyler Talarico
 - Alexis Chiang
 
