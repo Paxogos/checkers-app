@@ -54,6 +54,11 @@ public class WebServer {
    */
   public static final String HOME_URL = "/";
 
+  /**
+   * The URL pattern to request the Game page.
+   */
+  public static final String GAME_URL = "/game";
+
   //
   // Attributes
   //
@@ -138,6 +143,9 @@ public class WebServer {
 
     // Shows the Checkers game Home page.
     get(HOME_URL, new GetHomeRoute(templateEngine));
+
+    // Shows the Checkers Game page.
+    get(GAME_URL, new GetGameRoute(templateEngine));
 
     //
     LOG.config("WebServer is initialized.");
