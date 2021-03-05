@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class GetSignInRoute implements Route {
-
     private final TemplateEngine templateEngine;
 
     private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
@@ -25,10 +24,10 @@ public class GetSignInRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        LOG.finer("GetHomeRoute is invoked.");
+        LOG.finer("GetSignInRoute is invoked.");
 
         Map<String, Object> vm = new HashMap<>();
-        vm.put("title", "Welcome!");
+        vm.put("title", "Sign In");
 
         // display a user message in the Home page
         vm.put("message", SIGN_IN_MSG);
