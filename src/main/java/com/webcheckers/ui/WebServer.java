@@ -152,7 +152,7 @@ public class WebServer {
     // Shows the Checkers Sign In page.
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
 
-    // Shows the Checkers Sign In page.
+    // Shows the Checkers Game page.
     get(GAME_URL, new GetGameRoute(templateEngine));
 
     //
