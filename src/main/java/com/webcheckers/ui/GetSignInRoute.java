@@ -1,0 +1,41 @@
+package com.webcheckers.ui;
+
+import com.webcheckers.util.Message;
+import spark.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.logging.Logger;
+
+public class GetSignInRoute implements Route {
+    private final TemplateEngine templateEngine;
+
+    private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
+
+    private static final Message SIGN_IN_MSG = Message.info("Select a name to get started.");
+
+    public GetSignInRoute(final TemplateEngine templateEngine) {
+
+        this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+        //
+        LOG.config("GetSignInRoute is initialized.");
+    }
+
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+        LOG.finer("GetSignInRoute is invoked.");
+
+        return templateEngine.render(getSignInPage(SIGN_IN_MSG));
+    }
+
+    public static ModelAndView getSignInPage(Message message) {
+        Map<String, Object> vm = new HashMap<>();
+        vm.put("title", "Sign In");
+
+        // display a user message in the Home page
+        vm.put("message", message);
+
+        return new ModelAndView(vm, "/signin");
+    }
+}
