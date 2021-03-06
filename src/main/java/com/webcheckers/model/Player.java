@@ -6,11 +6,11 @@ public class Player {
     public enum Color {RED, WHITE, NONE}
 
     private Color color;
-    private String userName;
+    private String name;
 
     public Player(String userName, Color color) {
         this.color = color;
-        this.userName = userName;
+        this.name = userName;
     }
 
 

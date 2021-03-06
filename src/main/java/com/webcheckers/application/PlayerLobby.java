@@ -26,4 +26,6 @@ public class PlayerLobby {
             return "Username is already taken. Please try another name.";
         }
     }
+
+    public boolean hasPlayer(String playerName) { return playerList.containsKey(playerName); }
 }
