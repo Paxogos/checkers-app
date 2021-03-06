@@ -1,4 +1,6 @@
-package com.webcheckers.model;
+package com.webcheckers.application;
+
+import com.webcheckers.model.Space;
 
 import java.util.Iterator;
 
