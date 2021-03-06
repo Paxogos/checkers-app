@@ -16,16 +16,15 @@ public class PlayerLobby {
         this.playerList = new HashMap<>();
     }
 
-    public Object signIn(String userName) {
+    public Player signIn(String userName) {
         if (this.playerList.get(userName) == null) {
             Player newPlayer = new Player(userName, Player.Color.NONE);
             this.playerList.put(userName, newPlayer);
             return newPlayer; }
 
         else {
-            return "Username is already taken. Please try another name.";
+            return null;
         }
     }
-
-    public boolean hasPlayer(String playerName) { return playerList.containsKey(playerName); }
+    private boolean hasPlayer(String playerName) { return playerList.containsKey(playerName); }
 }
