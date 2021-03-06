@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.google.gson.Gson;
-import com.webcheckers.model.Board;
+import com.webcheckers.model.BoardView;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
 import spark.Request;
@@ -47,7 +47,7 @@ public class GetGameRoute implements Route {
     static final Player RED_PLAYER = CURRENT_USER;
     static final Player WHITE_PLAYER = new Player("Tyler", Player.Color.WHITE);
     static final String ACTIVE_COLOR = "RED";
-    static final Board BOARD = new Board();
+    static final BoardView BOARD = new BoardView();
 
     /*
     window.gameData = {
@@ -58,7 +58,7 @@ public class GetGameRoute implements Route {
     "redPlayer" : "${redPlayer.name}",
     "whitePlayer" : "${whitePlayer.name}",
     "activeColor" : "${activeColor}"
-  };
+    };
      */
 
 
