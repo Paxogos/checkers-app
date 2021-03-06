@@ -12,7 +12,7 @@ public class Row implements Iterable<Space>  {
     public Row(int index) {
         this.index = index;
         for (int i = 0; i < 8; i++) {
-            spaceArrayList.add(new Space(i));
+            spaceArrayList.add(new Space(index,i));
         }
     }
 

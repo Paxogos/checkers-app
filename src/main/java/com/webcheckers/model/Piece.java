@@ -2,14 +2,22 @@ package com.webcheckers.model;
 
 public class Piece {
 
-    private enum type {SINGLE, KING}
-    private enum color{RED, WHITE}
+    public enum Type {SINGLE, KING}
+    public enum Color {RED, WHITE}
 
-    public type getType(){
-        return type.SINGLE;
+    private Type type;
+    private Color color;
+
+    public Piece(Type type, Color color) {
+        this.type = type;
+        this.color = color;
     }
 
-    public color getColor(){
-        return color.RED;
+    public Type getType(){
+        return type;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

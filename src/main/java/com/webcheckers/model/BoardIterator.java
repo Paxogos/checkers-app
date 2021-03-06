@@ -8,7 +8,7 @@ public class BoardIterator<T> implements Iterator {
     ArrayList<Row> rowArrayList;
     int index;
 
-    public BoardIterator(Board board) {
+    public BoardIterator(BoardView board) {
         rowArrayList = board.getRowArrayList();
         index = 0;
     }

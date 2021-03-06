@@ -3,11 +3,11 @@ package com.webcheckers.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Board implements Iterable<Row>{
+public class BoardView implements Iterable<Row>{
     
     private ArrayList<Row> rowArrayList = new ArrayList<>();
 
-    public Board() {
+    public BoardView() {
         for (int i = 0; i < 8; i++) {
             rowArrayList.add(new Row(i));
         }
