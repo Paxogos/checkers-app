@@ -6,6 +6,7 @@ public class Row<T> extends BoardView {
 
     // must be 0 to 7
     private int index;
+    private Space space;
 
     @Override
     public Iterator iterator() {
