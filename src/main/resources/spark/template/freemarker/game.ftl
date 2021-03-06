@@ -8,11 +8,11 @@
   <script>
   window.gameData = {
     "gameID" : ${gameID!'null'},
-    "currentUser" : "${currentUser.name}",
+    "currentUser" : "${currentUser.name! 'testName'}",
     "viewMode" : "${viewMode}",
     "modeOptions" : ${modeOptionsAsJSON!'{}'},
-    "redPlayer" : "${redPlayer.name}",
-    "whitePlayer" : "${whitePlayer.name}",
+    "redPlayer" : "${redPlayer.name! 'redTestName'}",
+    "whitePlayer" : "${whitePlayer.name! 'whiteTestName'}",
     "activeColor" : "${activeColor}"
   };
   </script>
