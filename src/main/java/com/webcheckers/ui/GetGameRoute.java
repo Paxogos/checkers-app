@@ -25,7 +25,7 @@ import static spark.Spark.halt;
  */
 public class GetGameRoute implements Route {
 
-    // These are test value!! Do not leave them without verifying they belong!!
+    // These are test values!! Do not leave them without verifying they belong!!
 
     static final String TITLE_ATTR = "title";
     static final String GAME_ID_ATTR = "gameID";
@@ -41,11 +41,11 @@ public class GetGameRoute implements Route {
     static final String TITLE = "title";
     static final String VIEW_NAME = "game.ftl";
     static final String GAME_ID = "12345";
-    static final Player CURRENT_USER = new Player("Aaron", Player.Color.RED);
+    static final Player CURRENT_USER = new Player("currentUser", Player.Color.RED);
     static final String VIEW_MODE = "PLAY";
     static final String MODE_OPTIONS = "{}";
     static final Player RED_PLAYER = CURRENT_USER;
-    static final Player WHITE_PLAYER = new Player("Tyler", Player.Color.WHITE);
+    static final Player WHITE_PLAYER = new Player("whitePlayer", Player.Color.WHITE);
     static final String ACTIVE_COLOR = "RED";
     static final BoardView BOARD = new BoardView();
 
