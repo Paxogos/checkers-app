@@ -20,7 +20,7 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
 
-    <form>
+    <form action="/signin" method="post">
       <input type="text" id="userName"<br>
       <input type="submit" value="Submit"<br>
     </form>
