@@ -26,12 +26,16 @@ public class GetSignInRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         LOG.finer("GetSignInRoute is invoked.");
 
+        return templateEngine.render(getSignInPage(SIGN_IN_MSG));
+    }
+
+    public static ModelAndView getSignInPage(Message message) {
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", "Sign In");
 
         // display a user message in the Home page
-        vm.put("message", SIGN_IN_MSG);
+        vm.put("message", message);
 
-        return templateEngine.render(new ModelAndView(vm , "signin.ftl"));
+        return new ModelAndView(vm, "/signin");
     }
 }

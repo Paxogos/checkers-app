@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
+import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.HashMap;
@@ -11,7 +12,7 @@ public class PostSignInRoute implements Route {
 
     // Constants
     final String USERNAME_PARAM = "userName";
-    final String NAME_TAKEN = "Sorry, that name is already taken. Try another!";
+    final Message NAME_TAKEN = Message.info("Sorry, that name is already taken. Try another!");
 
     final String MESSAGE_ATTR = "message";
 
@@ -30,17 +31,20 @@ public class PostSignInRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
+        final Session httpSession = request.session();
         HashMap<String, Object> vm = new HashMap<>();
         final String name = request.queryParams(USERNAME_PARAM);
 
         Player newPlayer = playerLobby.signIn(name);
 
         if (newPlayer == null) {
-            vm.put(MESSAGE_ATTR, NAME_TAKEN);
+            return templateEngine.render(GetSignInRoute.getSignInPage(NAME_TAKEN));
         }
 
         else {
+            // TODO: store the player in the session, and update the home page
 
+            response.redirect(WebServer.HOME_URL);
         }
 
 
