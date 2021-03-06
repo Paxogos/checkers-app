@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.google.gson.Gson;
+import com.webcheckers.model.Board;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
 import spark.Request;
@@ -34,16 +35,19 @@ public class GetGameRoute implements Route {
     static final String RED_PLAYER_ATTR = "redPlayer";
     static final String WHITE_PLAYER_ATTR = "whitePlayer";
     static final String ACTIVE_COLOR_ATTR = "activeColor";
+    static final String BOARD_ATTR = "board";
+
 
     static final String TITLE = "title";
     static final String VIEW_NAME = "game.ftl";
     static final String GAME_ID = "12345";
     static final Player CURRENT_USER = new Player("Aaron", Player.Color.RED);
     static final String VIEW_MODE = "PLAY";
-    static final String MODE_OPTIONS = "{}}";
-    static final String RED_PLAYER = "Aaron";
-    static final String WHITE_PLAYER = "Tyler";
+    static final String MODE_OPTIONS = "{}";
+    static final Player RED_PLAYER = CURRENT_USER;
+    static final Player WHITE_PLAYER = new Player("Tyler", Player.Color.WHITE);
     static final String ACTIVE_COLOR = "RED";
+    static final Board BOARD = new Board();
 
     /*
     window.gameData = {
@@ -89,13 +93,15 @@ public class GetGameRoute implements Route {
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR,TITLE);
-        vm.put(CURRENT_USER_ATTR,gson.toJson(CURRENT_USER));
+        vm.put(CURRENT_USER_ATTR,CURRENT_USER);
         vm.put(VIEW_MODE_ATTR,VIEW_MODE);
         vm.put(MODE_OPTIONS_ATTR,MODE_OPTIONS);
         vm.put(RED_PLAYER_ATTR,RED_PLAYER);
         vm.put(WHITE_PLAYER_ATTR,WHITE_PLAYER);
         vm.put(GAME_ID_ATTR,GAME_ID);
         vm.put(ACTIVE_COLOR_ATTR,ACTIVE_COLOR);
+        vm.put(BOARD_ATTR,BOARD);
+
 
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
