@@ -8,6 +8,8 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Objects;
 
+import static spark.Spark.halt;
+
 public class PostSignInRoute implements Route {
 
     // Constants
@@ -15,9 +17,10 @@ public class PostSignInRoute implements Route {
     final Message NAME_TAKEN = Message.info("Sorry, that name is already taken. Try another!");
 
     final String MESSAGE_ATTR = "message";
+    final String PLAYER_ATTR = "currentUser";
 
-    private PlayerLobby playerLobby;
-    private TemplateEngine templateEngine;
+    private final PlayerLobby playerLobby;
+    private final TemplateEngine templateEngine;
 
     public PostSignInRoute(PlayerLobby playerLobby, TemplateEngine templateEngine) {
         // validation
@@ -34,21 +37,28 @@ public class PostSignInRoute implements Route {
         final Session httpSession = request.session();
         HashMap<String, Object> vm = new HashMap<>();
         final String name = request.queryParams(USERNAME_PARAM);
+        System.out.println(name);
 
-        Player newPlayer = playerLobby.signIn(name);
+        // Checks if the user is coming from a new browser
+        if (httpSession.attribute(PLAYER_ATTR) == null) {
 
-        if (newPlayer == null) {
-            return templateEngine.render(GetSignInRoute.getSignInPage(NAME_TAKEN));
+            // Attempt to sign in
+            Player currentUser = playerLobby.signIn(name);
+
+            // If the name is taken
+            if (currentUser == null) {
+                return templateEngine.render(GetSignInRoute.getSignInPage(NAME_TAKEN));
+            } else {
+                httpSession.attribute(PLAYER_ATTR, currentUser);
+                return templateEngine.render(GetHomeRoute.getHomePage(currentUser));
+            }
+
         }
 
         else {
-            // TODO: store the player in the session, and update the home page
-
             response.redirect(WebServer.HOME_URL);
+            halt();
+            return null;
         }
-
-
-
-        return null;
     }
 }

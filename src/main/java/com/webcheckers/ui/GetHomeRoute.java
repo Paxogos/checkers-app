@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import com.webcheckers.model.Player;
+import spark.*;
 
 import com.webcheckers.util.Message;
 
@@ -22,6 +19,8 @@ public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+  private static final String PLAYER_ATTR = "currentUser";
+  private static final String PLAYER_NAME_ATTR = "currentUserName";
 
   private final TemplateEngine templateEngine;
 
@@ -51,14 +50,27 @@ public class GetHomeRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     LOG.finer("GetHomeRoute is invoked.");
-    //
+    Session httpSession = request.session();
+    Player currentUser = httpSession.attribute(PLAYER_ATTR);
+    if (currentUser != null)
+      return templateEngine.render(getHomePage(currentUser));
+    else
+      return templateEngine.render(getHomePage(null));
+
+    // render the View
+  }
+
+  public static ModelAndView getHomePage(Player currentUser) {
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
 
-    // render the View
-    return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+
+    vm.put(PLAYER_ATTR, currentUser);
+
+
+    return new ModelAndView(vm, "home.ftl");
   }
 }

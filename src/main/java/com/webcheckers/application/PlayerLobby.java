@@ -17,8 +17,8 @@ public class PlayerLobby {
     }
 
     public Player signIn(String userName) {
-        if (this.playerList.get(userName) == null) {
-            Player newPlayer = new Player(userName, Player.Color.NONE);
+        if (!hasPlayer(userName)) {
+            Player newPlayer = new Player(userName);
             this.playerList.put(userName, newPlayer);
             return newPlayer; }
 

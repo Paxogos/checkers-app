@@ -36,6 +36,6 @@ public class GetSignInRoute implements Route {
         // display a user message in the Home page
         vm.put("message", message);
 
-        return new ModelAndView(vm, "/signin");
+        return new ModelAndView(vm, "signin.ftl");
     }
 }
