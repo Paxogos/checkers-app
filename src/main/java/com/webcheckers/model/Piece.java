@@ -13,11 +13,27 @@ public class Piece {
         this.color = color;
     }
 
+    public boolean isKing() {
+        return type == Type.KING;
+    }
+    public boolean isSingle() {
+        return type == Type.SINGLE;
+    }
+
     public Type getType(){
         return type;
     }
 
     public Color getColor() {
         return color;
+    }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "type=" + type.name() +
+                ",color=" + color.name() +
+                "}";
+
     }
 }

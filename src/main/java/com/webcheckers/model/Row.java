@@ -22,18 +22,18 @@ public class Row implements Iterable<Space>  {
     }
 
     @Override
-    public String toString() {
-        return "Row{" +
-                "index=" + index +
-                '}';
-    }
-
-    @Override
     public Iterator<Space> iterator() {
         return new RowIterator(this);
     }
 
     public ArrayList<Space> getSpaceArrayList() {
         return spaceArrayList;
+    }
+
+    @Override
+    public String toString() {
+        return "Row{" +
+                "index=" + index +
+                '}';
     }
 }
