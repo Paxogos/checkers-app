@@ -2,7 +2,9 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 
 /**
@@ -16,14 +18,26 @@ public class PlayerLobby {
         this.playerList = new HashMap<>();
     }
 
-    public Object signIn(String userName) {
-        if (this.playerList.get(userName) == null) {
-            Player newPlayer = new Player(userName, Player.Color.NONE);
+    public Player signIn(String userName) {
+        if (!hasPlayer(userName)) {
+            Player newPlayer = new Player(userName);
             this.playerList.put(userName, newPlayer);
             return newPlayer; }
 
         else {
-            return "Username is already taken. Please try another name.";
+            return null;
         }
+    }
+    private boolean hasPlayer(String playerName) { return playerList.containsKey(playerName); }
+
+    // For testing
+    public ArrayList<String> getPlayers(String exclude) {
+        ArrayList<String> players = new ArrayList<>();
+        for (String name: this.playerList.keySet()) {
+            if (!name.equals(exclude))
+                players.add(name);
+        }
+
+        return players;
     }
 }

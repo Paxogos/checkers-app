@@ -8,8 +8,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public class GetSignInRoute implements Route {
+import static spark.Spark.halt;
 
+public class GetSignInRoute implements Route {
     private final TemplateEngine templateEngine;
 
     private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
@@ -25,14 +26,26 @@ public class GetSignInRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        LOG.finer("GetHomeRoute is invoked.");
+        LOG.finer("GetSignInRoute is invoked.");
+        Session httpSession = request.session();
 
+        if (httpSession.attribute(GetHomeRoute.PLAYER_ATTR) == null)
+            return templateEngine.render(getSignInPage(SIGN_IN_MSG));
+
+        else {
+            response.redirect(WebServer.HOME_URL);
+            halt();
+            return null;
+        }
+    }
+
+    public static ModelAndView getSignInPage(Message message) {
         Map<String, Object> vm = new HashMap<>();
-        vm.put("title", "Welcome!");
+        vm.put("title", "Sign In");
 
         // display a user message in the Home page
-        vm.put("message", SIGN_IN_MSG);
+        vm.put("message", message);
 
-        return templateEngine.render(new ModelAndView(vm , "signin.ftl"));
+        return new ModelAndView(vm, "signin.ftl");
     }
 }
