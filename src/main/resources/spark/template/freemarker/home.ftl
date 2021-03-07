@@ -25,6 +25,11 @@
         <#list playerList as player>
           <p>${player}
         </#list>
+        <#if playerList?size == 0>
+          There are no other players available at this time.
+        </#if>
+
+
     </#if>
     <!-- TODO: future content on the Home:
             to start games,
