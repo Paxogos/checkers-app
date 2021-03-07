@@ -43,13 +43,13 @@ public class PostSignInRoute implements Route {
 
             // Attempt to sign in
             Player currentUser = playerLobby.signIn(name);
-            System.out.println(playerLobby.getPlayers());
+
             // If the name is taken
             if (currentUser == null) {
                 return templateEngine.render(GetSignInRoute.getSignInPage(NAME_TAKEN));
             } else {
                 httpSession.attribute(PLAYER_ATTR, currentUser);
-                return templateEngine.render(GetHomeRoute.getHomePage(currentUser));
+                return templateEngine.render(GetHomeRoute.getHomePage(currentUser, playerLobby));
             }
 
         }

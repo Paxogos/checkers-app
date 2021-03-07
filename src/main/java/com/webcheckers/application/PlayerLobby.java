@@ -2,6 +2,7 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -30,11 +31,13 @@ public class PlayerLobby {
     private boolean hasPlayer(String playerName) { return playerList.containsKey(playerName); }
 
     // For testing
-    public String getPlayers() {
-        Set<String> players = this.playerList.keySet();
-        String playerList = "";
-        for (String p: players)
-            playerList += p+"\n";
-        return playerList;
+    public ArrayList<String> getPlayers(String exclude) {
+        ArrayList<String> players = new ArrayList<>();
+        for (String name: this.playerList.keySet()) {
+            if (!name.equals(exclude))
+                players.add(name);
+        }
+
+        return players;
     }
 }

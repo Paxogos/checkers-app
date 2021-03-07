@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -20,8 +21,10 @@ public class GetHomeRoute implements Route {
 
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   public static final String PLAYER_ATTR = "currentUser";
+  public static final String PLAYER_LIST_ATTR = "playerList";
 
   private final TemplateEngine templateEngine;
+  private final PlayerLobby playerLobby;
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -29,8 +32,9 @@ public class GetHomeRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
+  public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+    this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -52,21 +56,24 @@ public class GetHomeRoute implements Route {
     Session httpSession = request.session();
     Player currentUser = httpSession.attribute(PLAYER_ATTR);
 
-    return templateEngine.render(getHomePage(currentUser));
+    return templateEngine.render(getHomePage(currentUser, this.playerLobby));
 
 
     // render the View
   }
 
-  public static ModelAndView getHomePage(Player currentUser) {
+  public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby) {
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
 
-
     vm.put(PLAYER_ATTR, currentUser);
+
+    if (currentUser != null) {
+      vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers(currentUser.getName()));
+    }
 
 
     return new ModelAndView(vm, "home.ftl");
