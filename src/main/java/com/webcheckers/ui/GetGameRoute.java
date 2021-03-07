@@ -38,14 +38,14 @@ public class GetGameRoute implements Route {
     static final String BOARD_ATTR = "board";
 
 
-    static final String TITLE = "title";
+    static final String TITLE = "Game";
     static final String VIEW_NAME = "game.ftl";
     static final String GAME_ID = "12345";
-    static final Player CURRENT_USER = new Player("currentUser", Player.Color.RED);
+    static final Player CURRENT_USER = new Player("currentUser");
     static final String VIEW_MODE = "PLAY";
     static final String MODE_OPTIONS = "{}";
     static final Player RED_PLAYER = CURRENT_USER;
-    static final Player WHITE_PLAYER = new Player("whitePlayer", Player.Color.WHITE);
+    static final Player WHITE_PLAYER = new Player("whitePlayer");
     static final String ACTIVE_COLOR = "RED";
     static final BoardView BOARD = new BoardView();
 
@@ -84,11 +84,8 @@ public class GetGameRoute implements Route {
     @Override
     public String handle(Request request, Response response) {
 
-        Gson gson = new Gson();
         // retrieve the game object and start one if no game is in progress
         final Session httpSession = request.session();
-
-
 
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
