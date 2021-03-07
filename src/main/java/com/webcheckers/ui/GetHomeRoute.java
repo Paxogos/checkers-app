@@ -19,8 +19,7 @@ public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
-  private static final String PLAYER_ATTR = "currentUser";
-  private static final String PLAYER_NAME_ATTR = "currentUserName";
+  public static final String PLAYER_ATTR = "currentUser";
 
   private final TemplateEngine templateEngine;
 
@@ -52,10 +51,9 @@ public class GetHomeRoute implements Route {
     LOG.finer("GetHomeRoute is invoked.");
     Session httpSession = request.session();
     Player currentUser = httpSession.attribute(PLAYER_ATTR);
-    if (currentUser != null)
-      return templateEngine.render(getHomePage(currentUser));
-    else
-      return templateEngine.render(getHomePage(null));
+
+    return templateEngine.render(getHomePage(currentUser));
+
 
     // render the View
   }

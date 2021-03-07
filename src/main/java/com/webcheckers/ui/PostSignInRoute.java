@@ -37,14 +37,13 @@ public class PostSignInRoute implements Route {
         final Session httpSession = request.session();
         HashMap<String, Object> vm = new HashMap<>();
         final String name = request.queryParams(USERNAME_PARAM);
-        System.out.println(name);
 
         // Checks if the user is coming from a new browser
         if (httpSession.attribute(PLAYER_ATTR) == null) {
 
             // Attempt to sign in
             Player currentUser = playerLobby.signIn(name);
-
+            System.out.println(playerLobby.getPlayers());
             // If the name is taken
             if (currentUser == null) {
                 return templateEngine.render(GetSignInRoute.getSignInPage(NAME_TAKEN));
