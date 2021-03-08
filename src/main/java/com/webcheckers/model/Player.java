@@ -7,7 +7,6 @@ public class Player {
 
     private String name;
 
-    public static Player defaultPlayer = new Player("defaultPlayer");
     public Player(String userName) {
         this.name = userName;
     }
@@ -18,6 +17,8 @@ public class Player {
 
     @Override
     public boolean equals(Object other) {
+
+        // Checks if the two players have the same name
         if (other instanceof Player) {
             Player otherPlayer = (Player)other;
             return this.name.equals(otherPlayer.getName());

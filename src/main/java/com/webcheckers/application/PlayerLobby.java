@@ -12,12 +12,19 @@ import java.util.Set;
  */
 public class PlayerLobby {
 
+    // List containing all players
     HashMap<String, Player> playerList;
 
     public PlayerLobby() {
         this.playerList = new HashMap<>();
     }
 
+    /**
+     * The method for signing in
+     *
+     * @param userName      desired username
+     * @return              the new Player object (null if the name is taken)
+     */
     public Player signIn(String userName) {
         if (!hasPlayer(userName)) {
             Player newPlayer = new Player(userName);
@@ -28,9 +35,22 @@ public class PlayerLobby {
             return null;
         }
     }
+
+    /**
+     * Helper method for checking if a username is available
+     *
+     * @param playerName    desired name
+     * @return              is the name available?
+     */
     private boolean hasPlayer(String playerName) { return playerList.containsKey(playerName); }
 
-    // For testing
+    /**
+     * Get all other players on the site
+     *
+     * @param exclude   which name to not include in the
+     *                  list (for the user)
+     * @return          an ArrayList including all other player names
+     */
     public ArrayList<String> getPlayers(String exclude) {
         ArrayList<String> players = new ArrayList<>();
         for (String name: this.playerList.keySet()) {
