@@ -19,6 +19,7 @@ public class GetSignInRoute implements Route {
 
     public GetSignInRoute(final TemplateEngine templateEngine) {
 
+        // Validation
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         //
         LOG.config("GetSignInRoute is initialized.");
@@ -29,6 +30,7 @@ public class GetSignInRoute implements Route {
         LOG.finer("GetSignInRoute is invoked.");
         Session httpSession = request.session();
 
+        // If this is a new browser/session
         if (httpSession.attribute(GetHomeRoute.PLAYER_ATTR) == null)
             return templateEngine.render(getSignInPage(SIGN_IN_MSG));
 
@@ -39,6 +41,12 @@ public class GetSignInRoute implements Route {
         }
     }
 
+    /**
+     * Helper method for getting the ModelAndView of the Sign-In page
+     *
+     * @param message   message to display
+     * @return          contents of the Sign-In page to be rendered
+     */
     public static ModelAndView getSignInPage(Message message) {
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", "Sign In");

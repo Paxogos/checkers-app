@@ -54,14 +54,22 @@ public class GetHomeRoute implements Route {
   public Object handle(Request request, Response response) {
     LOG.finer("GetHomeRoute is invoked.");
     Session httpSession = request.session();
+
+    // Retrieve the Player object from the user's session
     Player currentUser = httpSession.attribute(PLAYER_ATTR);
 
+    // Render the home page
     return templateEngine.render(getHomePage(currentUser, this.playerLobby));
 
-
-    // render the View
   }
 
+  /**
+   * Helper method for generating the ModelAndView for the Home page
+   *
+   * @param currentUser   The Player object of the current user, if there is one
+   * @param playerLobby   The lobby containing all Players currently playing
+   * @return              The home page contents to be rendered
+   */
   public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby) {
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
@@ -74,7 +82,6 @@ public class GetHomeRoute implements Route {
     if (currentUser != null) {
       vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers(currentUser.getName()));
     }
-
 
     return new ModelAndView(vm, "home.ftl");
   }
