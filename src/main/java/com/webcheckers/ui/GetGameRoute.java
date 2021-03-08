@@ -1,10 +1,11 @@
 package com.webcheckers.ui;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
-import com.google.gson.Gson;
+import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.BoardView;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
@@ -38,16 +39,15 @@ public class GetGameRoute implements Route {
     static final String BOARD_ATTR = "board";
 
 
-    static final String TITLE = "Game";
-    static final String VIEW_NAME = "game.ftl";
-    static final String GAME_ID = "12345";
-    static final Player CURRENT_USER = new Player("currentUser");
-    static final String VIEW_MODE = "PLAY";
-    static final String MODE_OPTIONS = "{}";
-    static final Player RED_PLAYER = CURRENT_USER;
-    static final Player WHITE_PLAYER = new Player("whitePlayer");
-    static final String ACTIVE_COLOR = "RED";
-    static final BoardView BOARD = new BoardView();
+    static String TITLE = "Game";
+    static String VIEW_NAME = "game.ftl";
+    static String GAME_ID = "12345";
+    static Player CURRENT_USER = new Player("currentUser");
+    static String VIEW_MODE = "PLAY";
+    static String MODE_OPTIONS = "{}";
+    static Player RED_PLAYER = new Player("testPlayer");
+    static Player WHITE_PLAYER = new Player("whitePlayer");
+    static String ACTIVE_COLOR = "RED";
 
     /*
     window.gameData = {
@@ -61,6 +61,11 @@ public class GetGameRoute implements Route {
     };
      */
 
+    public static final String PLAYER_ATTR = "currentUser";
+    BoardView BOARD;
+
+
+    private PlayerLobby playerLobby;
 
     // Values used in the view-model map for rendering the game view.
 
@@ -71,11 +76,12 @@ public class GetGameRoute implements Route {
      *
      * @param templateEngine The {@link TemplateEngine} used for rendering page HTML.
      */
-    GetGameRoute(final TemplateEngine templateEngine) {
+    GetGameRoute(PlayerLobby playerLobby,final TemplateEngine templateEngine) {
         // validation
         Objects.requireNonNull(templateEngine, "templateEngine must not be null");
         //
         this.templateEngine = templateEngine;
+        this.playerLobby = playerLobby;
     }
 
     /**
@@ -86,7 +92,24 @@ public class GetGameRoute implements Route {
 
         // retrieve the game object and start one if no game is in progress
         final Session httpSession = request.session();
+        Player opponent = null;
 
+        Iterator paramIterator = request.queryParams().iterator();
+        if(paramIterator.hasNext()){
+            opponent = playerLobby.getPlayer((String) paramIterator.next());
+        }
+        Player currentUser = httpSession.attribute(PLAYER_ATTR);
+
+        CURRENT_USER = currentUser;
+        BOARD = new BoardView(currentUser,opponent);
+        if(BOARD.playerOneIsRed()){
+            RED_PLAYER = currentUser;
+            WHITE_PLAYER = opponent;
+            BOARD = BOARD.rotate();
+        }else{
+            RED_PLAYER = opponent;
+            WHITE_PLAYER = currentUser;
+        }
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR,TITLE);

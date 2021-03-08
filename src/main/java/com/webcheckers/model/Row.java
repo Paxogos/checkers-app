@@ -30,6 +30,10 @@ public class Row implements Iterable<Space>  {
         return spaceArrayList;
     }
 
+    public void setSpaceArrayList(ArrayList<Space> spaceArrayList) {
+        this.spaceArrayList = spaceArrayList;
+    }
+
     @Override
     public String toString() {
         return "Row{" +

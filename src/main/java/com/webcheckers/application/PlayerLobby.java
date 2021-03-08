@@ -30,6 +30,16 @@ public class PlayerLobby {
     }
     private boolean hasPlayer(String playerName) { return playerList.containsKey(playerName); }
 
+    public Player getPlayer(String name) {
+        Player player = null;
+        try{
+            player = playerList.get(name);
+        }catch (NullPointerException e){
+            System.out.println("Player not found");
+        }
+        return player;
+    }
+
     // For testing
     public ArrayList<String> getPlayers(String exclude) {
         ArrayList<String> players = new ArrayList<>();

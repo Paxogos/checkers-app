@@ -31,9 +31,8 @@ public class Piece {
     @Override
     public String toString() {
         return "Piece{" +
-                "type=" + type.name() +
-                ",color=" + color.name() +
-                "}";
-
+                "type=" + type +
+                ", color=" + color +
+                '}';
     }
 }

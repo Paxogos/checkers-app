@@ -21,9 +21,10 @@
     <#include "message.ftl" />
 
     <#if currentUser??>
-        <p> Players: </p>
+    <p> Click a name to start a game! </p>
+    <p> Players: </p>
         <#list playerList as player>
-          <p>${player}
+          <p><a href="/game?${player}">${player}</a></p>
         </#list>
         <#if playerList?size == 0>
           There are no other players available at this time.
