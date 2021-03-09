@@ -49,6 +49,7 @@ public class GetGameRoute implements Route {
     static Player WHITE_PLAYER = new Player("whitePlayer");
     static String ACTIVE_COLOR = "RED";
 
+    // parameters from game.ftl
     /*
     window.gameData = {
     "gameID" : ${gameID!'null'},
@@ -121,8 +122,6 @@ public class GetGameRoute implements Route {
         vm.put(GAME_ID_ATTR,GAME_ID);
         vm.put(ACTIVE_COLOR_ATTR,ACTIVE_COLOR);
         vm.put(BOARD_ATTR,BOARD);
-
-
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 

@@ -23,7 +23,7 @@ public class Row implements Iterable<Space>  {
 
     @Override
     public Iterator<Space> iterator() {
-        return new RowIterator(this);
+        return this.getSpaceArrayList().iterator();
     }
 
     public ArrayList<Space> getSpaceArrayList() {

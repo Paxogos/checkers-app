@@ -25,9 +25,10 @@ public class BoardView implements Iterable<Row>{
 
     @Override
     public Iterator<Row> iterator() {
-        return new BoardIterator<>(this);
-
+        return this.getRowArrayList().iterator();
     }
+
+
 
     public ArrayList<Row> getRowArrayList() {
         return rowArrayList;
