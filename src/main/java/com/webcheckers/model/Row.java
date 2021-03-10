@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 public class Row implements Iterable<Space>  {
 
-    // must be 0 to 7
-    private int index;
+    //attributes
+    private int index; // must be 0 to 7
     private ArrayList<Space> spaceArrayList = new ArrayList<>();
 
     public Row(int index) {
@@ -15,7 +15,6 @@ public class Row implements Iterable<Space>  {
             spaceArrayList.add(new Space(index,i));
         }
     }
-
 
     public int getIndex() {
         return index;
