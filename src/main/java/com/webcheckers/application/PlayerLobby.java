@@ -71,4 +71,8 @@ public class PlayerLobby {
 
         return players;
     }
+
+    public int getNumberPlayers() {
+        return this.playerList.size();
+    }
 }

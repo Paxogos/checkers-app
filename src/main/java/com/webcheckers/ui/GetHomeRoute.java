@@ -22,6 +22,7 @@ public class GetHomeRoute implements Route {
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   public static final String PLAYER_ATTR = "currentUser";
   public static final String PLAYER_LIST_ATTR = "playerList";
+  public static final String LOBBY_SIZE_ATTR = "lobbySize";
 
   private final TemplateEngine templateEngine;
   private final PlayerLobby playerLobby;
@@ -78,6 +79,9 @@ public class GetHomeRoute implements Route {
     vm.put("message", WELCOME_MSG);
 
     vm.put(PLAYER_ATTR, currentUser);
+
+    vm.put(LOBBY_SIZE_ATTR, playerLobby.getNumberPlayers());
+
 
     if (currentUser != null) {
       vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers(currentUser.getName()));
