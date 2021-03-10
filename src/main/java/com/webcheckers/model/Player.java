@@ -1,5 +1,8 @@
 package com.webcheckers.model;
 
+/**
+ * The type Player.
+ */
 public class Player {
 
     // What color is the player
@@ -7,10 +10,20 @@ public class Player {
 
     private String name;
 
+    /**
+     * Instantiates a new Player.
+     *
+     * @param userName the user name
+     */
     public Player(String userName) {
         this.name = userName;
     }
 
+    /**
+     * Gets the name of the Player.
+     *
+     * @return the name of the Player
+     */
     public String getName() {
         return this.name;
     }

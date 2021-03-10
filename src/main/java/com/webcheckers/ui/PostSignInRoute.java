@@ -42,7 +42,7 @@ public class PostSignInRoute implements Route {
         if (httpSession.attribute(PLAYER_ATTR) == null) {
 
             // Attempt to sign in
-            Player currentUser = playerLobby.signIn(name);
+            Player currentUser = playerLobby.signIn(name, httpSession);
 
             // If the name is taken
             if (currentUser == null) {

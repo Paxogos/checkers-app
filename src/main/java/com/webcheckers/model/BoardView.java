@@ -3,21 +3,18 @@ package com.webcheckers.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * The type Board view represents a game of checkers.
+ */
 public class BoardView implements Iterable<Row>{
     
     private ArrayList<Row> rowArrayList = new ArrayList<>();
-    private Player player1;
-    private Player player2;
 
-    private boolean playerOneIsRed;
-
-
-
-    public BoardView(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
-        playerOneIsRed = Math.random() > .5;
-
+    /**
+     * Instantiates a new BoardView/game.
+     *
+     */
+    public BoardView() {
         for (int i = 0; i < 8; i++) {
             rowArrayList.add(new Row(i));
         }
@@ -29,19 +26,30 @@ public class BoardView implements Iterable<Row>{
     }
 
 
-
+    /**
+     * Gets the row array list.
+     *
+     * @return the array list of rows
+     */
     public ArrayList<Row> getRowArrayList() {
         return rowArrayList;
     }
 
-    public boolean playerOneIsRed() {
-        return playerOneIsRed;
-    }
 
+    /**
+     * Sets the row array list.
+     *
+     * @param rowArrayList the array list of rows
+     */
     public void setRowArrayList(ArrayList<Row> rowArrayList) {
         this.rowArrayList = rowArrayList;
     }
 
+    /**
+     * Rotates board view 180 degrees.
+     *
+     * @return a new board view that is rotated
+     */
     public BoardView rotate(){
         BoardView newBoard = this;
         ArrayList<Row> newRows = new ArrayList<>();
