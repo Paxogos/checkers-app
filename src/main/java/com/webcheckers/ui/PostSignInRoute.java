@@ -15,6 +15,7 @@ public class PostSignInRoute implements Route {
     // Constants
     final String USERNAME_PARAM = "userName";
     final Message NAME_TAKEN = Message.info("Sorry, that name is already taken. Try another!");
+    final Message INVALID = Message.info("Name must include at least one alphanumeric character.");
 
     final String MESSAGE_ATTR = "message";
     final String PLAYER_ATTR = "currentUser";
@@ -42,12 +43,17 @@ public class PostSignInRoute implements Route {
         if (httpSession.attribute(PLAYER_ATTR) == null) {
 
             // Attempt to sign in
-            Player currentUser = playerLobby.signIn(name, httpSession);
+            PlayerLobby.LoginAttempt attempt = playerLobby.signIn(name);
 
             // If the name is taken
-            if (currentUser == null) {
+            if (attempt == PlayerLobby.LoginAttempt.NAME_TAKEN) {
                 return templateEngine.render(GetSignInRoute.getSignInPage(NAME_TAKEN));
-            } else {
+            }
+            else if (attempt == PlayerLobby.LoginAttempt.INVALID){
+                return templateEngine.render(GetSignInRoute.getSignInPage(INVALID));
+            }
+            else {
+                Player currentUser = playerLobby.getPlayer(name);
                 httpSession.attribute(PLAYER_ATTR, currentUser);
                 return templateEngine.render(GetHomeRoute.getHomePage(currentUser, playerLobby));
             }

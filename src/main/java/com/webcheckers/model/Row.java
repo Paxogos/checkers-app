@@ -8,8 +8,8 @@ import java.util.Iterator;
  */
 public class Row implements Iterable<Space>  {
 
-    // must be 0 to 7
-    private int index;
+    //attributes
+    private int index; // must be 0 to 7
     private ArrayList<Space> spaceArrayList = new ArrayList<>();
 
     /**
@@ -57,10 +57,4 @@ public class Row implements Iterable<Space>  {
         this.spaceArrayList = spaceArrayList;
     }
 
-    @Override
-    public String toString() {
-        return "Row{" +
-                "index=" + index +
-                '}';
-    }
 }

@@ -1,7 +1,7 @@
 package com.webcheckers.application;
 
 import com.webcheckers.model.Player;
-import spark.Session;
+import org.eclipse.jetty.util.log.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +17,8 @@ public class PlayerLobby {
     HashMap<String, Player> playerList;
     GameCenter gameCenter;
 
+    public enum LoginAttempt {NAME_TAKEN, INVALID, VALID}
+
     public PlayerLobby() {
         this.playerList = new HashMap<>();
         gameCenter = new GameCenter();
@@ -26,17 +28,21 @@ public class PlayerLobby {
      * The method for signing in
      *
      * @param userName      desired username
-     * @param httpSession
      * @return              the new Player object (null if the name is taken)
      */
-    public Player signIn(String userName, Session httpSession) {
-        if (!hasPlayer(userName)) {
-            Player newPlayer = new Player(userName);
-            this.playerList.put(userName, newPlayer);
-            return newPlayer; }
+    public LoginAttempt signIn(String userName) {
+
+        if (userName.isBlank())
+            return LoginAttempt.INVALID;
+
+        else if (hasPlayer(userName)) {
+            return LoginAttempt.NAME_TAKEN;
+             }
 
         else {
-            return null;
+            Player newPlayer = new Player(userName);
+            this.playerList.put(userName, newPlayer);
+            return LoginAttempt.VALID;
         }
     }
 
@@ -79,5 +85,9 @@ public class PlayerLobby {
         }
 
         return players;
+    }
+
+    public int getNumberPlayers() {
+        return this.playerList.size();
     }
 }
