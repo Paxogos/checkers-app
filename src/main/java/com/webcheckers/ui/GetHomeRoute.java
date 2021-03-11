@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.*;
@@ -26,6 +27,8 @@ public class GetHomeRoute implements Route {
 
   private final TemplateEngine templateEngine;
   private final PlayerLobby playerLobby;
+  private final GameCenter gameCenter;
+
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -36,6 +39,7 @@ public class GetHomeRoute implements Route {
   public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");
+    this.gameCenter = playerLobby.getGameCenter();
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -58,6 +62,11 @@ public class GetHomeRoute implements Route {
 
     // Retrieve the Player object from the user's session
     Player currentUser = httpSession.attribute(PLAYER_ATTR);
+
+    if(gameCenter.getPlayerOpponent(currentUser) != null){
+      Player opponent = gameCenter.getPlayerOpponent(currentUser);
+      response.redirect("/game?" + opponent.getName());
+    }
 
     // Render the home page
     return templateEngine.render(getHomePage(currentUser, this.playerLobby));

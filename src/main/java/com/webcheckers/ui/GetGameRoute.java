@@ -17,11 +17,6 @@ import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
 
-import javax.servlet.http.HttpSession;
-
-import static spark.Spark.halt;
-import static spark.Spark.webSocket;
-
 
 /**
  * The {@code GET /game} route handler.
@@ -91,6 +86,10 @@ public class GetGameRoute implements Route {
             opponent = playerLobby.getPlayer((String) paramIterator.next());
         }
 
+        if(gameCenter.getPlayerOpponent(opponent) != currentUser){
+            response.redirect("/");
+        }
+
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
         vm.put(TITLE_ATTR, TITLE);
@@ -100,7 +99,7 @@ public class GetGameRoute implements Route {
         vm.put(GAME_ID_ATTR, GAME_ID);
 
 
-        if(gameCenter.gameExists(currentUser,opponent)){
+        if(gameCenter.getPlayerColor(currentUser) != null){
             BOARD = gameCenter.getGame(currentUser,opponent);
             Piece.Color currentColor = gameCenter.getPlayerColor(currentUser);
             if (currentColor == Piece.Color.RED) {

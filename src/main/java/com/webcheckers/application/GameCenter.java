@@ -9,14 +9,14 @@ import java.util.HashMap;
 public class GameCenter {
 
     HashMap<String, BoardView> gamesList;
-    HashMap<Player,Piece.Color> playerColorList;
-
+    HashMap<Player, Piece.Color> playerColorList;
+    HashMap<Player, Player> playerOpponentList;
 
 
     public GameCenter() {
         this.gamesList = new HashMap();
         this.playerColorList = new HashMap<>();
-
+        this.playerOpponentList = new HashMap<>();
     }
 
     public BoardView getGame(Player player1, Player player2) {
@@ -24,13 +24,10 @@ public class GameCenter {
             return gamesList.get(getCorrectKey(player1, player2));
         } else {
             String gameKey = player1.getName() + player2.getName();
-            if(Math.random() > .5){
-                playerColorList.put(player1, Piece.Color.RED);
-                playerColorList.put(player2, Piece.Color.WHITE);
-            }else{
-                playerColorList.put(player1, Piece.Color.WHITE);
-                playerColorList.put(player2, Piece.Color.RED);
-            }
+            playerColorList.put(player1, Piece.Color.RED);
+            playerColorList.put(player2, Piece.Color.WHITE);
+            playerOpponentList.put(player1, player2);
+            playerOpponentList.put(player2, player1);
             gamesList.put(gameKey, new BoardView());
             return gamesList.get(gameKey);
         }
@@ -61,5 +58,12 @@ public class GameCenter {
 
     public Piece.Color getPlayerColor(Player player) {
         return playerColorList.get(player);
+    }
+
+    public Player getPlayerOpponent(Player player) {
+        if (playerOpponentList.containsKey(player)) {
+            return playerOpponentList.get(player);
+        }
+        return null;
     }
 }
