@@ -79,4 +79,8 @@ public class GameCenter {
         }
         return null;
     }
+
+    public boolean isPlayerInGame(Player player){
+        return playerColorList.containsKey(player);
+    }
 }

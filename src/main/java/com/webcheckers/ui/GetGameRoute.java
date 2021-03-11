@@ -86,9 +86,7 @@ public class GetGameRoute implements Route {
             opponent = playerLobby.getPlayer((String) paramIterator.next());
         }
 
-        if(gameCenter.getPlayerOpponent(opponent) != currentUser){
-            response.redirect("/");
-        }
+
 
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
@@ -98,6 +96,10 @@ public class GetGameRoute implements Route {
         vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
         vm.put(GAME_ID_ATTR, GAME_ID);
 
+        if(gameCenter.isPlayerInGame(opponent) && !gameCenter.gameExists(currentUser,opponent)){
+            response.redirect("/");
+            return null;
+        }
 
         if(gameCenter.getPlayerColor(currentUser) != null){
             BOARD = gameCenter.getGame(currentUser,opponent);
