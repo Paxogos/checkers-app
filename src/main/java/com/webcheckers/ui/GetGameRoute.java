@@ -116,7 +116,7 @@ public class GetGameRoute implements Route {
             if(bottomColor != currentColor){
                 BOARD.rotate();
             }
-            vm.put(ACTIVE_COLOR_ATTR, "WHITE");
+            vm.put(ACTIVE_COLOR_ATTR, "RED");
 
         }else{
             BOARD = gameCenter.getGame(currentUser,opponent);
