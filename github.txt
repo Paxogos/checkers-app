@@ -1,0 +1,37 @@
+commit 7c93f78819d45de1277d2aa2d2a7bb0c40d988dc
+Author: Aaron Schulte <aks8766@rit.edu>
+Date:   Thu Feb 25 22:45:02 2021 -0500
+
+    My previous commit was accidentally done with my personal account. I have added a space after my name to show this new commit.
+
+commit f4028811c17f26a8f6ebed378385d2adeb6b5c30
+Author: Jack Sipley <69880845+jrs8215@users.noreply.github.com>
+Date:   Thu Feb 25 20:08:09 2021 -0500
+
+    Update README.md
+    
+    Changed name of MEMBER1 to Jack Sipley
+
+commit e7ef266c081cbffa54dce93d1a636153be873970
+Author: schulteaaron5 <schulteaaron5@gmail.com>
+Date:   Thu Feb 25 17:50:15 2021 -0500
+
+    Update README.md
+
+commit f34a3b618985a870b920d8b8612ddebdc29b77ad
+Author: ttt8000 <ttt8000@g.rit.edu>
+Date:   Thu Feb 25 12:59:11 2021 -0500
+
+    Added my name (Tyler)
+
+commit 455cabdb11d0bd9f41154a5ffb1451a57c7e7f86
+Author: Alexis Chiang <ajc4241@g.rit.edu>
+Date:   Thu Feb 25 11:26:59 2021 -0500
+
+    Added my name in the README.md file - Alexis Chiang
+
+commit 091e634977f5c88def5e1a2b87893e134080172d
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Thu Feb 25 15:43:34 2021 +0000
+
+    Initial commit
