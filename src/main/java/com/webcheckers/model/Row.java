@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * Row is used to with the Spaces to generate the elements in which player can use to play checkers
- * 
- * @version 1.0
+ * The type Row.
  */
 public class Row implements Iterable<Space>  {
 
