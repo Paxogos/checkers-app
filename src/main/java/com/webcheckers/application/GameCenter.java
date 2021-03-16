@@ -6,7 +6,7 @@ import com.webcheckers.model.Piece;
 
 import java.util.HashMap;
 /**
- * GameCenter keeps track of the two players playing the sanme game, and if they're supposed to be in the same game together
+ * GameCenter keeps track of the two players playing the same game, and if they're supposed to be in the same game together
  *
  * @version 1.0
  */

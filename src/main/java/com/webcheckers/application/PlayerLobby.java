@@ -27,12 +27,13 @@ public class PlayerLobby {
     /**
      * The method for signing in
      *
-     * @param userName      desired username
+     * @param desiredName      desired username
      * @return              the new Player object (null if the name is taken)
      */
-    public LoginAttempt signIn(String userName) {
+    public LoginAttempt signIn(String desiredName) {
 
-        if (userName.isBlank())
+        String userName = desiredName.trim();
+        if (nameIsInvalid(userName))
             return LoginAttempt.INVALID;
 
         else if (hasPlayer(userName)) {
@@ -46,6 +47,33 @@ public class PlayerLobby {
         }
     }
 
+    private boolean nameIsInvalid(String name) {
+        char[] letters = name.toCharArray();
+
+        // Checks if name is empty
+        if (name.isBlank())
+            return true;
+
+        // Checks if name is between 4 and 11 characters
+        if (name.length() < 4 || name.length() > 11)
+            return true;
+
+        // Checks if first character is an uppercase letter
+        if ((int)letters[0] < 65 || (int)letters[0] > 90)
+            return true;
+
+        // For loop checks if each character is valid and if there is a number in the name
+        boolean containsNumber = false;
+        for (char character: letters) {
+            int asciiIndex = (int)character;
+            if (asciiIndex < 48 || (asciiIndex > 57 && asciiIndex < 65) || (asciiIndex > 90 && asciiIndex < 97) || asciiIndex > 122)
+                return true;
+            if (asciiIndex > 47 && asciiIndex < 58)
+                containsNumber = true;
+        }
+
+        return !containsNumber;
+    }
     /**
      * Helper method for checking if a username is available
      *
