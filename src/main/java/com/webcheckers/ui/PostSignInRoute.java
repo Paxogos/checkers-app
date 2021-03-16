@@ -15,7 +15,9 @@ public class PostSignInRoute implements Route {
     // Constants
     final String USERNAME_PARAM = "userName";
     final Message NAME_TAKEN = Message.info("Sorry, that name is already taken. Try another!");
-    final Message INVALID = Message.info("Name must include at least one alphanumeric character.");
+    final Message INVALID = Message.info("Name must be between 4 and 11 characters long, " +
+            "must begin with a capital letter, must include at least one number, and cannot" +
+            "include any symbols.");
 
     final String MESSAGE_ATTR = "message";
     final String PLAYER_ATTR = "currentUser";
