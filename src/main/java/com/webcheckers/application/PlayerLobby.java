@@ -51,6 +51,13 @@ public class PlayerLobby {
         }
     }
 
+    /**
+     * Checks if the given name is a valid username
+     *
+     * @param name      the desired name
+     * @return          Does the name have the correct name length, begin with
+     *                  an uppercase letter, and have a number?
+     */
     private boolean nameIsInvalid(String name) {
         char[] letters = name.toCharArray();
 
