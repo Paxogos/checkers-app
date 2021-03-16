@@ -19,6 +19,10 @@ public class PlayerLobby {
 
     public enum LoginAttempt {NAME_TAKEN, INVALID, VALID}
 
+    // Constants
+    private static final int MAX_CHARACTER_LIMIT = 11;
+    private static final int MIN_CHARACTER_LIMIT = 4;
+
     public PlayerLobby() {
         this.playerList = new HashMap<>();
         gameCenter = new GameCenter();
@@ -55,14 +59,16 @@ public class PlayerLobby {
             return true;
 
         // Checks if name is between 4 and 11 characters
-        if (name.length() < 4 || name.length() > 11)
+        if (name.length() < MIN_CHARACTER_LIMIT || name.length() > MAX_CHARACTER_LIMIT)
             return true;
 
         // Checks if first character is an uppercase letter
+        // Uses ASCII indexes (65 and 90 are the bounds of the uppercase letters)
         if ((int)letters[0] < 65 || (int)letters[0] > 90)
             return true;
 
         // For loop checks if each character is valid and if there is a number in the name
+        // Each number is a significant index of the ASCII table
         boolean containsNumber = false;
         for (char character: letters) {
             int asciiIndex = (int)character;
