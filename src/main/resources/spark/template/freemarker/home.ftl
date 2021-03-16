@@ -20,11 +20,27 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
 
+    <#if currentUser??>
+    <p> Click a name to start a game! </p>
+    <p> Players: </p>
+        <#list playerList as player>
+          <p><a href="/game?${player}">${player}</a></p>
+        </#list>
+        <#if playerList?size == 0>
+          There are no other players available at this time.
+        </#if>
+
+    <#else>
+        <#assign size = lobbySize>
+        There <#if size == 1>is<#else>are</#if> ${size} player<#if size != 1>s</#if> online.
+    </#if>
     <!-- TODO: future content on the Home:
             to start games,
             spectating active games,
             or replay archived games
     -->
+
+
 
   </div>
 

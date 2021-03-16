@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import static spark.Spark.halt;
+
 public class GetSignInRoute implements Route {
     private final TemplateEngine templateEngine;
 
@@ -17,6 +19,7 @@ public class GetSignInRoute implements Route {
 
     public GetSignInRoute(final TemplateEngine templateEngine) {
 
+        // Validation
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         //
         LOG.config("GetSignInRoute is initialized.");
@@ -25,10 +28,25 @@ public class GetSignInRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
         LOG.finer("GetSignInRoute is invoked.");
+        Session httpSession = request.session();
 
-        return templateEngine.render(getSignInPage(SIGN_IN_MSG));
+        // If this is a new browser/session
+        if (httpSession.attribute(GetHomeRoute.PLAYER_ATTR) == null)
+            return templateEngine.render(getSignInPage(SIGN_IN_MSG));
+
+        else {
+            response.redirect(WebServer.HOME_URL);
+            halt();
+            return null;
+        }
     }
 
+    /**
+     * Helper method for getting the ModelAndView of the Sign-In page
+     *
+     * @param message   message to display
+     * @return          contents of the Sign-In page to be rendered
+     */
     public static ModelAndView getSignInPage(Message message) {
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", "Sign In");
@@ -36,6 +54,6 @@ public class GetSignInRoute implements Route {
         // display a user message in the Home page
         vm.put("message", message);
 
-        return new ModelAndView(vm, "/signin");
+        return new ModelAndView(vm, "signin.ftl");
     }
 }

@@ -8,16 +8,20 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Objects;
 
+import static spark.Spark.halt;
+
 public class PostSignInRoute implements Route {
 
     // Constants
     final String USERNAME_PARAM = "userName";
     final Message NAME_TAKEN = Message.info("Sorry, that name is already taken. Try another!");
+    final Message INVALID = Message.info("Name must include at least one alphanumeric character.");
 
     final String MESSAGE_ATTR = "message";
+    final String PLAYER_ATTR = "currentUser";
 
-    private PlayerLobby playerLobby;
-    private TemplateEngine templateEngine;
+    private final PlayerLobby playerLobby;
+    private final TemplateEngine templateEngine;
 
     public PostSignInRoute(PlayerLobby playerLobby, TemplateEngine templateEngine) {
         // validation
@@ -35,20 +39,31 @@ public class PostSignInRoute implements Route {
         HashMap<String, Object> vm = new HashMap<>();
         final String name = request.queryParams(USERNAME_PARAM);
 
-        Player newPlayer = playerLobby.signIn(name);
+        // Checks if the user is coming from a new browser
+        if (httpSession.attribute(PLAYER_ATTR) == null) {
 
-        if (newPlayer == null) {
-            return templateEngine.render(GetSignInRoute.getSignInPage(NAME_TAKEN));
+            // Attempt to sign in
+            PlayerLobby.LoginAttempt attempt = playerLobby.signIn(name);
+
+            // If the name is taken
+            if (attempt == PlayerLobby.LoginAttempt.NAME_TAKEN) {
+                return templateEngine.render(GetSignInRoute.getSignInPage(NAME_TAKEN));
+            }
+            else if (attempt == PlayerLobby.LoginAttempt.INVALID){
+                return templateEngine.render(GetSignInRoute.getSignInPage(INVALID));
+            }
+            else {
+                Player currentUser = playerLobby.getPlayer(name);
+                httpSession.attribute(PLAYER_ATTR, currentUser);
+                return templateEngine.render(GetHomeRoute.getHomePage(currentUser, playerLobby));
+            }
+
         }
 
         else {
-            // TODO: store the player in the session, and update the home page
-
             response.redirect(WebServer.HOME_URL);
+            halt();
+            return null;
         }
-
-
-
-        return null;
     }
 }

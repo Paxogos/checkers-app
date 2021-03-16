@@ -21,8 +21,8 @@
     <#include "message.ftl" />
 
     <form action="/signin" method="post">
-      <input type="text" id="userName"<br>
-      <input type="submit" value="Submit"<br>
+      <input type="text" id="userName" name="userName" />
+      <input type="submit" value="Submit" />
     </form>
 
 
