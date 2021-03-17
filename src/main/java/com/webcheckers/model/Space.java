@@ -27,9 +27,9 @@ public class Space {
         //determines where the starting piece should go
         if((rowIdx+cellIdx)%2 == 1){
             if(rowIdx<3){
-                piece = new Piece(Piece.Type.SINGLE, Piece.Color.RED);
+                piece = new Single(Piece.Color.RED);
             }else if(rowIdx > 4){
-                piece = new Piece(Piece.Type.SINGLE, Piece.Color.WHITE);
+                piece = new Single(Piece.Color.WHITE);
             }
         }
     }
