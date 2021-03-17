@@ -7,27 +7,19 @@ package com.webcheckers.model;
 public class Piece {
 
     /**
-     * The enum Type represents whether a piece is a king or single stack
-     */
-    public enum Type {SINGLE, KING}
-
-    /**
      * The enum Color represents the team the piece is on
      */
     public enum Color {RED, WHITE}
 
     //attributes
-    private Type type;
     private Color color;
 
     /**
      * Instantiates a new Piece.
      *
-     * @param type  the type
      * @param color the color
      */
-    public Piece(Type type, Color color) {
-        this.type = type;
+    public Piece(Color color) {
         this.color = color;
     }
 
@@ -36,8 +28,7 @@ public class Piece {
      *
      * @return true if Piece is type King, false otherwise
      */
-    public boolean isKing() {
-        return type == Type.KING;
+    public boolean isKing() { return this instanceof King;
     }
 
     /**
@@ -46,17 +37,9 @@ public class Piece {
      * @return true if Piece is type Single, false otherwise
      */
     public boolean isSingle() {
-        return type == Type.SINGLE;
+        return this instanceof Single;
     }
 
-    /**
-     * Get type type.
-     *
-     * @return the type
-     */
-    public Type getType(){
-        return type;
-    }
 
     /**
      * Gets color.
