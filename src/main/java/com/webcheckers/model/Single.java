@@ -8,6 +8,6 @@ public class Single extends Piece{
      * @param color the color
      */
     public Single(Color color) {
-        super(color);
+        super(color, Type.SINGLE);
     }
 }

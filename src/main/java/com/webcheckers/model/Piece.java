@@ -11,16 +11,20 @@ public class Piece {
      */
     public enum Color {RED, WHITE}
 
+    public enum Type {SINGLE, KING}
+
     //attributes
     private Color color;
+    private Type type;
 
     /**
      * Instantiates a new Piece.
      *
      * @param color the color
      */
-    public Piece(Color color) {
+    public Piece(Color color, Type type) {
         this.color = color;
+        this.type = type;
     }
 
     /**
@@ -49,4 +53,11 @@ public class Piece {
     public Color getColor() {
         return color;
     }
+
+    /**
+     * Gets type
+     *
+     * @return the type
+     */
+    public Type getType() { return this.type; }
 }

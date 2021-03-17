@@ -7,6 +7,6 @@ public class King extends Piece{
      * @param color the color
      */
     public King(Color color) {
-        super(color);
+        super(color, Type.KING);
     }
 }

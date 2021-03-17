@@ -1,4 +1,5 @@
 package com.webcheckers.model;
+import com.webcheckers.util.Position;
 
 /**
  * Space represents a square on the board, many squares are used to make up the
@@ -27,9 +28,9 @@ public class Space {
         //determines where the starting piece should go
         if((rowIdx+cellIdx)%2 == 1){
             if(rowIdx<3){
-                piece = new Single(Piece.Color.RED);
+                piece = new Piece(Piece.Color.RED, Piece.Type.SINGLE);
             }else if(rowIdx > 4){
-                piece = new Single(Piece.Color.WHITE);
+                piece = new Piece(Piece.Color.WHITE, Piece.Type.SINGLE);
             }
         }
     }
