@@ -9,12 +9,12 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: D_Team
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Jack Sipley
+  * Aaron Schulte
+  * Tyler Talarico
+  * Alexic Chiang
 
 ## Executive Summary
 
