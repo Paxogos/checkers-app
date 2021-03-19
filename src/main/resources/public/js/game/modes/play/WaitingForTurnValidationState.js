@@ -52,7 +52,7 @@ define(function(require){
   //
 
   /**
-   * Handle the Ajax reponse.
+   * Handle the Ajax response.
    *
    * If successfully, this action refreshes Game view.
    *

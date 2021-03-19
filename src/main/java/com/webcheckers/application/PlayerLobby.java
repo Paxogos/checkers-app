@@ -14,7 +14,8 @@ import java.util.Set;
 public class PlayerLobby {
 
     // List containing all players
-    HashMap<String, Player> playerList;
+    HashMap<String, Player> availablePlayerList;
+    HashMap<String, Player> busyPlayerList;
     GameCenter gameCenter;
 
     public enum LoginAttempt {NAME_TAKEN, INVALID, VALID}
@@ -24,7 +25,8 @@ public class PlayerLobby {
     private static final int MIN_CHARACTER_LIMIT = 4;
 
     public PlayerLobby() {
-        this.playerList = new HashMap<>();
+        this.availablePlayerList = new HashMap<>();
+        this.busyPlayerList = new HashMap<>();
         gameCenter = new GameCenter();
     }
 
@@ -46,7 +48,7 @@ public class PlayerLobby {
 
         else {
             Player newPlayer = new Player(userName);
-            this.playerList.put(userName, newPlayer);
+            this.availablePlayerList.put(userName, newPlayer);
             return LoginAttempt.VALID;
         }
     }
@@ -93,12 +95,14 @@ public class PlayerLobby {
      * @param playerName    desired name
      * @return              is the name available?
      */
-    private boolean hasPlayer(String playerName) { return playerList.containsKey(playerName); }
+    private boolean hasPlayer(String playerName) {
+        return availablePlayerList.containsKey(playerName) || busyPlayerList.containsKey(playerName); }
 
     public Player getPlayer(String name) {
         Player player = null;
         try{
-            player = playerList.get(name);
+            if ((player = availablePlayerList.get(name)) == null)
+                player = busyPlayerList.get(name);
         }catch (NullPointerException e){
             System.out.println("Player not found");
         }
@@ -118,9 +122,19 @@ public class PlayerLobby {
      *                  list (for the user)
      * @return          an ArrayList including all other player names
      */
-    public ArrayList<String> getPlayers(String exclude) {
+    public ArrayList<String> getAvailablePlayers(String exclude) {
         ArrayList<String> players = new ArrayList<>();
-        for (String name: this.playerList.keySet()) {
+        for (String name: this.availablePlayerList.keySet()) {
+            if (!name.equals(exclude))
+                players.add(name);
+        }
+
+        return players;
+    }
+
+    public ArrayList<String> getBusyPlayers(String exclude) {
+        ArrayList<String> players = new ArrayList<>();
+        for (String name: this.busyPlayerList.keySet()) {
             if (!name.equals(exclude))
                 players.add(name);
         }
@@ -129,6 +143,6 @@ public class PlayerLobby {
     }
 
     public int getNumberPlayers() {
-        return this.playerList.size();
+        return this.availablePlayerList.size() + busyPlayerList.size();
     }
 }

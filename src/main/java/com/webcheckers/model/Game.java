@@ -1,5 +1,8 @@
 package com.webcheckers.model;
+import com.webcheckers.ui.PostSignInRoute;
 import com.webcheckers.util.Position;
+
+import java.util.HashSet;
 
 public class Game {
 
@@ -7,12 +10,17 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
 
-    public enum MoveResult { INVALID, SIMPLE_MOVE, CAPTURE }
+    private HashSet<Piece> redPieces;
+    private HashSet<Piece> whitePieces;
+
+    public enum MoveResult { INVALID, SIMPLE_MOVE, JUMP }
 
     public Game(Player red, Player white) {
         this.redPlayer = red;
         this.whitePlayer = white;
         this.board = new BoardView();
+
+        addPiecesToGame();
     }
 
     public Player getRedPlayer() { return this.redPlayer;}
@@ -28,6 +36,8 @@ public class Game {
         //      2) Get piece at start position
         //      3) ??? implement move logic somewhere (preferably
         //          in Game, since it has all required data)
+        //      4) If the MoveResult is a capture, then remove the
+        //         captured piece from the appropriate HashSet
         return MoveResult.INVALID;
     }
 
@@ -35,5 +45,23 @@ public class Game {
     public boolean isWon() {
         // TODO
         return false;
+    }
+
+
+    private void addPiecesToGame() {
+
+        while (this.board.iterator().hasNext()) {
+            Row row = this.board.iterator().next();
+            while (row.iterator().hasNext()) {
+                Space space = row.iterator().next();
+                Piece possiblePiece = space.getPiece();
+                if (possiblePiece != null) {
+                    if (possiblePiece.getColor() == Piece.Color.RED)
+                        redPieces.add(possiblePiece);
+                    else
+                        whitePieces.add(possiblePiece);
+                }
+            }
+        }
     }
 }
