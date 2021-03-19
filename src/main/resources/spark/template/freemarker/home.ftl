@@ -23,10 +23,13 @@
     <#if currentUser??>
     <p> Click a name to start a game! </p>
     <p> Players: </p>
-        <#list playerList as player>
+        <#list availablePlayerList as player>
           <p><a href="/game?${player}">${player}</a></p>
         </#list>
-        <#if playerList?size == 0>
+        <#list busyPlayerList as player>
+          <p><a href="/game?${player}">${player}</a></p>
+        </#list>
+        <#if availablePlayerList?size + busyPlayerList?size == 0>
           There are no other players available at this time.
         </#if>
 

@@ -22,7 +22,8 @@ public class GetHomeRoute implements Route {
 
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   public static final String PLAYER_ATTR = "currentUser";
-  public static final String PLAYER_LIST_ATTR = "playerList";
+  public static final String AVAILABLE_PLAYER_LIST_ATTR = "availablePlayerList";
+  public static final String BUSY_PLAYER_LIST_ATTR = "busyPlayerList";
   public static final String LOBBY_SIZE_ATTR = "lobbySize";
 
   private final TemplateEngine templateEngine;
@@ -93,7 +94,8 @@ public class GetHomeRoute implements Route {
 
 
     if (currentUser != null) {
-      vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers(currentUser.getName()));
+      vm.put(AVAILABLE_PLAYER_LIST_ATTR, playerLobby.getAvailablePlayers(currentUser.getName()));
+      vm.put(BUSY_PLAYER_LIST_ATTR, playerLobby.getBusyPlayers(currentUser.getName()));
     }
 
     return new ModelAndView(vm, "home.ftl");

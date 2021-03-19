@@ -34,8 +34,8 @@ public class Game {
         //TODO: 1) Implement AJAX functionality to call this
         //          with the given start and end position
         //      2) Get piece at start position
-        //      3) ??? implement move logic somewhere (preferably
-        //          in Game, since it has all required data)
+        //      3) Pass the board and Move to the Piece to determine
+        //         if it is valid
         //      4) If the MoveResult is a capture, then remove the
         //         captured piece from the appropriate HashSet
         return MoveResult.INVALID;
