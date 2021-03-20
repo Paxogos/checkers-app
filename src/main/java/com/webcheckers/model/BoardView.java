@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.util.Position;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -7,7 +9,8 @@ import java.util.Iterator;
  * The type Board view represents a game of checkers.
  */
 public class BoardView implements Iterable<Row>{
-    
+
+    public static int GRID_LENGTH = 8;
     private ArrayList<Row> rowArrayList = new ArrayList<>();
 
     /**
@@ -66,5 +69,9 @@ public class BoardView implements Iterable<Row>{
         }
         newBoard.setRowArrayList(newRows);
         return newBoard;
-     }
+    }
+
+    public Space getSpace(int row, int cell) {
+        return this.getRowArrayList().get(row).getSpaceArrayList().get(cell);
+    }
 }

@@ -1,8 +1,10 @@
 package com.webcheckers.model;
 import com.webcheckers.ui.PostSignInRoute;
 import com.webcheckers.util.Position;
+import com.webcheckers.model.Piece.Color;
 
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Game {
 
@@ -10,8 +12,8 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
 
-    private HashSet<Piece> redPieces;
-    private HashSet<Piece> whitePieces;
+    private HashSet<Piece> redPieces = new HashSet<>();
+    private HashSet<Piece> whitePieces = new HashSet<>();
 
     public enum MoveResult { INVALID, SIMPLE_MOVE, JUMP }
 
@@ -50,17 +52,18 @@ public class Game {
 
     private void addPiecesToGame() {
 
-        while (this.board.iterator().hasNext()) {
-            Row row = this.board.iterator().next();
-            while (row.iterator().hasNext()) {
-                Space space = row.iterator().next();
-                Piece possiblePiece = space.getPiece();
-                if (possiblePiece != null) {
-                    if (possiblePiece.getColor() == Piece.Color.RED)
-                        redPieces.add(possiblePiece);
+        for (int i = 0; i < BoardView.GRID_LENGTH; i++) {
+            for (int j = 0; j < BoardView.GRID_LENGTH; j++) {
+                Space currentSpace = this.board.getSpace(i, j);
+                if (currentSpace.getPiece() != null) {
+                    Piece piece = currentSpace.getPiece();
+
+                    if (piece.getColor() == Color.RED)
+                        this.redPieces.add(piece);
                     else
-                        whitePieces.add(possiblePiece);
+                        this.whitePieces.add(piece);
                 }
+
             }
         }
     }
