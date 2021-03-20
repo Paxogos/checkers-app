@@ -16,7 +16,6 @@ public class PlayerLobby {
     // List containing all players
     HashMap<String, Player> availablePlayerList;
     HashMap<String, Player> busyPlayerList;
-    GameCenter gameCenter;
 
     public enum LoginAttempt {NAME_TAKEN, INVALID, VALID}
 
@@ -27,7 +26,6 @@ public class PlayerLobby {
     public PlayerLobby() {
         this.availablePlayerList = new HashMap<>();
         this.busyPlayerList = new HashMap<>();
-        gameCenter = new GameCenter();
     }
 
     /**
@@ -98,7 +96,7 @@ public class PlayerLobby {
     private boolean hasPlayer(String playerName) {
         return availablePlayerList.containsKey(playerName) || busyPlayerList.containsKey(playerName); }
 
-    public Player getPlayer(String name) {
+        public Player getPlayer(String name) {
         Player player = null;
         try{
             if ((player = availablePlayerList.get(name)) == null)
@@ -107,10 +105,6 @@ public class PlayerLobby {
             System.out.println("Player not found");
         }
         return player;
-    }
-
-    public GameCenter getGameCenter() {
-        return gameCenter;
     }
 
 
@@ -144,5 +138,19 @@ public class PlayerLobby {
 
     public int getNumberPlayers() {
         return this.availablePlayerList.size() + busyPlayerList.size();
+    }
+
+    public boolean isPlayerInGame(Player player) {
+        return busyPlayerList.containsKey(player.getName());
+    }
+
+    public void setPlayerBusy(Player player) {
+        availablePlayerList.remove(player.getName());
+        busyPlayerList.put(player.getName(), player);
+    }
+
+    public void setPlayerAvailable(Player player) {
+        busyPlayerList.remove(player.getName());
+        availablePlayerList.put(player.getName(), player);
     }
 }
