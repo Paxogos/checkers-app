@@ -10,10 +10,15 @@ import com.webcheckers.util.Position;
  */
 public class Space {
 
+    public enum SpaceState{OPEN,OCCUPIED,INVALID}
+
     // must be 0 to 7
     private int rowIdx;
     private int cellIdx;
     private Piece piece;
+    private SpaceState spaceState;
+
+
 
     /**
      * Instantiates a new Space.
@@ -22,6 +27,9 @@ public class Space {
      * @param cellIdx the cell idx
      */
     public Space(int rowIdx,int cellIdx) {
+        if(rowIdx<0 || rowIdx > 7 || cellIdx <0 || cellIdx > 7){
+            throw new IllegalArgumentException("Indices out of bounds, must be 0 to 7");
+        }
         this.rowIdx = rowIdx;
         this.cellIdx = cellIdx;
 
@@ -29,10 +37,20 @@ public class Space {
         if((rowIdx+cellIdx)%2 == 1){
             if(rowIdx<3){
                 piece = new Piece(Piece.Color.RED, Piece.Type.SINGLE);
+                this.spaceState = SpaceState.OCCUPIED;
             }else if(rowIdx > 4){
                 piece = new Piece(Piece.Color.WHITE, Piece.Type.SINGLE);
+                this.spaceState = SpaceState.OCCUPIED;
+            }else{
+                this.spaceState = SpaceState.OPEN;
             }
+        }else{
+            this.spaceState = SpaceState.INVALID;
         }
+    }
+
+    public SpaceState getSpaceState() {
+        return spaceState;
     }
 
     /**

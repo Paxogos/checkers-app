@@ -96,11 +96,13 @@ public class GetGameRoute implements Route {
         vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
         vm.put(GAME_ID_ATTR, GAME_ID);
 
+        // if the selected opponent is already in a game and it is not with the current user, return to main page
         if(gameCenter.isPlayerInGame(opponent) && !gameCenter.gameExists(currentUser,opponent)){
             response.redirect("/");
             return null;
         }
 
+        // bad way to check if a game exists or a new one should be created
         if(gameCenter.getPlayerColor(currentUser) != null){
             BOARD = gameCenter.getGame(currentUser,opponent);
             Piece.Color currentColor = gameCenter.getPlayerColor(currentUser);
@@ -117,8 +119,7 @@ public class GetGameRoute implements Route {
                 BOARD.rotate();
             }
 
-
-        }else{
+        }else{ // start a new game
             BOARD = gameCenter.getGame(currentUser,opponent);
             if (gameCenter.getPlayerColor(currentUser) == Piece.Color.RED) {
                 vm.put(RED_PLAYER_ATTR, currentUser);
