@@ -8,6 +8,7 @@ import java.util.Objects;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.BoardView;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
@@ -16,6 +17,8 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 import spark.TemplateEngine;
+
+import static spark.Spark.halt;
 
 
 /**
@@ -47,10 +50,10 @@ public class GetGameRoute implements Route {
     static String VIEW_MODE = "PLAY";
     static String MODE_OPTIONS = "{}";
 
-    BoardView BOARD;
+    private BoardView BOARD;
 
-    private static PlayerLobby playerLobby;
-    private static GameCenter gameCenter;
+    private PlayerLobby playerLobby;
+    private GameCenter gameCenter;
 
     // Values used in the view-model map for rendering the game view.
     private final TemplateEngine templateEngine;
@@ -60,13 +63,13 @@ public class GetGameRoute implements Route {
      *
      * @param templateEngine The {@link TemplateEngine} used for rendering page HTML.
      */
-    GetGameRoute(PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    GetGameRoute(PlayerLobby playerLobby, GameCenter gameCenter, final TemplateEngine templateEngine) {
         // validation
         Objects.requireNonNull(templateEngine, "templateEngine must not be null");
         //
         this.templateEngine = templateEngine;
-        GetGameRoute.playerLobby = playerLobby;
-        gameCenter = playerLobby.getGameCenter(); //oops coupling FIX ME!
+        this.playerLobby = playerLobby;
+        this.gameCenter = gameCenter;
     }
 
     /**
@@ -77,65 +80,61 @@ public class GetGameRoute implements Route {
 
         // retrieve the game object and start one if no game is in progress
         final Session httpSession = request.session();
-        final Session opponentSession = null;
-        Player opponent = null;
+        Player opponent;
         Player currentUser = httpSession.attribute(PLAYER_ATTR);
-
-        Iterator paramIterator = request.queryParams().iterator();
-        if (paramIterator.hasNext()) {
-            opponent = playerLobby.getPlayer((String) paramIterator.next());
-        }
-
-
-
+        System.out.println("Current User: " + currentUser.getName());
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
-        vm.put(TITLE_ATTR, TITLE);
-        vm.put(CURRENT_USER_ATTR, currentUser);
-        vm.put(VIEW_MODE_ATTR, VIEW_MODE);
-        vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
-        vm.put(GAME_ID_ATTR, GAME_ID);
 
-        // if the selected opponent is already in a game and it is not with the current user, return to main page
-        if(gameCenter.isPlayerInGame(opponent) && !gameCenter.gameExists(currentUser,opponent)){
-            response.redirect("/");
+        Iterator<String> paramIterator = request.queryParams().iterator();
+        if (paramIterator.hasNext()) {
+            opponent = playerLobby.getPlayer(paramIterator.next());
+            //!!! Test !!!
+            System.out.println("Opponent found: " + opponent.getName());
+
+            if (playerLobby.isPlayerInGame(opponent) && !gameCenter.gameExists(currentUser, opponent)) {
+                System.out.println("Says opponent is busy, and no game exists.");
+                response.redirect("/");
+                halt();
+                return null;
+            }
+
+
+            Game currentGame = gameCenter.getGame(currentUser, opponent);
+
+            if (currentUser.getName().equals(currentGame.getRedPlayer().getName())) {
+                System.out.println("New Game - Red Player: " + currentUser.getName());
+                vm.put(RED_PLAYER_ATTR, currentUser);
+                vm.put(WHITE_PLAYER_ATTR, opponent);
+                BOARD = gameCenter.getBoardForRed(currentGame);
+            } else {
+                System.out.println("New Game - Red Player: " + opponent.getName());
+                vm.put(RED_PLAYER_ATTR, opponent);
+                vm.put(WHITE_PLAYER_ATTR, currentUser);
+                BOARD = gameCenter.getBoardForWhite(currentGame);
+            }
+            playerLobby.setPlayerBusy(currentUser);
+            playerLobby.setPlayerBusy(opponent);
+
+            vm.put(TITLE_ATTR, TITLE);
+            vm.put(CURRENT_USER_ATTR, currentUser);
+            vm.put(VIEW_MODE_ATTR, VIEW_MODE);
+            vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
+            vm.put(GAME_ID_ATTR, GAME_ID);
+            vm.put(ACTIVE_COLOR_ATTR, "RED");
+            vm.put(BOARD_ATTR, BOARD);
+
+            System.out.println("Returning boardView");
+            return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
+
+        }
+
+        else {
+            System.out.println("Redirecting from Game to Home");
+            response.redirect(WebServer.HOME_URL);
+            halt();
             return null;
         }
-
-        // bad way to check if a game exists or a new one should be created
-        if(gameCenter.getPlayerColor(currentUser) != null){
-            BOARD = gameCenter.getGame(currentUser,opponent);
-            Piece.Color currentColor = gameCenter.getPlayerColor(currentUser);
-            if (currentColor == Piece.Color.RED) {
-                vm.put(RED_PLAYER_ATTR, currentUser);
-                vm.put(WHITE_PLAYER_ATTR, opponent);
-            } else {
-                vm.put(RED_PLAYER_ATTR, opponent);
-                vm.put(WHITE_PLAYER_ATTR, currentUser);
-            }
-            //whew FIX MEEEEE!!!
-            Piece.Color bottomColor = BOARD.getRowArrayList().get(5).getSpaceArrayList().get(0).getPiece().getColor();
-            if(bottomColor != currentColor){
-                BOARD.rotate();
-            }
-
-        }else{ // start a new game
-            BOARD = gameCenter.getGame(currentUser,opponent);
-            if (gameCenter.getPlayerColor(currentUser) == Piece.Color.RED) {
-                vm.put(RED_PLAYER_ATTR, currentUser);
-                vm.put(WHITE_PLAYER_ATTR, opponent);
-                BOARD = BOARD.rotate();
-            } else {
-                vm.put(RED_PLAYER_ATTR, opponent);
-                vm.put(WHITE_PLAYER_ATTR, currentUser);
-            }
-        }
-
-        vm.put(ACTIVE_COLOR_ATTR, "RED");
-        vm.put(BOARD_ATTR, BOARD);
-
-        return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
 
 }
-
