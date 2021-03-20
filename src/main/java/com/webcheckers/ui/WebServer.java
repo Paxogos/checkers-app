@@ -65,6 +65,25 @@ public class WebServer {
    */
   public static final String GAME_URL = "/game";
 
+  /**
+   * The URL pattern to request move validation
+   */
+  public static final String VALIDATE_MOVE_URL = "/validateMove";
+
+  /**
+   * The URL pattern to backup one move
+   */
+  public static final String BACKUP_MOVE_URL = "/backupMove";
+
+  /**
+   * The URL pattern to check whose turn it is
+   */
+  public static final String CHECK_TURN_URL = "/checkTurn";
+
+  /**
+   * The URL pattern to request move validation
+   */
+  public static final String SUBMIT_TURN_URL = "/submitTurn";
 
   //
   // Attributes

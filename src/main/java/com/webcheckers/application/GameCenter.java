@@ -47,7 +47,7 @@ public class GameCenter {
     /**
      *
      * @param player1 instance of Player used to represent player 1
-     * @param player2 instance of Player used to represent palyer 2
+     * @param player2 instance of Player used to represent player 2
      * @return true if gamesList has the correct gamekey for the board being viewed, false otherwise
      */
     public Boolean gameExists(Player player1, Player player2) {
