@@ -10,7 +10,7 @@ import java.util.List;
 public class Row implements Iterable<Space>  {
 
     //attributes
-    private int index; // must be 0 to 7
+    private final int index; // must be 0 to 7
     private ArrayList<Space> spaceArrayList = new ArrayList<>();
 
     /**
@@ -25,6 +25,12 @@ public class Row implements Iterable<Space>  {
         }
     }
 
+    /**
+     * Alternate Row constructor for making specific Rows
+     *
+     * @param index         the index
+     * @param spaceList     list of Space objects to add to the Row
+     */
     public Row(int index, List<Space> spaceList) {
         this.index = index;
         for (int cell = 0; cell < BoardView.GRID_LENGTH; cell++) {

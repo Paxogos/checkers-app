@@ -11,20 +11,16 @@ import java.util.Iterator;
 public class BoardView implements Iterable<Row>{
 
     public static int GRID_LENGTH = 8;
-    private ArrayList<Row> rowArrayList = new ArrayList<>();
+    private ArrayList<Row> rowArrayList;
+
 
     /**
-     * Instantiates a new BoardView/game.
+     * BoardView constructor
      *
+     * @param board     the board with spaces to be copied
      */
-    public BoardView() {
-        for (int i = 0; i < 8; i++) {
-            rowArrayList.add(new Row(i));
-        }
-    }
-
     public BoardView(Board board) {
-        ArrayList<Row> rowList = new ArrayList<>();
+        this.rowArrayList = new ArrayList<>();
         for (int row = 0; row < GRID_LENGTH; row++) {
             ArrayList<Space> spaceList = new ArrayList<>();
 
@@ -32,10 +28,8 @@ public class BoardView implements Iterable<Row>{
                 Position spacePos = new Position(row, cell);
                 spaceList.add(board.getSpace(spacePos));
             }
-            rowList.add(new Row(row, spaceList));
+            this.rowArrayList.add(new Row(row, spaceList));
         }
-
-        this.rowArrayList = rowList;
     }
 
 
@@ -67,7 +61,7 @@ public class BoardView implements Iterable<Row>{
     /**
      * Rotates board view 180 degrees.
      *
-     * @return a new board view that is rotated
+     * @return a new BoardView that is rotated
      */
     public BoardView rotate(){
 

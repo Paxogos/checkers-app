@@ -51,8 +51,6 @@ public class GetGameRoute implements Route {
     static String VIEW_MODE = "PLAY";
     static String MODE_OPTIONS = "{}";
 
-    private BoardView BOARD;
-
     private PlayerLobby playerLobby;
     private GameCenter gameCenter;
 
@@ -90,11 +88,8 @@ public class GetGameRoute implements Route {
         Iterator<String> paramIterator = request.queryParams().iterator();
         if (paramIterator.hasNext()) {
             opponent = playerLobby.getPlayer(paramIterator.next());
-            //!!! Test !!!
-            System.out.println("Opponent found: " + opponent.getName());
 
             if (playerLobby.isPlayerInGame(opponent) && !gameCenter.gameExists(currentUser, opponent)) {
-                System.out.println("Says opponent is busy, and no game exists.");
                 response.redirect("/");
                 halt();
                 return null;
@@ -103,13 +98,13 @@ public class GetGameRoute implements Route {
 
             Game currentGame = gameCenter.getGame(currentUser, opponent);
 
+            // BoardView to send to the Browser
+            BoardView BOARD;
             if (currentUser.getName().equals(currentGame.getRedPlayer().getName())) {
-                System.out.println("New Game - Red Player: " + currentUser.getName());
                 vm.put(RED_PLAYER_ATTR, currentUser);
                 vm.put(WHITE_PLAYER_ATTR, opponent);
                 BOARD = gameCenter.getBoardForRed(currentGame);
             } else {
-                System.out.println("New Game - Red Player: " + opponent.getName());
                 vm.put(RED_PLAYER_ATTR, opponent);
                 vm.put(WHITE_PLAYER_ATTR, currentUser);
                 BOARD = gameCenter.getBoardForWhite(currentGame);
@@ -127,13 +122,11 @@ public class GetGameRoute implements Route {
             vm.put(ACTIVE_COLOR_ATTR, "RED");
             vm.put(BOARD_ATTR, BOARD);
 
-            System.out.println("Returning boardView");
             return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
         }
 
         else {
-            System.out.println("Redirecting from Game to Home");
             response.redirect(WebServer.HOME_URL);
             halt();
             return null;
