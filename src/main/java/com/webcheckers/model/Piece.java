@@ -32,7 +32,7 @@ public class Piece {
      *
      * @return true if Piece is type King, false otherwise
      */
-    public boolean isKing() { return this instanceof King;
+    public boolean isKing() { return this.type == Type.KING;
     }
 
     /**
@@ -41,7 +41,7 @@ public class Piece {
      * @return true if Piece is type Single, false otherwise
      */
     public boolean isSingle() {
-        return this instanceof Single;
+        return this.type == Type.SINGLE;
     }
 
 
