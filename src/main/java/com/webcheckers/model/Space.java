@@ -1,4 +1,5 @@
 package com.webcheckers.model;
+import com.webcheckers.ui.PostBackupMoveRoute;
 import com.webcheckers.util.Position;
 
 /**
@@ -17,6 +18,7 @@ public class Space {
     private int cellIdx;
     private Piece piece;
     private SpaceState spaceState;
+    private Position position;
 
 
 
@@ -32,6 +34,7 @@ public class Space {
         }
         this.rowIdx = rowIdx;
         this.cellIdx = cellIdx;
+        this.position = new Position(rowIdx,cellIdx);
 
         //determines where the starting piece should go
         if((rowIdx+cellIdx)%2 == 1){
@@ -51,6 +54,10 @@ public class Space {
 
     public SpaceState getSpaceState() {
         return spaceState;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     /**
@@ -89,10 +96,4 @@ public class Space {
         return piece;
     }
 
-    @Override
-    public String toString() {
-        return "Space{" +
-                "cellIdx=" + cellIdx +
-                '}';
-    }
 }

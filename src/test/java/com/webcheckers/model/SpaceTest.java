@@ -3,6 +3,8 @@ package com.webcheckers.model;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.util.Iterator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("Model-tier")
@@ -37,6 +39,32 @@ class SpaceTest {
     void ctor_too_large_2nd_arg() {
         assertThrows(IllegalArgumentException.class, () ->{
             new Space(IDX,LARGE_IDX);}, "Allowed large 2nd index");
+    }
+
+    @Test
+    void ctor_create_board(){
+        BoardView boardView = new BoardView();
+
+        // check if board was created properly
+        Iterator iterator = boardView.getRowArrayList().iterator();
+        Row row;
+        Space space;
+        while(iterator.hasNext()){
+            row = (Row) iterator.next();
+            Iterator iterator1 = row.getSpaceArrayList().iterator();
+            while(iterator1.hasNext()){
+                space = (Space) iterator1.next();
+                if((space.getRowIdx()+space.getCellIdx())%2 == 0){
+                    assertEquals(space.getSpaceState(), Space.SpaceState.INVALID);
+                }
+            }
+
+        }
+
+    }
+
+    @Test
+    void getSpaceState(){
     }
 
     @Test
