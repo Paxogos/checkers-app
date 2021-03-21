@@ -31,4 +31,8 @@ public class Move {
     public Move reverse() {
         return new Move(this.end, this.start);
     }
+
+    public String toString() {
+        return "[" + start.getRow() + ", " + start.getCell() + "] -> [" + end.getRow() + ", " + end.getCell() + "]";
+    }
 }

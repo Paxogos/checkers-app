@@ -28,7 +28,7 @@ public class Board {
      * @return              the space at that the given position
      */
     public Space getSpace(Position position) {
-        return board[position.getRow()][position.getColumn()];
+        return board[position.getRow()][position.getCell()];
     }
 
     /**
