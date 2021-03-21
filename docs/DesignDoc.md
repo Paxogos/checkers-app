@@ -20,9 +20,14 @@ geometry: margin=1in
 
 This is a summary of the project.
 
+This web application is designed with the purpose of allowing users to play online checkers against other users. Users who connect are required to sign in, which simply requires the user to provide a valid username. Once signed in users are presented with a list of other users currently signed in, clicking another user's name will start a game if they are available. Users are presetned with a drag and drop checkers board until they have completed the game and returned to the home page. 
+
+
 ### Purpose
 > _Provide a very brief statement about the project and the most
 > important user group and user goals._
+
+To allow users to play a game of drag and drop checkers against other users across the internet.
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -30,6 +35,8 @@ This is a summary of the project.
 | Term | Definition |
 |------|------------|
 | VO | Value Object |
+| Position| A coordinate representation of the spaces on a checker board (row,column)|
+
 
 
 ## Requirements

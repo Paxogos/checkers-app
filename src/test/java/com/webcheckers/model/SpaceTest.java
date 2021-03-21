@@ -43,7 +43,7 @@ class SpaceTest {
 
     @Test
     void ctor_create_board(){
-        BoardView boardView = new BoardView();
+        BoardView boardView = new BoardView(new Board());
 
         // check if board was created properly
         Iterator iterator = boardView.getRowArrayList().iterator();
