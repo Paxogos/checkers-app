@@ -14,6 +14,12 @@ public class BoardView implements Iterable<Row>{
     private ArrayList<Row> rowArrayList;
 
 
+    public BoardView() {
+        this.rowArrayList = new ArrayList<>();
+        for (int row = 0; row < GRID_LENGTH; row++)
+            this.rowArrayList.add(new Row(row));
+    }
+
     /**
      * BoardView constructor
      *
