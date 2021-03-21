@@ -76,6 +76,15 @@ public class Game {
         return false;
     }
 
+    /**
+     * Changes switches the active color to the other one
+     */
+    public void toggleActivePlayer() {
+        if (this.activeColor == Color.RED)
+            this.activeColor = Color.WHITE;
+        else
+            this.activeColor = Color.RED;
+    }
 
     /**
      * A private helper method to add all pieces to the
