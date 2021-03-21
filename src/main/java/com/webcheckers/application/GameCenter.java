@@ -1,8 +1,9 @@
 package com.webcheckers.application;
 
 import com.webcheckers.model.BoardView;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
-import com.webcheckers.model.Piece;
+
 
 import java.util.HashMap;
 /**
@@ -13,15 +14,13 @@ import java.util.HashMap;
 
 public class GameCenter {
 
-    HashMap<String, BoardView> gamesList;
-    HashMap<Player, Piece.Color> playerColorList;
-    HashMap<Player, Player> playerOpponentList;
+    private final HashMap<String, Game> gamesList;
+    private final HashMap<Player, Player> opponentList;
 
 
     public GameCenter() {
-        this.gamesList = new HashMap();
-        this.playerColorList = new HashMap<>();
-        this.playerOpponentList = new HashMap<>();
+        this.gamesList = new HashMap<>();
+        this.opponentList = new HashMap<>();
     }
 
     /**
@@ -30,16 +29,14 @@ public class GameCenter {
      * @param player2 instance of Player that represents player 2 who joins game after player
      * @return BoardView with a gamekey related to both players
      */
-    public BoardView getGame(Player player1, Player player2) {
+    public Game getGame(Player player1, Player player2) {
         if (gameExists(player1, player2)) {
             return gamesList.get(getCorrectKey(player1, player2));
         } else {
             String gameKey = player1.getName() + player2.getName();
-            playerColorList.put(player1, Piece.Color.RED);
-            playerColorList.put(player2, Piece.Color.WHITE);
-            playerOpponentList.put(player1, player2);
-            playerOpponentList.put(player2, player1);
-            gamesList.put(gameKey, new BoardView());
+            this.gamesList.put(gameKey, new Game(player1, player2));
+            this.opponentList.put(player1, player2);
+            this.opponentList.put(player2, player1);
             return gamesList.get(gameKey);
         }
     }
@@ -69,18 +66,9 @@ public class GameCenter {
         }
     }
 
-    public Piece.Color getPlayerColor(Player player) {
-        return playerColorList.get(player);
-    }
+    public Player getCurrentOpponent(Player currentUser) { return opponentList.get(currentUser); }
 
-    public Player getPlayerOpponent(Player player) {
-        if (playerOpponentList.containsKey(player)) {
-            return playerOpponentList.get(player);
-        }
-        return null;
-    }
+    public BoardView getBoardForRed(Game game) { return game.getBoard().getBoardViewForRed(); }
 
-    public boolean isPlayerInGame(Player player){
-        return playerColorList.containsKey(player);
-    }
+    public BoardView getBoardForWhite(Game game) { return game.getBoard().getBoardViewForWhite(); }
 }

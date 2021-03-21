@@ -37,10 +37,10 @@ public class GetHomeRoute implements Route {
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+  public GetHomeRoute(final PlayerLobby playerLobby, final GameCenter gameCenter, final TemplateEngine templateEngine) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");
-    this.gameCenter = playerLobby.getGameCenter();
+    this.gameCenter = gameCenter;
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -64,8 +64,8 @@ public class GetHomeRoute implements Route {
     // Retrieve the Player object from the user's session
     Player currentUser = httpSession.attribute(PLAYER_ATTR);
 
-    if(gameCenter.getPlayerOpponent(currentUser) != null){
-      Player opponent = gameCenter.getPlayerOpponent(currentUser);
+    if(gameCenter.getCurrentOpponent(currentUser) != null){
+      Player opponent = gameCenter.getCurrentOpponent(currentUser);
       response.redirect("/game?" + opponent.getName());
     }
 

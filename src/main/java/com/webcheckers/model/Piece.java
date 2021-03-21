@@ -1,10 +1,11 @@
 package com.webcheckers.model;
+import com.webcheckers.model.Game.MoveResult;
 
 /**
  * Piece represents one checker on the board, which is used to play the game of checkers
  * @version 1.0
  */
-public class Piece {
+public abstract class Piece {
 
     /**
      * The enum Color represents the team the piece is on
@@ -60,4 +61,6 @@ public class Piece {
      * @return the type
      */
     public Type getType() { return this.type; }
+
+    public abstract MoveResult makeMove(Move move, Board board);
 }

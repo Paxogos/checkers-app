@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.util.Position;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -7,18 +9,29 @@ import java.util.Iterator;
  * The type Board view represents a game of checkers.
  */
 public class BoardView implements Iterable<Row>{
-    
-    private ArrayList<Row> rowArrayList = new ArrayList<>();
+
+    public static int GRID_LENGTH = 8;
+    private ArrayList<Row> rowArrayList;
+
 
     /**
-     * Instantiates a new BoardView/game.
+     * BoardView constructor
      *
+     * @param board     the board with spaces to be copied
      */
-    public BoardView() {
-        for (int i = 0; i < 8; i++) {
-            rowArrayList.add(new Row(i));
+    public BoardView(Board board) {
+        this.rowArrayList = new ArrayList<>();
+        for (int row = 0; row < GRID_LENGTH; row++) {
+            ArrayList<Space> spaceList = new ArrayList<>();
+
+            for (int cell = 0; cell < GRID_LENGTH; cell++) {
+                Position spacePos = new Position(row, cell);
+                spaceList.add(board.getSpace(spacePos));
+            }
+            this.rowArrayList.add(new Row(row, spaceList));
         }
     }
+
 
     @Override
     public Iterator<Row> iterator() {
@@ -48,9 +61,10 @@ public class BoardView implements Iterable<Row>{
     /**
      * Rotates board view 180 degrees.
      *
-     * @return a new board view that is rotated
+     * @return a new BoardView that is rotated
      */
     public BoardView rotate(){
+
         BoardView newBoard = this;
         ArrayList<Row> newRows = new ArrayList<>();
         Row tempRow;
@@ -66,5 +80,6 @@ public class BoardView implements Iterable<Row>{
         }
         newBoard.setRowArrayList(newRows);
         return newBoard;
-     }
+    }
+
 }
