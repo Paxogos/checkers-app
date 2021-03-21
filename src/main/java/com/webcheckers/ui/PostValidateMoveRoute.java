@@ -1,7 +1,6 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
-import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Game.MoveResult;
@@ -13,11 +12,9 @@ import spark.Session;
 
 public class PostValidateMoveRoute implements Route {
 
-    private GameCenter gameCenter;
     private Gson gson;
 
-    public PostValidateMoveRoute(GameCenter gameCenter, Gson gson) {
-        this.gameCenter = gameCenter;
+    public PostValidateMoveRoute(Gson gson) {
         this.gson = gson;
     }
 
