@@ -76,7 +76,7 @@ public class GameCenter {
 
     public Player getCurrentOpponent(Player currentUser) { return opponentList.get(currentUser); }
 
-    public BoardView getBoardForRed(Game game) { return game.getBoardView().rotate(); }
+    public BoardView getBoardForRed(Game game) { return game.getBoard().getBoardViewForRed(); }
 
-    public BoardView getBoardForWhite(Game game) { return game.getBoardView().rotate(); }
+    public BoardView getBoardForWhite(Game game) { return game.getBoard().getBoardViewForWhite(); }
 }

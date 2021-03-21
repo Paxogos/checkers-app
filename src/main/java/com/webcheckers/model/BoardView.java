@@ -23,6 +23,22 @@ public class BoardView implements Iterable<Row>{
         }
     }
 
+    public BoardView(Board board) {
+        ArrayList<Row> rowList = new ArrayList<>();
+        for (int row = 0; row < GRID_LENGTH; row++) {
+            ArrayList<Space> spaceList = new ArrayList<>();
+
+            for (int cell = 0; cell < GRID_LENGTH; cell++) {
+                Position spacePos = new Position(row, cell);
+                spaceList.add(board.getSpace(spacePos));
+            }
+            rowList.add(new Row(row, spaceList));
+        }
+
+        this.rowArrayList = rowList;
+    }
+
+
     @Override
     public Iterator<Row> iterator() {
         return this.getRowArrayList().iterator();
@@ -54,6 +70,7 @@ public class BoardView implements Iterable<Row>{
      * @return a new board view that is rotated
      */
     public BoardView rotate(){
+
         BoardView newBoard = this;
         ArrayList<Row> newRows = new ArrayList<>();
         Row tempRow;
@@ -71,7 +88,4 @@ public class BoardView implements Iterable<Row>{
         return newBoard;
     }
 
-    public Space getSpace(Position position) {
-        return this.getRowArrayList().get(position.getRow()).getSpaceArrayList().get(position.getColumn());
-    }
 }

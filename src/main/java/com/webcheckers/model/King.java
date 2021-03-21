@@ -15,7 +15,7 @@ public class King extends Piece{
     }
 
     @Override
-    public Game.MoveResult makeMove(Move move, BoardView board) {
+    public Game.MoveResult makeMove(Move move, Board board) {
         return Game.MoveResult.INVALID;
     }
 

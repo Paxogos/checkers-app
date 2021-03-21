@@ -62,5 +62,5 @@ public abstract class Piece {
      */
     public Type getType() { return this.type; }
 
-    public abstract MoveResult makeMove(Move move, BoardView board);
+    public abstract MoveResult makeMove(Move move, Board board);
 }

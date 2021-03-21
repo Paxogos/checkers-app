@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * The type Row.
@@ -21,6 +22,13 @@ public class Row implements Iterable<Space>  {
         this.index = index;
         for (int i = 0; i < 8; i++) {
             spaceArrayList.add(new Space(index,i));
+        }
+    }
+
+    public Row(int index, List<Space> spaceList) {
+        this.index = index;
+        for (int cell = 0; cell < BoardView.GRID_LENGTH; cell++) {
+            spaceArrayList.add(spaceList.get(cell));
         }
     }
 

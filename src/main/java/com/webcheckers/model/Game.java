@@ -1,14 +1,13 @@
 package com.webcheckers.model;
-import com.webcheckers.ui.PostSignInRoute;
 import com.webcheckers.util.Position;
 import com.webcheckers.model.Piece.Color;
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 public class Game {
 
-    private BoardView board;
+    private Board board;
+    private BoardView boardView;
     private Player redPlayer;
     private Player whitePlayer;
 
@@ -20,7 +19,8 @@ public class Game {
     public Game(Player red, Player white) {
         this.redPlayer = red;
         this.whitePlayer = white;
-        this.board = new BoardView();
+        this.board = new Board();
+        this.boardView = new BoardView(this.board);
 
         addPiecesToGame();
     }
@@ -29,7 +29,9 @@ public class Game {
 
     public Player getWhitePlayer() { return this.whitePlayer;}
 
-    public BoardView getBoardView() { return this.board; }
+    public BoardView getBoardView() { return this.boardView; }
+
+    public Board getBoard() { return this.board; }
 
 
     public MoveResult makeMove(Move move) {

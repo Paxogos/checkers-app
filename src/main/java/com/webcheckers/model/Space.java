@@ -34,10 +34,10 @@ public class Space {
 
         //determines where the starting piece should go
         if((rowIdx+cellIdx)%2 == 1){
-            if(rowIdx<3){
+            if(rowIdx > 4){
                 piece = new Single(Piece.Color.RED);
                 this.spaceState = SpaceState.OCCUPIED;
-            }else if(rowIdx > 4){
+            }else if(rowIdx < 3){
                 piece = new Single(Piece.Color.WHITE);
                 this.spaceState = SpaceState.OCCUPIED;
             }else{
@@ -76,7 +76,7 @@ public class Space {
      * @return true if piece is in the right starting place, false otherwise
      */
     public boolean isValid(){
-        return (rowIdx + cellIdx) % 2 != 0;
+        return (rowIdx + cellIdx) % 2 != 0 && spaceState != SpaceState.OCCUPIED;
     }
 
     /**

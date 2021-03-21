@@ -14,7 +14,7 @@ public class Single extends Piece{
     }
 
     @Override
-    public Game.MoveResult makeMove(Move move, BoardView board) {
+    public Game.MoveResult makeMove(Move move, Board board) {
 
         Piece movingPiece = board.getSpace(move.start()).getPiece();
 
