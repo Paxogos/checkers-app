@@ -14,5 +14,10 @@ public class King extends Piece{
         super(color, KING);
     }
 
+    @Override
+    public Game.MoveResult makeMove(Move move, BoardView board) {
+        return Game.MoveResult.INVALID;
+    }
+
 
 }

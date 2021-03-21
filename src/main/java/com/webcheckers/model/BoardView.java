@@ -71,7 +71,7 @@ public class BoardView implements Iterable<Row>{
         return newBoard;
     }
 
-    public Space getSpace(int row, int cell) {
-        return this.getRowArrayList().get(row).getSpaceArrayList().get(cell);
+    public Space getSpace(Position position) {
+        return this.getRowArrayList().get(position.getRow()).getSpaceArrayList().get(position.getColumn());
     }
 }

@@ -42,6 +42,7 @@ public class GetGameRoute implements Route {
     static final String BOARD_ATTR = "board";
     static final String PLAYER_ATTR = "currentUser";
 
+    static final String GAME_ATTR = "currentGame";
 
 
     static String TITLE = "Game";
@@ -113,6 +114,8 @@ public class GetGameRoute implements Route {
                 vm.put(WHITE_PLAYER_ATTR, currentUser);
                 BOARD = gameCenter.getBoardForWhite(currentGame);
             }
+
+            httpSession.attribute(GAME_ATTR, currentGame);
             playerLobby.setPlayerBusy(currentUser);
             playerLobby.setPlayerBusy(opponent);
 
