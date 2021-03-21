@@ -1,4 +1,6 @@
 package com.webcheckers.model;
+import com.webcheckers.ui.PostBackupMoveRoute;
+import com.webcheckers.util.Position;
 
 /**
  * Space represents a square on the board, many squares are used to make up the
@@ -16,6 +18,7 @@ public class Space {
     private int cellIdx;
     private Piece piece;
     private SpaceState spaceState;
+    private Position position;
 
 
 
@@ -31,6 +34,7 @@ public class Space {
         }
         this.rowIdx = rowIdx;
         this.cellIdx = cellIdx;
+        this.position = new Position(rowIdx,cellIdx);
 
         //determines where the starting piece should go
         if((rowIdx+cellIdx)%2 == 1){
@@ -50,6 +54,10 @@ public class Space {
 
     public SpaceState getSpaceState() {
         return spaceState;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     /**
