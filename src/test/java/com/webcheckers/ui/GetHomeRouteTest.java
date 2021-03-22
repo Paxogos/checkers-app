@@ -56,9 +56,9 @@ public class GetHomeRouteTest {
         engineTester.assertViewName(GetHomeRoute.VIEW_NAME);
     }
 
-    @Test
-    public void old_session() {
-        //when(session.attribute(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)).thenReturn(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)));
+    //@Test
+    /*public void old_session() {
+        when(session.attribute(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)).thenReturn(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)));
 
 
         //Invoke test
@@ -69,5 +69,7 @@ public class GetHomeRouteTest {
             e.getLocalizedMessage();
         }
     }
+
+     */
 
 }
