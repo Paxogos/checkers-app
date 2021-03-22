@@ -52,6 +52,14 @@ public class Board {
         return rotatedBoard;
     }
 
+    public void setSpaceToPiece(Position position, Piece piece) {
+        board[position.getRow()][position.getCell()].setPiece(piece);
+    }
+
+    public void removePieceAt(Position position) {
+        board[position.getRow()][position.getCell()].removePiece();
+    }
+
     public boolean equals(Object obj) {
         if (!(obj instanceof Board))
             return false;
