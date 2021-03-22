@@ -7,7 +7,6 @@ public class Move {
     private Position start;
     private Position end;
 
-    private Player player;
 
     public Move(Position start, Position end) {
         this.start = start;

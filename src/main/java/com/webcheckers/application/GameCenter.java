@@ -32,7 +32,7 @@ public class GameCenter {
     public Game getGame(Player player1, Player player2) {
         if (gameExists(player1, player2)) {
             return gamesList.get(getCorrectKey(player1, player2));
-        } else {
+        } else { //create new game
             String gameKey = player1.getName() + player2.getName();
             this.gamesList.put(gameKey, new Game(player1, player2));
             this.opponentList.put(player1, player2);

@@ -45,6 +45,9 @@ public class Game {
 
     public Board getBoard() { return this.board; }
 
+    public Color getActiveColor() {
+        return activeColor;
+    }
 
     /**
      * Perform the given move if it is valid
@@ -58,7 +61,7 @@ public class Game {
         // Get the piece at the start position of the move
         Piece movingPiece = this.board.getSpace(move.start()).getPiece();
 
-        if (movingPiece == null)
+        if (movingPiece == null || movingPiece.getColor() != activeColor)
             return MoveResult.INVALID;
 
         // Uses the piece's logic to determine if the move is valid

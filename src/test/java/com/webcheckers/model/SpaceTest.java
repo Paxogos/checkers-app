@@ -54,7 +54,7 @@ class SpaceTest {
             Iterator iterator1 = row.getSpaceArrayList().iterator();
             while(iterator1.hasNext()){
                 space = (Space) iterator1.next();
-                if((space.getRowIdx()+space.getCellIdx())%2 == 0){
+                if((space.getPosition().getRow()+space.getPosition().getColumn())%2 == 0){
                     assertEquals(space.getSpaceState(), Space.SpaceState.INVALID);
                 }
             }
@@ -64,26 +64,18 @@ class SpaceTest {
     }
 
     @Test
-    void getSpaceState(){
+    void is_occupied(){
+        Space space = new Space(0,1);
+        space.setPiece(new Single(Piece.Color.RED));
+        assertTrue(space.isOccupied());
     }
 
     @Test
-    void getCellIdx() {
+    void not_occupied(){
+        Space space = new Space(0,1);
+        space.removePiece();
+        assertFalse(space.isOccupied());
     }
 
-    @Test
-    void getRowIdx() {
-    }
 
-    @Test
-    void isValid() {
-    }
-
-    @Test
-    void getPiece() {
-    }
-
-    @Test
-    void testToString() {
-    }
 }

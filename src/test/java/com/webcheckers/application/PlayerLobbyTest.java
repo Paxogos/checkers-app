@@ -10,6 +10,5 @@ class PlayerLobbyTest {
 
    @Test
     void invalid_name_blank(){
-       assertFalse();
    }
 }
