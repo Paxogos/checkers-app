@@ -19,9 +19,9 @@ public class Game {
     private Player whitePlayer;
     private Color activeColor = Color.RED;
 
-    // Collections for checking how many pieces are left
-    private HashSet<Piece> redPieces = new HashSet<>();
-    private HashSet<Piece> whitePieces = new HashSet<>();
+    // Ints for checking how many pieces are left
+    private int numWhitePieces = 0;
+    private int numRedPieces = 0;
 
     public enum MoveResult { INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED, KING_RESTRICTED }
 
@@ -64,8 +64,28 @@ public class Game {
         if (movingPiece == null || movingPiece.getColor() != activeColor)
             return MoveResult.INVALID;
 
+        MoveResult result = movingPiece.makeMove(move, this.board);
+
+        if (result == MoveResult.SIMPLE_MOVE) {
+            this.board.setSpaceToPiece(move.end(), movingPiece);
+            this.board.removePieceAt(move.start());
+        }
+
+        else if (result == MoveResult.JUMP) {
+            this.board.setSpaceToPiece(move.end(), movingPiece);
+            this.board.removePieceAt(move.start());
+            this.board.removePieceAt(move.midpoint());
+
+            if (movingPiece.getColor() == Color.RED)
+                numWhitePieces--;
+            else
+                numRedPieces--;
+
+        }
+
         // Uses the piece's logic to determine if the move is valid
-        return movingPiece.makeMove(move, this.board);
+        return result;
+
     }
 
 
@@ -79,6 +99,15 @@ public class Game {
         return false;
     }
 
+    /**
+     * Changes switches the active color to the other one
+     */
+    public void toggleActivePlayer() {
+        if (this.activeColor == Color.RED)
+            this.activeColor = Color.WHITE;
+        else
+            this.activeColor = Color.RED;
+    }
 
     /**
      * A private helper method to add all pieces to the
@@ -94,13 +123,22 @@ public class Game {
                     Piece piece = currentSpace.getPiece();
 
                     if (piece.getColor() == Color.RED)
-                        this.redPieces.add(piece);
+                        this.numRedPieces++;
                     else
-                        this.whitePieces.add(piece);
+                        this.numWhitePieces++;
                 }
 
             }
         }
+    }
+
+    public boolean equals(Object object) {
+        if (!(object instanceof Game))
+            return false;
+        Game game = (Game)object;
+        return game.getRedPlayer().equals(redPlayer) &&
+                game.getWhitePlayer().equals(whitePlayer) &&
+                game.getBoard().equals(board);
     }
 
 }

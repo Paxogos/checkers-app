@@ -18,10 +18,10 @@ public class Single extends Piece{
 
         Piece movingPiece = board.getSpace(move.start()).getPiece();
 
-        int deltaX = move.end().getColumn() - move.start().getColumn();
+        int deltaX = move.end().getCell() - move.start().getCell();
         int deltaY = move.start().getRow() - move.end().getRow();
 
-        Space midpoint = board.getSpace(new Position(move.start().getRow() - deltaY/2, move.start().getColumn() + deltaX/2));
+        Space midpoint = board.getSpace(new Position(move.start().getRow() - deltaY/2, move.start().getCell() + deltaX/2));
         Piece jumpee = midpoint.getPiece();
 
         if (movingPiece == null)

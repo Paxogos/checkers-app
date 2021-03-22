@@ -28,7 +28,7 @@ public class Board {
      * @return              the space at that the given position
      */
     public Space getSpace(Position position) {
-        return board[position.getRow()][position.getColumn()];
+        return board[position.getRow()][position.getCell()];
     }
 
     /**
@@ -50,5 +50,27 @@ public class Board {
         BoardView rotatedBoard = new BoardView(this);
         rotatedBoard.rotate();
         return rotatedBoard;
+    }
+
+    public void setSpaceToPiece(Position position, Piece piece) {
+        board[position.getRow()][position.getCell()].setPiece(piece);
+    }
+
+    public void removePieceAt(Position position) {
+        board[position.getRow()][position.getCell()].removePiece();
+    }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Board))
+            return false;
+        Board newBoard = (Board) obj;
+        for (int row = 0; row < GRID_LENGTH; row++) {
+            for (int cell = 0; cell < GRID_LENGTH; cell++) {
+                Position getCell = new Position(row, cell);
+                if (!newBoard.getSpace(getCell).equals(this.getSpace(getCell)))
+                    return false;
+            }
+        }
+        return true;
     }
 }
