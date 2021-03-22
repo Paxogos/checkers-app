@@ -4,6 +4,7 @@ import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import spark.*;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -48,9 +49,25 @@ public class GetHomeRouteTest {
         engineTester.assertViewModelExists();
         engineTester.assertViewModelIsaMap();
 
-        engineTester.assertViewModelAttribute(GetHomeRoute.PLAYER_ATTR, GetHomeRoute.AVAILABLE_PLAYER_LIST_ATTR);
-        engineTester.assertViewModelAttribute(GetHomeRoute.LOBBY_SIZE_ATTR, GetHomeRoute.BUSY_PLAYER_LIST_ATTR);
+        //testing the view-model data
+        engineTester.assertViewModelAttribute(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
+        engineTester.assertViewModelAttribute(GetHomeRoute.WELCOME_MSG_ATTR, GetHomeRoute.WELCOME_MSG);
+        //test VIEW_NAME
+        engineTester.assertViewName(GetHomeRoute.VIEW_NAME);
+    }
 
+    @Test
+    public void old_session() {
+        when(session.attribute(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)).thenReturn(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)));
+
+
+        //Invoke test
+        try {
+            CuT.handle(request, response);
+            fail("redirects invoke halt expections");
+        } catch (HaltException e) {
+            e.getLocalizedMessage();
+        }
     }
 
 }
