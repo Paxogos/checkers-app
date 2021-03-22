@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 public class GameCenter {
 
-    private final HashMap<String, Game> gamesList;
-    private final HashMap<Player, Player> opponentList;
+    private HashMap<String, Game> gamesList;
+    private HashMap<Player, Player> opponentList;
 
 
     public GameCenter() {
@@ -31,13 +31,21 @@ public class GameCenter {
      */
     public Game getGame(Player player1, Player player2) {
         if (gameExists(player1, player2)) {
+            System.out.println("Returning game already started");
             return gamesList.get(getCorrectKey(player1, player2));
-        } else { //create new game
+        } else {
+            System.out.println("Returning new game");
             String gameKey = player1.getName() + player2.getName();
+            System.out.println("GameKey: " + gameKey);
             this.gamesList.put(gameKey, new Game(player1, player2));
+            System.out.println("Adding game to list");
             this.opponentList.put(player1, player2);
+            System.out.println("Adding Player 1 to opponents");
             this.opponentList.put(player2, player1);
-            return gamesList.get(gameKey);
+            System.out.println("Adding Player 2 to opponents");
+            Game returnGame =  gamesList.get(gameKey);
+            System.out.println("Returning above game");
+            return returnGame;
         }
     }
 
@@ -68,4 +76,7 @@ public class GameCenter {
 
     public Player getCurrentOpponent(Player currentUser) { return opponentList.get(currentUser); }
 
+    public BoardView getBoardForRed(Game game) { return game.getBoardView().rotate(); }
+
+    public BoardView getBoardForWhite(Game game) { return game.getBoardView().rotate(); }
 }

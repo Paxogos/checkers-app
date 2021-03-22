@@ -60,4 +60,13 @@ public class Piece {
      * @return the type
      */
     public Type getType() { return this.type; }
+
+    /**
+     * Returns a toString of the stats of piece, used for unit testing in PieceTest
+     *
+     * @return A String that represents the state of Piece, which states the color and type of piece
+     */
+    public String toString() {
+        return "Piece: {" + this.color + ", " + this.type + "}";
+    }
 }

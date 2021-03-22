@@ -1,5 +1,4 @@
 package com.webcheckers.model;
-import com.webcheckers.ui.PostBackupMoveRoute;
 import com.webcheckers.util.Position;
 
 /**
@@ -18,7 +17,6 @@ public class Space {
     private int cellIdx;
     private Piece piece;
     private SpaceState spaceState;
-    private Position position;
 
 
 
@@ -34,15 +32,14 @@ public class Space {
         }
         this.rowIdx = rowIdx;
         this.cellIdx = cellIdx;
-        this.position = new Position(rowIdx,cellIdx);
 
         //determines where the starting piece should go
         if((rowIdx+cellIdx)%2 == 1){
-            if(rowIdx > 4){
-                piece = new Single(Piece.Color.RED);
+            if(rowIdx<3){
+                piece = new Piece(Piece.Color.RED, Piece.Type.SINGLE);
                 this.spaceState = SpaceState.OCCUPIED;
-            }else if(rowIdx < 3){
-                piece = new Single(Piece.Color.WHITE);
+            }else if(rowIdx > 4){
+                piece = new Piece(Piece.Color.WHITE, Piece.Type.SINGLE);
                 this.spaceState = SpaceState.OCCUPIED;
             }else{
                 this.spaceState = SpaceState.OPEN;
@@ -54,10 +51,6 @@ public class Space {
 
     public SpaceState getSpaceState() {
         return spaceState;
-    }
-
-    public Position getPosition() {
-        return position;
     }
 
     /**
@@ -84,7 +77,7 @@ public class Space {
      * @return true if piece is in the right starting place, false otherwise
      */
     public boolean isValid(){
-        return (rowIdx + cellIdx) % 2 != 0 && spaceState != SpaceState.OCCUPIED;
+        return (rowIdx + cellIdx) % 2 != 0;
     }
 
     /**
@@ -101,28 +94,5 @@ public class Space {
         return "Space{" +
                 "cellIdx=" + cellIdx +
                 '}';
-    }
-
-    public void setPiece(Piece piece) {
-        this.piece = piece;
-        this.spaceState = SpaceState.OCCUPIED;
-    }
-
-    public void removePiece() {
-        this.spaceState = SpaceState.OPEN;
-        this.piece = null;
-    }
-
-    public boolean isOccupied() {
-        return this.spaceState == SpaceState.OCCUPIED;
-    }
-
-
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Space))
-            return false;
-        Space newSpace = (Space)obj;
-        return newSpace.spaceState == this.spaceState &&
-                ((this.piece == null && newSpace.getPiece() == null) || this.piece.equals(newSpace.piece));
     }
 }

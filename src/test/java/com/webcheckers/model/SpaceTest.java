@@ -3,8 +3,6 @@ package com.webcheckers.model;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.util.Iterator;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("Model-tier")
@@ -42,40 +40,22 @@ class SpaceTest {
     }
 
     @Test
-    void ctor_create_board(){
-        BoardView boardView = new BoardView(new Board());
-
-        // check if board was created properly
-        Iterator iterator = boardView.getRowArrayList().iterator();
-        Row row;
-        Space space;
-        while(iterator.hasNext()){
-            row = (Row) iterator.next();
-            Iterator iterator1 = row.getSpaceArrayList().iterator();
-            while(iterator1.hasNext()){
-                space = (Space) iterator1.next();
-                if((space.getPosition().getRow()+space.getPosition().getColumn())%2 == 0){
-                    assertEquals(space.getSpaceState(), Space.SpaceState.INVALID);
-                }
-            }
-
-        }
-
+    void getCellIdx() {
     }
 
     @Test
-    void is_occupied(){
-        Space space = new Space(0,1);
-        space.setPiece(new Single(Piece.Color.RED));
-        assertTrue(space.isOccupied());
+    void getRowIdx() {
     }
 
     @Test
-    void not_occupied(){
-        Space space = new Space(0,1);
-        space.removePiece();
-        assertFalse(space.isOccupied());
+    void isValid() {
     }
 
+    @Test
+    void getPiece() {
+    }
 
+    @Test
+    void testToString() {
+    }
 }
