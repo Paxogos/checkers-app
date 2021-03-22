@@ -109,9 +109,9 @@ public class GetGameRoute implements Route {
 
 
             if(currentUser == currentGame.getRedPlayer()){
-                boardview = gameCenter.getBoardForRed(currentGame);
+                boardview = currentGame.getBoard().getBoardViewForRed();
             }else{
-                boardview = gameCenter.getBoardForWhite(currentGame);
+                boardview = currentGame.getBoard().getBoardViewForWhite();
             }
             vm.put(BOARD_ATTR, boardview);
 
@@ -130,7 +130,7 @@ public class GetGameRoute implements Route {
             vm.put(RED_PLAYER_ATTR, currentUser);
             vm.put(WHITE_PLAYER_ATTR, opponent);
             vm.put(ACTIVE_COLOR_ATTR, Piece.Color.RED);
-            vm.put(BOARD_ATTR, gameCenter.getBoardForRed(currentGame));
+            vm.put(BOARD_ATTR, currentGame.getBoard().getBoardViewForRed());
         }
 
         httpSession.attribute(GAME_ATTR, currentGame);
