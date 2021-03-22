@@ -35,21 +35,24 @@ public class GameCenterTest {
     @Test
     public void testGameDoesNotExist() {
         GameCenter testGC = new GameCenter();
-        assertFalse(testGC.gameExists(RED_PLAYER, WHITE_PLAYER));
+        assertFalse(testGC.gameExists(RED_PLAYER, WHITE_PLAYER),
+                "Detected a game when there shouldn't be one");
     }
 
     @Test
     public void testGameDoesExist_RegularArgs() {
         GameCenter testGC = new GameCenter();
         testGC.getGame(RED_PLAYER, WHITE_PLAYER);
-        assertTrue(testGC.gameExists(RED_PLAYER, WHITE_PLAYER));
+        assertTrue(testGC.gameExists(RED_PLAYER, WHITE_PLAYER),
+                "Game should exist between Red and White");
     }
 
     @Test
     public void testGameDoesExist_ReversedArgs() {
         GameCenter testGC = new GameCenter();
-        testGC.getGame(WHITE_PLAYER, RED_PLAYER);
-        assertTrue(testGC.gameExists(WHITE_PLAYER, RED_PLAYER));
+        testGC.getGame(RED_PLAYER, WHITE_PLAYER);
+        assertTrue(testGC.gameExists(WHITE_PLAYER, RED_PLAYER),
+                    "Game should exist between White and Red");
     }
 
     @Test
@@ -57,8 +60,12 @@ public class GameCenterTest {
         GameCenter testGC = new GameCenter();
         testGC.getGame(RED_PLAYER, WHITE_PLAYER);
 
-        assertEquals(WHITE_PLAYER, testGC.getCurrentOpponent(RED_PLAYER));
-        assertEquals(RED_PLAYER, testGC.getCurrentOpponent(WHITE_PLAYER));
+        assertEquals(WHITE_PLAYER, testGC.getCurrentOpponent(RED_PLAYER),
+                WHITE_PLAYER.getName() + "'s opponent was supposed to be " + RED_PLAYER.getName() +
+                        ", but was " +testGC.getCurrentOpponent(RED_PLAYER));
+        assertEquals(RED_PLAYER, testGC.getCurrentOpponent(WHITE_PLAYER),
+                RED_PLAYER.getName() + "'s opponent was supposed to be " + WHITE_PLAYER.getName() +
+                        ", but was " +testGC.getCurrentOpponent(WHITE_PLAYER));
     }
 
     @Test
