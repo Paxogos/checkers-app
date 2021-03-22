@@ -116,4 +116,13 @@ public class Space {
     public boolean isOccupied() {
         return this.spaceState == SpaceState.OCCUPIED;
     }
+
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Space))
+            return false;
+        Space newSpace = (Space)obj;
+        return newSpace.spaceState == this.spaceState &&
+                ((this.piece == null && newSpace.getPiece() == null) || this.piece.equals(newSpace.piece));
+    }
 }

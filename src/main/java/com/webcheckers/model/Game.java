@@ -109,4 +109,13 @@ public class Game {
         }
     }
 
+    public boolean equals(Object object) {
+        if (!(object instanceof Game))
+            return false;
+        Game game = (Game)object;
+        return game.getRedPlayer().equals(redPlayer) &&
+                game.getWhitePlayer().equals(whitePlayer) &&
+                game.getBoard().equals(board);
+    }
+
 }

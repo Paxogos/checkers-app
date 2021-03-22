@@ -51,4 +51,18 @@ public class Board {
         rotatedBoard.rotate();
         return rotatedBoard;
     }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Board))
+            return false;
+        Board newBoard = (Board) obj;
+        for (int row = 0; row < GRID_LENGTH; row++) {
+            for (int cell = 0; cell < GRID_LENGTH; cell++) {
+                Position getCell = new Position(row, cell);
+                if (!newBoard.getSpace(getCell).equals(this.getSpace(getCell)))
+                    return false;
+            }
+        }
+        return true;
+    }
 }

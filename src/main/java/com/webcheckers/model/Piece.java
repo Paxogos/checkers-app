@@ -63,4 +63,10 @@ public abstract class Piece {
     public Type getType() { return this.type; }
 
     public abstract MoveResult makeMove(Move move, Board board);
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Piece))
+            return false;
+        return ((Piece) obj).getType() == this.type && ((Piece) obj).getColor() == this.color;
+    }
 }
