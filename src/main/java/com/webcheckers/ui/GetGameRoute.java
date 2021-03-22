@@ -1,9 +1,6 @@
 package com.webcheckers.ui;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
@@ -74,7 +71,7 @@ public class GetGameRoute implements Route {
     @Override
     public String handle(Request request, Response response) {
 
-        // retrieve the game object and start one if no game is in progress
+
         final Session httpSession = request.session();
         if(httpSession.attribute(PLAYER_ATTR) == null){
             response.redirect(WebServer.HOME_URL);
@@ -86,7 +83,8 @@ public class GetGameRoute implements Route {
         Player opponent = gameCenter.getCurrentOpponent(currentUser);
 
         // If the currentUser does not have an existing game and there is not opponent in params, return to HOME_URL
-        Iterator<String> paramIterator = request.queryParams().iterator();
+        Set<String> params = request.queryParams();
+        Iterator<String> paramIterator = params.iterator();
         if(opponent == null && !paramIterator.hasNext()){
             response.redirect(WebServer.HOME_URL);
             halt();

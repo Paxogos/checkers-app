@@ -54,7 +54,7 @@ class SpaceTest {
             Iterator iterator1 = row.getSpaceArrayList().iterator();
             while(iterator1.hasNext()){
                 space = (Space) iterator1.next();
-                if((space.getPosition().getRow()+space.getPosition().getColumn())%2 == 0){
+                if((space.getPosition().getRow()+space.getPosition().getCell())%2 == 0){
                     assertEquals(space.getSpaceState(), Space.SpaceState.INVALID);
                 }
             }
