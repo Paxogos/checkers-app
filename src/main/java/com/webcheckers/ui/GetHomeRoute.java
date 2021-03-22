@@ -92,7 +92,7 @@ public class GetHomeRoute implements Route {
     vm.put(TITLE_ATTR, TITLE);
 
     // display a user message in the Home page
-    vm.put("message", WELCOME_MSG);
+    vm.put(WELCOME_MSG_ATTR, WELCOME_MSG);
 
     vm.put(PLAYER_ATTR, currentUser);
 
