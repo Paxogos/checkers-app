@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 @Tag("UI-tier")
 class GetGameRouteTest {
 
-    private GetGameRoute CuT;
+    /*private GetGameRoute CuT;
 
     private Request request;
     private Session session;
@@ -58,12 +58,12 @@ class GetGameRouteTest {
     @Test
     public void new_game() {
 
- /*       HashSet<String> set = new HashSet<>();
+ *//*       HashSet<String> set = new HashSet<>();
         set.add("TestOpponent1");
         request.attribute();
         request.params("TestOpponent1");
         params = mock(Set.class);
-        params.add("TestOpponent1");*/
+        params.add("TestOpponent1");*//*
 
 
         final TemplateEngineTester testHelper = new TemplateEngineTester();
@@ -81,5 +81,5 @@ class GetGameRouteTest {
         //   * test view name
         testHelper.assertViewName(GetGameRoute.VIEW_NAME);
     }
-
+*/
 }
