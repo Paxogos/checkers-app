@@ -11,8 +11,6 @@ import java.util.HashMap;
 
 public class GameCenterTest {
 
-    private GameCenter GAME_CENTER = new GameCenter();
-
     String RED_PLAYER_NAME = "redPlayer";
     String WHITE_PLAYER_NAME = "whitePlayer";
 

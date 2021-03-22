@@ -2,8 +2,6 @@ package com.webcheckers.model;
 import com.webcheckers.util.Position;
 import com.webcheckers.model.Piece.Color;
 
-import java.util.HashSet;
-
 public class Game {
 
     /**
@@ -14,9 +12,9 @@ public class Game {
      * the user can make and updates the board.
      *
      */
-    private Board board;
-    private Player redPlayer;
-    private Player whitePlayer;
+    private final Board board;
+    private final Player redPlayer;
+    private final Player whitePlayer;
     private Color activeColor = Color.RED;
 
     // Ints for checking how many pieces are left
@@ -64,6 +62,7 @@ public class Game {
         if (movingPiece == null || movingPiece.getColor() != activeColor)
             return MoveResult.INVALID;
 
+        // Uses the piece's logic to determine if the move is valid
         MoveResult result = movingPiece.makeMove(move, this.board);
 
         if (result == MoveResult.SIMPLE_MOVE) {
@@ -82,12 +81,13 @@ public class Game {
                 numRedPieces--;
 
         }
-
-        // Uses the piece's logic to determine if the move is valid
         return result;
 
     }
 
+    public int getNumRedPieces() { return numRedPieces; }
+
+    public int getNumWhitePieces() { return numWhitePieces; }
 
     /**
      * Checks if the game is over
@@ -113,6 +113,7 @@ public class Game {
      * A private helper method to add all pieces to the
      * appropriate HashSet of pieces
      */
+
     private void addPiecesToGame() {
 
         for (int row = 0; row < Board.GRID_LENGTH; row++) {
@@ -130,6 +131,7 @@ public class Game {
 
             }
         }
+        System.out.println("Number of Red Pieces: " + numRedPieces + "\nNumber of White Pieces: " + numWhitePieces);
     }
 
     public boolean equals(Object object) {
