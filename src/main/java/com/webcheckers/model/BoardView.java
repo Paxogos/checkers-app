@@ -11,17 +11,33 @@ import java.util.Iterator;
 public class BoardView implements Iterable<Row>{
 
     public static int GRID_LENGTH = 8;
-    private ArrayList<Row> rowArrayList = new ArrayList<>();
+    private ArrayList<Row> rowArrayList;
+
+
+    public BoardView() {
+        this.rowArrayList = new ArrayList<>();
+        for (int row = 0; row < GRID_LENGTH; row++)
+            this.rowArrayList.add(new Row(row));
+    }
 
     /**
-     * Instantiates a new BoardView/game.
+     * BoardView constructor
      *
+     * @param board     the board with spaces to be copied
      */
-    public BoardView() {
-        for (int i = 0; i < 8; i++) {
-            rowArrayList.add(new Row(i));
+    public BoardView(Board board) {
+        this.rowArrayList = new ArrayList<>();
+        for (int row = 0; row < GRID_LENGTH; row++) {
+            ArrayList<Space> spaceList = new ArrayList<>();
+
+            for (int cell = 0; cell < GRID_LENGTH; cell++) {
+                Position spacePos = new Position(row, cell);
+                spaceList.add(board.getSpace(spacePos));
+            }
+            this.rowArrayList.add(new Row(row, spaceList));
         }
     }
+
 
     @Override
     public Iterator<Row> iterator() {
@@ -51,18 +67,19 @@ public class BoardView implements Iterable<Row>{
     /**
      * Rotates board view 180 degrees.
      *
-     * @return a new board view that is rotated
+     * @return a new BoardView that is rotated
      */
     public BoardView rotate(){
+
         BoardView newBoard = this;
         ArrayList<Row> newRows = new ArrayList<>();
         Row tempRow;
         ArrayList<Space> spaceArrayList;
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < GRID_LENGTH; i++) {
             tempRow = new Row(i);
             spaceArrayList = new ArrayList<>();
-            for (int j = 7; j >= 0 ; j--) {
-                spaceArrayList.add(this.getRowArrayList().get(7-i).getSpaceArrayList().get(j));
+            for (int j = GRID_LENGTH - 1; j >= 0 ; j--) {
+                spaceArrayList.add(this.getRowArrayList().get(GRID_LENGTH-1-i).getSpaceArrayList().get(j));
             }
             tempRow.setSpaceArrayList(spaceArrayList);
             newRows.add(tempRow);
@@ -71,7 +88,20 @@ public class BoardView implements Iterable<Row>{
         return newBoard;
     }
 
-    public Space getSpace(int row, int cell) {
-        return this.getRowArrayList().get(row).getSpaceArrayList().get(cell);
+    public boolean equals(Object obj) {
+        if (!(obj instanceof BoardView))
+            return false;
+        BoardView newBoard = (BoardView)obj;
+
+        for (int row = 0; row < GRID_LENGTH; row++) {
+            for (int cell = 0; cell < GRID_LENGTH; cell++) {
+                if (this.rowArrayList.get(row).getSpaceArrayList().get(cell).equals(newBoard.getRowArrayList().get(row).getSpaceArrayList().get(cell)))
+                    return false;
+            }
+        }
+
+        return true;
+
     }
+
 }

@@ -7,7 +7,6 @@ public class Move {
     private Position start;
     private Position end;
 
-    private Player player;
 
     public Move(Position start, Position end) {
         this.start = start;
@@ -23,6 +22,11 @@ public class Move {
         return this.end;
     }
 
+    public Position midpoint() {
+        return new Position((end.getRow()-start.getRow())/2 + start.getRow(),
+                (end.getCell()-start.getCell())/2 + start.getCell());
+    }
+
     /**
      * Return a move that is the reverse of this one
      *
@@ -30,5 +34,9 @@ public class Move {
      */
     public Move reverse() {
         return new Move(this.end, this.start);
+    }
+
+    public String toString() {
+        return "[" + start.getRow() + ", " + start.getCell() + "] -> [" + end.getRow() + ", " + end.getCell() + "]";
     }
 }

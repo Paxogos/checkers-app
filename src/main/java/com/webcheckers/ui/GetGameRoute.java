@@ -7,10 +7,7 @@ import java.util.Objects;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.BoardView;
-import com.webcheckers.model.Game;
-import com.webcheckers.model.Piece;
-import com.webcheckers.model.Player;
+import com.webcheckers.model.*;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -42,6 +39,7 @@ public class GetGameRoute implements Route {
     static final String BOARD_ATTR = "board";
     static final String PLAYER_ATTR = "currentUser";
 
+    static final String GAME_ATTR = "currentGame";
 
 
     static String TITLE = "Game";
@@ -49,8 +47,6 @@ public class GetGameRoute implements Route {
     static String GAME_ID = "12345";
     static String VIEW_MODE = "PLAY";
     static String MODE_OPTIONS = "{}";
-
-    private BoardView BOARD;
 
     private PlayerLobby playerLobby;
     private GameCenter gameCenter;
@@ -80,61 +76,75 @@ public class GetGameRoute implements Route {
 
         // retrieve the game object and start one if no game is in progress
         final Session httpSession = request.session();
-        Player opponent;
+        if(httpSession.attribute(PLAYER_ATTR) == null){
+            response.redirect(WebServer.HOME_URL);
+            halt();
+            return null;
+        }
+
         Player currentUser = httpSession.attribute(PLAYER_ATTR);
-        System.out.println("Current User: " + currentUser.getName());
+        Player opponent = gameCenter.getCurrentOpponent(currentUser);
+
+        // If the currentUser does not have an existing game and there is not opponent in params, return to HOME_URL
+        Iterator<String> paramIterator = request.queryParams().iterator();
+        if(opponent == null && !paramIterator.hasNext()){
+            response.redirect(WebServer.HOME_URL);
+            halt();
+            return null;
+        }
+
+
+
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
+        Game currentGame;
+        BoardView boardview;
 
-        Iterator<String> paramIterator = request.queryParams().iterator();
-        if (paramIterator.hasNext()) {
+        // game exists, retrieve game and render FTL accordingly
+        if(opponent != null){
+            currentGame = gameCenter.getGame(currentUser,opponent);
+            vm.put(RED_PLAYER_ATTR,currentGame.getRedPlayer());
+            vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
+            vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
+
+
+            if(currentUser == currentGame.getRedPlayer()){
+                boardview = currentGame.getBoard().getBoardViewForRed();
+            }else{
+                boardview = currentGame.getBoard().getBoardViewForWhite();
+            }
+            vm.put(BOARD_ATTR, boardview);
+
+
+        }else{ // create a new game, currentUser must be red
             opponent = playerLobby.getPlayer(paramIterator.next());
-            //!!! Test !!!
-            System.out.println("Opponent found: " + opponent.getName());
 
-            if (playerLobby.isPlayerInGame(opponent) && !gameCenter.gameExists(currentUser, opponent)) {
-                System.out.println("Says opponent is busy, and no game exists.");
+            // if the selected opponent is already in a game
+            if (playerLobby.isPlayerInGame(opponent)) {
                 response.redirect("/");
                 halt();
                 return null;
             }
 
-
-            Game currentGame = gameCenter.getGame(currentUser, opponent);
-
-            if (currentUser.getName().equals(currentGame.getRedPlayer().getName())) {
-                System.out.println("New Game - Red Player: " + currentUser.getName());
-                vm.put(RED_PLAYER_ATTR, currentUser);
-                vm.put(WHITE_PLAYER_ATTR, opponent);
-                BOARD = gameCenter.getBoardForRed(currentGame);
-            } else {
-                System.out.println("New Game - Red Player: " + opponent.getName());
-                vm.put(RED_PLAYER_ATTR, opponent);
-                vm.put(WHITE_PLAYER_ATTR, currentUser);
-                BOARD = gameCenter.getBoardForWhite(currentGame);
-            }
-            playerLobby.setPlayerBusy(currentUser);
-            playerLobby.setPlayerBusy(opponent);
-
-            vm.put(TITLE_ATTR, TITLE);
-            vm.put(CURRENT_USER_ATTR, currentUser);
-            vm.put(VIEW_MODE_ATTR, VIEW_MODE);
-            vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
-            vm.put(GAME_ID_ATTR, GAME_ID);
-            vm.put(ACTIVE_COLOR_ATTR, "RED");
-            vm.put(BOARD_ATTR, BOARD);
-
-            System.out.println("Returning boardView");
-            return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
-
+            currentGame = gameCenter.getGame(currentUser, opponent);
+            vm.put(RED_PLAYER_ATTR, currentUser);
+            vm.put(WHITE_PLAYER_ATTR, opponent);
+            vm.put(ACTIVE_COLOR_ATTR, Piece.Color.RED);
+            vm.put(BOARD_ATTR, currentGame.getBoard().getBoardViewForRed());
         }
 
-        else {
-            System.out.println("Redirecting from Game to Home");
-            response.redirect(WebServer.HOME_URL);
-            halt();
-            return null;
-        }
+        httpSession.attribute(GAME_ATTR, currentGame);
+        playerLobby.setPlayerBusy(currentUser);
+        playerLobby.setPlayerBusy(opponent);
+
+        vm.put(TITLE_ATTR, TITLE);
+        vm.put(CURRENT_USER_ATTR, currentUser);
+        vm.put(VIEW_MODE_ATTR, VIEW_MODE);
+        vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
+        vm.put(GAME_ID_ATTR, GAME_ID);
+
+        return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
+
     }
 
 }
