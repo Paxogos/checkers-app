@@ -183,13 +183,7 @@ public class WebServer {
 
     //
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby, templateEngine));
-
-    //
-    post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson));
-
     LOG.config("WebServer is initialized.");
-
-
   }
 
 }

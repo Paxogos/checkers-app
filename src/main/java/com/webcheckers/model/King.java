@@ -14,11 +14,5 @@ public class King extends Piece{
         super(color, KING);
     }
 
-    @Override
-    public Game.MoveResult makeMove(Move move, Board board) {
-        //TODO
-        return Game.MoveResult.INVALID;
-    }
-
 
 }

@@ -3,20 +3,16 @@ package com.webcheckers.util;
 public class Position {
     //attributes
     private int row;
-    private int cell;
+    private int column;
 
-    public Position(int row, int cell) {
+    public Position(int row, int column) {
         this.row = row;
-        this.cell = cell;
+        this.column = column;
     }
     public int getRow() {
         return row;
     }
-    public int getCell() {
-        return cell;
-    }
-
-    public String toString() {
-        return "[" + row + ", " + cell + "]";
+    public int getColumn() {
+        return column;
     }
 }

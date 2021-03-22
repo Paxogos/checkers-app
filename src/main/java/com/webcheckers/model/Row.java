@@ -2,7 +2,6 @@ package com.webcheckers.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * The type Row.
@@ -10,7 +9,7 @@ import java.util.List;
 public class Row implements Iterable<Space>  {
 
     //attributes
-    private final int index; // must be 0 to 7
+    private int index; // must be 0 to 7
     private ArrayList<Space> spaceArrayList = new ArrayList<>();
 
     /**
@@ -22,19 +21,6 @@ public class Row implements Iterable<Space>  {
         this.index = index;
         for (int i = 0; i < 8; i++) {
             spaceArrayList.add(new Space(index,i));
-        }
-    }
-
-    /**
-     * Alternate Row constructor for making specific Rows
-     *
-     * @param index         the index
-     * @param spaceList     list of Space objects to add to the Row
-     */
-    public Row(int index, List<Space> spaceList) {
-        this.index = index;
-        for (int cell = 0; cell < BoardView.GRID_LENGTH; cell++) {
-            spaceArrayList.add(spaceList.get(cell));
         }
     }
 

@@ -1,11 +1,10 @@
 package com.webcheckers.model;
-import com.webcheckers.model.Game.MoveResult;
 
 /**
  * Piece represents one checker on the board, which is used to play the game of checkers
  * @version 1.0
  */
-public abstract class Piece {
+public class Piece {
 
     /**
      * The enum Color represents the team the piece is on
@@ -33,7 +32,7 @@ public abstract class Piece {
      *
      * @return true if Piece is type King, false otherwise
      */
-    public boolean isKing() { return this instanceof King;
+    public boolean isKing() { return this.type == Type.KING;
     }
 
     /**
@@ -42,7 +41,7 @@ public abstract class Piece {
      * @return true if Piece is type Single, false otherwise
      */
     public boolean isSingle() {
-        return this instanceof Single;
+        return this.type == Type.SINGLE;
     }
 
 
@@ -62,11 +61,12 @@ public abstract class Piece {
      */
     public Type getType() { return this.type; }
 
-    public abstract MoveResult makeMove(Move move, Board board);
-
-    public boolean equals(Object obj) {
-        if (!(obj instanceof Piece))
-            return false;
-        return ((Piece) obj).getType() == this.type && ((Piece) obj).getColor() == this.color;
+    /**
+     * Returns a toString of the stats of piece, used for unit testing in PieceTest
+     *
+     * @return A String that represents the state of Piece, which states the color and type of piece
+     */
+    public String toString() {
+        return "Piece: {" + this.color + ", " + this.type + "}";
     }
 }
