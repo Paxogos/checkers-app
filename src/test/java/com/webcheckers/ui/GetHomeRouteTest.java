@@ -58,7 +58,7 @@ public class GetHomeRouteTest {
 
     @Test
     public void old_session() {
-        when(session.attribute(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)).thenReturn(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)));
+        //when(session.attribute(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)).thenReturn(gameCenter.getCurrentOpponent(GetHomeRoute.PLAYER_ATTR)));
 
 
         //Invoke test
