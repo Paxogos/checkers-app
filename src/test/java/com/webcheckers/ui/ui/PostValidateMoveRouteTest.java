@@ -1,4 +1,4 @@
-package com.webcheckers.ui;
+package com.webcheckers.ui.ui;
 
 import com.google.gson.Gson;
 import com.webcheckers.ui.PostValidateMoveRoute;

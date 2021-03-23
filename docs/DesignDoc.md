@@ -3,6 +3,11 @@ geometry: margin=1in
 ---
 # PROJECT Design Documentation
 
+> _The following template provides the headings for your Design
+> Documentation.  As you edit each section make sure you remove these
+> commentary 'blockquotes'; the lines that start with a > character
+> and appear in the generated PDF in italics._
+
 ## Team Information
 * Team name: D_Team
 * Team members
@@ -13,12 +18,11 @@ geometry: margin=1in
 
 ## Executive Summary
 
-This web application is designed with the purpose of allowing users to play online checkers against other users. Users who connect are required to sign in, which simply requires the user to provide a valid username. Once signed in users are presented with a list of other users currently signed in, clicking another user's name will start a game if they are available. Users are presetned with a drag and drop checkers board until they have completed the game and returned to the home page. 
-
+This is a summary of the project.
 
 ### Purpose
-
-To allow users to play a game of drag and drop checkers against other users across the internet.
+> _Provide a very brief statement about the project and the most
+> important user group and user goals._
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -26,8 +30,6 @@ To allow users to play a game of drag and drop checkers against other users acro
 | Term | Definition |
 |------|------------|
 | VO | Value Object |
-| Position| A coordinate representation of the spaces on a checker board (row,column)|
-
 
 
 ## Requirements
@@ -41,69 +43,22 @@ This section describes the features of the application.
 ### Definition of MVP
 > _Provide a simple description of the Minimum Viable Product._
 
-Two players must be able to sign in and play a game of checkers based upon the American rules. The game ends when either one player wins or one of the player resigns.
-
 ### MVP Features
 > _Provide a list of top-level Epics and/or Stories of the MVP._
 
-###### Start A Game
-As a Player I want to start a game so that I can play checkers with an opponent.
-###### Player Sign-In
-As a Player I want to sign-in so that I can play a game of checkers.
-###### Player Sign-Out
-As a Player I want to sign-out so that I can stop playing.
-###### King Me
-As a Player I want my pieces to be kinged when they reach the end of the board so that my checker can move/jump forward or backwards.
-##### Epic: Movement
-As a Player I want to move my pieces so that I can play a game of checkers.
-###### Simple Move
-As a Player I want to move my pieces to vacant locations so that I can play checkers.
-###### Jump Move
-As a Player I want to jump my opponent’s pieces to capture them so that I can win.
-###### Multiple Jump
-As a Player I want to continue jumping my opponent’s pieces if possible so that I can win.
-###### Jump Move
-As a Player I want to jump my opponent’s pieces to capture them so that I can win.
-##### Epic: End Game
-As a Player I want to end the game so that I can do other actions.
-###### Victory
-As a Player I want the game to end when I have won or lost so that I decide what to do after.
-###### Resignation
-As a Player I want to be able to resign at any point during a game so that I can quit or start another.
-
-
-
-
 ### Roadmap of Enhancements
 > _Provide a list of top-level features in the order you plan to consider them._
-
-#### Epic: Multi-Game Interface
-The player should be equipped with an interface which can display multiple games.
-###### Add Game
-As the player I want another game displayed when asked to play another game.
-###### Rematch
-As a player I want to offer a rematch after a game so that I can play again.
-#### Epic: AI-Logic
-The AI must be able to complete a game of checkers comparable to a human.
-###### Where To Move
-As a player I want the AI to have an idea of where it is in relation to the board and pieces.
-###### Fight Or Flight
-As an AI I want to know when to capture opponents’ pieces or move someplace else.
-
-
 
 
 ## Application Domain
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](Team Domain Diagram-1.png)
+![The WebCheckers Domain Model](domain-model-placeholder.png)
 
 > _Provide a high-level overview of the domain for this application. You
 > can discuss the more important domain entities and their relationship
 > to each other._
-
-Two players play in a game, each game consists of one board with 8x8 spaces. Pieces are set up on this board according to the American rules for checkers.
 
 
 ## Architecture and Design
@@ -132,12 +87,10 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](Sprint 1 State Diagram-1.png)
+![The WebCheckers Web Interface Statechart](web-interface-placeholder.png)
 
 > _Provide a summary of the application's user interface.  Describe, from
 > the user's perspective, the flow of the pages in the web application._
-
-When a user connects they will be directed to the home page where there only option will be to click the "sign-in" button. This will take the user to the sign in page where the user is required to enter a valid username. Once a valid username is entered the user is taken back to the home page and presented with a list of online players. Clicking the name of an online player will take the user to the game page where they will play out their game of checkers until completion. Once completed, the user will be directed back to home. 
 
 
 ### UI Tier
@@ -163,22 +116,17 @@ When a user connects they will be directed to the home page where there only opt
 > separate section for describing significant features. Place this after
 > you describe the design of the three tiers._
 
-![The UI's class diagram'](ui_UML.png)
 
 ### Application Tier
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._
 
-![The Application's class diagram'](application.png)
-
 
 ### Model Tier
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._
-
-![The Model's class diagram'](model_UML2.png)
 
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
@@ -194,16 +142,12 @@ When a user connects they will be directed to the home page where there only opt
 > _This section will provide information about the testing performed
 > and the results of the testing._
 
-
-
 ### Acceptance Testing
 > _Report on the number of user stories that have passed all their
 > acceptance criteria tests, the number that have some acceptance
 > criteria tests failing, and the number of user stories that
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
-
-Currently the only user story to have completed acceptance testing is "Sign-In"
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage

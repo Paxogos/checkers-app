@@ -43,7 +43,7 @@ class SpaceTest {
 
     @Test
     void ctor_create_board(){
-        BoardView boardView = new BoardView(new Board());
+        BoardView boardView = new BoardView();
 
         // check if board was created properly
         Iterator iterator = boardView.getRowArrayList().iterator();
@@ -54,7 +54,7 @@ class SpaceTest {
             Iterator iterator1 = row.getSpaceArrayList().iterator();
             while(iterator1.hasNext()){
                 space = (Space) iterator1.next();
-                if((space.getPosition().getRow()+space.getPosition().getCell())%2 == 0){
+                if((space.getRowIdx()+space.getCellIdx())%2 == 0){
                     assertEquals(space.getSpaceState(), Space.SpaceState.INVALID);
                 }
             }
@@ -64,18 +64,26 @@ class SpaceTest {
     }
 
     @Test
-    void is_occupied(){
-        Space space = new Space(0,1);
-        space.setPiece(new Single(Piece.Color.RED));
-        assertTrue(space.isOccupied());
+    void getSpaceState(){
     }
 
     @Test
-    void not_occupied(){
-        Space space = new Space(0,1);
-        space.removePiece();
-        assertFalse(space.isOccupied());
+    void getCellIdx() {
     }
 
+    @Test
+    void getRowIdx() {
+    }
 
+    @Test
+    void isValid() {
+    }
+
+    @Test
+    void getPiece() {
+    }
+
+    @Test
+    void testToString() {
+    }
 }
