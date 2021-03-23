@@ -45,6 +45,9 @@ public class Game {
 
     public Board getBoard() { return this.board; }
 
+    public Color getActiveColor() {
+        return activeColor;
+    }
 
     /**
      * Perform the given move if it is valid
@@ -127,6 +130,14 @@ public class Game {
 
             }
         }
+    }
+
+    public int getNumWhitePieces() {
+        return numWhitePieces;
+    }
+
+    public int getNumRedPieces() {
+        return numRedPieces;
     }
 
     public boolean equals(Object object) {
