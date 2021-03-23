@@ -45,6 +45,9 @@ public class Game {
 
     public Board getBoard() { return this.board; }
 
+    public Color getActiveColor() {
+        return activeColor;
+    }
 
     /**
      * Perform the given move if it is valid
