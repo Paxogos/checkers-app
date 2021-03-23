@@ -69,4 +69,9 @@ public abstract class Piece {
             return false;
         return ((Piece) obj).getType() == this.type && ((Piece) obj).getColor() == this.color;
     }
+
+    //toString used for unit testing
+    public String toString() {
+        return "Piece: {" + this.color + ", " + this.type + "}";
+    }
 }
