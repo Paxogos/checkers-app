@@ -132,6 +132,14 @@ public class Game {
         }
     }
 
+    public int getNumWhitePieces() {
+        return numWhitePieces;
+    }
+
+    public int getNumRedPieces() {
+        return numRedPieces;
+    }
+
     public boolean equals(Object object) {
         if (!(object instanceof Game))
             return false;
