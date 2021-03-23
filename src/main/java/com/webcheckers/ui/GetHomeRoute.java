@@ -20,14 +20,20 @@ import com.webcheckers.util.Message;
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
-  public static final String PLAYER_ATTR = "currentUser";
-  public static final String AVAILABLE_PLAYER_LIST_ATTR = "availablePlayerList";
-  public static final String BUSY_PLAYER_LIST_ATTR = "busyPlayerList";
-  public static final String LOBBY_SIZE_ATTR = "lobbySize";
+  //values used in the view-model map for rendering home view
+  static final String TITLE_ATTR = "title";
+  static final String WELCOME_MSG_ATTR = "message";
+  static final String AVAILABLE_PLAYER_LIST_ATTR = "availablePlayerList";
+  static final String PLAYER_ATTR = "currentUser";
+  static final String BUSY_PLAYER_LIST_ATTR = "busyPlayerList";
+  static final String LOBBY_SIZE_ATTR = "lobbySize";
+  static final String TITLE = "Welcome to Webcheckers!";
+  static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+  static final String VIEW_NAME = "home.ftl";
 
-  private final TemplateEngine templateEngine;
+  //Attributes
   private final PlayerLobby playerLobby;
+  private final TemplateEngine templateEngine;
   private final GameCenter gameCenter;
 
 
@@ -83,10 +89,10 @@ public class GetHomeRoute implements Route {
    */
   public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby) {
     Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
+    vm.put(TITLE_ATTR, TITLE);
 
     // display a user message in the Home page
-    vm.put("message", WELCOME_MSG);
+    vm.put(WELCOME_MSG_ATTR, WELCOME_MSG);
 
     vm.put(PLAYER_ATTR, currentUser);
 
@@ -98,6 +104,6 @@ public class GetHomeRoute implements Route {
       vm.put(BUSY_PLAYER_LIST_ATTR, playerLobby.getBusyPlayers(currentUser.getName()));
     }
 
-    return new ModelAndView(vm, "home.ftl");
+    return new ModelAndView(vm, VIEW_NAME);
   }
 }
