@@ -4,6 +4,13 @@ import com.webcheckers.util.Position;
 
 public class Board {
 
+    /**
+     * The Board Class: used for representing the spaces and pieces currently
+     * of the game.
+     *
+     * @author Tyler Talarico, aka T3-P0
+     */
+
     public final static int GRID_LENGTH = 8;
     private Space[][] board = new Space[GRID_LENGTH][GRID_LENGTH];
 
