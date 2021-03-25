@@ -52,6 +52,8 @@ public class Player {
         return this.name.hashCode();
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Player: " + name;
+    }
 }

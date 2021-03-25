@@ -33,7 +33,8 @@ public class Single extends Piece{
         else if (board.getSpace(move.end()).isOccupied())
             return Game.MoveResult.OCCUPIED;
 
-        else if (deltaY == 1 && Math.abs(deltaX) == 1)
+        else if ((deltaY == 1 && Math.abs(deltaX) == 1 && movingPiece.getColor() == Color.RED) ||
+                (deltaY == -1 && Math.abs(deltaX) == 1 && movingPiece.getColor() == Color.WHITE))
             return Game.MoveResult.SIMPLE_MOVE;
 
         else if (!(deltaY == 1 && Math.abs(deltaX) == 1))
