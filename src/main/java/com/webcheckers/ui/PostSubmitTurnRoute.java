@@ -33,7 +33,7 @@ public class PostSubmitTurnRoute implements Route {
             System.out.println(JSONasString);
 
             currentGame.toggleActivePlayer();
-
+            currentGame.completeTurn();
 
         }
 

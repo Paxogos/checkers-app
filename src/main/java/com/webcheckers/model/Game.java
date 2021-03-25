@@ -3,6 +3,8 @@ package com.webcheckers.model;
 import com.webcheckers.util.Position;
 import com.webcheckers.model.Piece.Color;
 
+import java.util.HashSet;
+
 public class Game {
 
     /**
@@ -16,6 +18,7 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
     private Color activeColor = Color.RED;
+    private Turn currentTurn;
 
     // Ints for checking how many pieces are left
     private int numWhitePieces = 0;
@@ -90,6 +93,10 @@ public class Game {
 
         MoveResult result = movingPiece.makeMove(move, this.board);
 
+        if(result != MoveResult.INVALID){
+            currentTurn.addMove(move);
+        }
+
         if (result == MoveResult.SIMPLE_MOVE) {
             this.board.setSpaceToPiece(move.end(), movingPiece);
             this.board.removePieceAt(move.start());
@@ -108,6 +115,10 @@ public class Game {
         // Uses the piece's logic to determine if the move is valid
         return result;
 
+    }
+
+    public void completeTurn(){
+        currentTurn = new Turn();
     }
 
 
