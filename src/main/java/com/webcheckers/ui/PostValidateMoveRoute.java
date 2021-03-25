@@ -45,6 +45,14 @@ public class PostValidateMoveRoute implements Route {
             Message returnMessage;
             switch (result) {
 
+                case NON_CONTINUOUS:
+                    returnMessage = Message.error("Can only move one piece during your turn.");
+                    break;
+
+                case SIMPLE_MOVES_EXCEEDED:
+                    returnMessage = Message.error("Cannot make more than one simple move per turn.");
+                    break;
+
                 case SIMPLE_MOVE:
                     returnMessage = Message.info("Piece moved from " + attemptedMove.start() + " to " + attemptedMove.end());
                     break;

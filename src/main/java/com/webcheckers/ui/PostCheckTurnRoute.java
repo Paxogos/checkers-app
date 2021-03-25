@@ -35,9 +35,9 @@ public class PostCheckTurnRoute implements Route {
             userColor = Piece.Color.WHITE;
 
         if (userColor == currentGame.getActiveColor())
-            return Message.info("true");
+            return this.gson.toJson(Message.info("true"));
         else
-            return Message.info("false");
+            return this.gson.toJson(Message.info("false"));
 
 
     }

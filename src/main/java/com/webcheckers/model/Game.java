@@ -17,13 +17,16 @@ public class Game {
     private Board board;
     private Player redPlayer;
     private Player whitePlayer;
+
     private Color activeColor = Color.RED;
+    private Turn activeTurn;
 
     // Ints for checking how many pieces are left
     private int numWhitePieces = 0;
     private int numRedPieces = 0;
 
-    public enum MoveResult { INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED, KING_RESTRICTED }
+    public enum MoveResult { INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED,
+                            KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY }
 
     /**
      * The Game constructor
@@ -35,6 +38,7 @@ public class Game {
         this.redPlayer = red;
         this.whitePlayer = white;
         this.board = new Board();
+        this.activeTurn = new Turn();
 
         addPiecesToGame();
     }
@@ -58,23 +62,37 @@ public class Game {
      */
     public MoveResult makeMove(Move move) {
 
+        Move desiredMove = move;
+        if (this.activeColor == Color.WHITE)
+            desiredMove = move.reflect();
+
+
         // Get the piece at the start position of the move
         Piece movingPiece = this.board.getSpace(move.start()).getPiece();
 
         if (movingPiece == null)
             return MoveResult.INVALID;
 
-        MoveResult result = movingPiece.makeMove(move, this.board);
+        if (!activeTurn.isContinuous(desiredMove))
+            return MoveResult.NON_CONTINUOUS;
+
+        MoveResult result = movingPiece.makeMove(desiredMove, this.board);
 
         if (result == MoveResult.SIMPLE_MOVE) {
-            this.board.setSpaceToPiece(move.end(), movingPiece);
-            this.board.removePieceAt(move.start());
+
+            if (!activeTurn.canPlaySimpleMove())
+                return MoveResult.SIMPLE_MOVES_EXCEEDED;
+            this.board.setSpaceToPiece(desiredMove.end(), movingPiece);
+            this.board.removePieceAt(desiredMove.start());
+            this.activeTurn.addMove(new Move(desiredMove, null));
         }
 
+        // If the move was a jump, store the move with captured piece
         else if (result == MoveResult.JUMP) {
-            this.board.setSpaceToPiece(move.end(), movingPiece);
-            this.board.removePieceAt(move.start());
-            this.board.removePieceAt(move.midpoint());
+            this.board.setSpaceToPiece(desiredMove.end(), movingPiece);
+            this.board.removePieceAt(desiredMove.start());
+            Piece capturedPiece = this.board.removePieceAt(desiredMove.midpoint());
+            this.activeTurn.addMove(new Move(desiredMove, capturedPiece));
 
             if (movingPiece.getColor() == Color.RED)
                 numWhitePieces--;
@@ -107,6 +125,35 @@ public class Game {
             this.activeColor = Color.WHITE;
         else
             this.activeColor = Color.RED;
+
+        this.activeTurn = new Turn();
+    }
+
+    /**
+     * Updates the board and game data to the previous move
+     *
+     */
+    public boolean backup() {
+        Move lastMove = this.activeTurn.popLastMove();
+
+        if (lastMove == null)
+            return false;
+
+        if (lastMove.getCapturedPiece() != null) {
+            Piece capturedPiece = lastMove.getCapturedPiece();
+            this.board.setSpaceToPiece(lastMove.midpoint(), capturedPiece);
+            if (capturedPiece.getColor() == Color.RED)
+                numRedPieces++;
+            else
+                numWhitePieces++;
+        }
+
+        this.board.setSpaceToPiece(lastMove.start(), this.board.getPieceAt(lastMove.end()));
+        this.board.removePieceAt(lastMove.end());
+
+        return true;
+
+
     }
 
     /**
