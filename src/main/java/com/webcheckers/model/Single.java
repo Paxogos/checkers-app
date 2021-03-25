@@ -40,9 +40,7 @@ public class Single extends Piece{
         else if (!(deltaY == 1 && Math.abs(deltaX) == 1))
             return Game.MoveResult.SINGLE_RESTRICTED;
 
-        else {
-            return Game.MoveResult.INVALID;
-        }
+        else { return Game.MoveResult.INVALID; }
 
     }
 }

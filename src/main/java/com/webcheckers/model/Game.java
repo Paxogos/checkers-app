@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+
 import com.webcheckers.util.Position;
 import com.webcheckers.model.Piece.Color;
 
@@ -17,14 +18,18 @@ public class Game {
     private Board board;
     private Player redPlayer;
     private Player whitePlayer;
+
     private Color activeColor = Color.RED;
-    private Turn currentTurn;
+    private Turn activeTurn;
 
     // Ints for checking how many pieces are left
     private int numWhitePieces = 0;
     private int numRedPieces = 0;
 
-    public enum MoveResult {INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED, KING_RESTRICTED}
+    public enum MoveResult {
+        INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED,
+        KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY
+    }
 
 
     /**
@@ -37,6 +42,7 @@ public class Game {
         this.redPlayer = red;
         this.whitePlayer = white;
         this.board = new Board();
+        this.activeTurn = new Turn();
 
         addPiecesToGame();
     }
@@ -57,12 +63,12 @@ public class Game {
         return activeColor;
     }
 
-    public Boolean isPlayersTurn(Player player){
-        if(player == redPlayer){
+    public Boolean isPlayersTurn(Player player) {
+        if (player == redPlayer) {
             return Color.RED == activeColor;
-        }else if(player == whitePlayer){
+        } else if (player == whitePlayer) {
             return Color.WHITE == activeColor;
-        }else{
+        } else {
             throw new IllegalArgumentException("Provided player is not in the game");
         }
     }
@@ -76,6 +82,11 @@ public class Game {
      * to move the piece
      */
     public MoveResult makeMove(Move move) {
+
+        /*Move desiredMove = move;
+        if (this.activeColor == Color.WHITE)
+            desiredMove = move.reflect();*/
+
 
         if (this.activeColor == Color.WHITE) { //mirror row because javascript positions weird??
             Position start = move.start();
@@ -91,19 +102,30 @@ public class Game {
         if (movingPiece == null)
             return MoveResult.INVALID;
 
-        MoveResult result = movingPiece.makeMove(move, this.board);
+        if (!activeTurn.isContinuous(desiredMove))
+            return MoveResult.NON_CONTINUOUS;
 
-        if(result != MoveResult.INVALID){
-            currentTurn.addMove(move);
+        MoveResult result = movingPiece.makeMove(desiredMove, this.board);
+
+        if (result != MoveResult.INVALID) {
+            activeTurn.addMove(move);
         }
 
         if (result == MoveResult.SIMPLE_MOVE) {
-            this.board.setSpaceToPiece(move.end(), movingPiece);
-            this.board.removePieceAt(move.start());
-          } else if (result == MoveResult.JUMP) {
-            this.board.setSpaceToPiece(move.end(), movingPiece);
-            this.board.removePieceAt(move.start());
-            this.board.removePieceAt(move.midpoint());
+
+            if (!activeTurn.canPlaySimpleMove())
+                return MoveResult.SIMPLE_MOVES_EXCEEDED;
+            this.board.setSpaceToPiece(desiredMove.end(), movingPiece);
+            this.board.removePieceAt(desiredMove.start());
+            this.activeTurn.addMove(new Move(desiredMove, null));
+        }
+
+        // If the move was a jump, store the move with captured piece
+        else if (result == MoveResult.JUMP) {
+            this.board.setSpaceToPiece(desiredMove.end(), movingPiece);
+            this.board.removePieceAt(desiredMove.start());
+            Piece capturedPiece = this.board.removePieceAt(desiredMove.midpoint());
+            this.activeTurn.addMove(new Move(desiredMove, capturedPiece));
 
             if (movingPiece.getColor() == Color.RED)
                 numWhitePieces--;
@@ -117,8 +139,8 @@ public class Game {
 
     }
 
-    public void completeTurn(){
-        currentTurn = new Turn();
+    public void completeTurn() {
+        activeTurn = new Turn();
     }
 
 
@@ -141,6 +163,34 @@ public class Game {
         } else {
             this.activeColor = Color.RED;
         }
+
+        this.activeTurn = new Turn();
+    }
+
+    /**
+     * Updates the board and game data to the previous move
+     */
+    public boolean backup() {
+        Move lastMove = this.activeTurn.popLastMove();
+
+        if (lastMove == null)
+            return false;
+
+        if (lastMove.getCapturedPiece() != null) {
+            Piece capturedPiece = lastMove.getCapturedPiece();
+            this.board.setSpaceToPiece(lastMove.midpoint(), capturedPiece);
+            if (capturedPiece.getColor() == Color.RED)
+                numRedPieces++;
+            else
+                numWhitePieces++;
+        }
+
+        this.board.setSpaceToPiece(lastMove.start(), this.board.getPieceAt(lastMove.end()));
+        this.board.removePieceAt(lastMove.end());
+
+        return true;
+
+
     }
 
     /**

@@ -4,8 +4,15 @@ import com.webcheckers.util.Position;
 
 public class Board {
 
+    /**
+     * The Board Class: used for representing the spaces and pieces currently
+     * of the game.
+     *
+     * @author Tyler Talarico, aka T3-P0
+     */
+
     public final static int GRID_LENGTH = 8;
-    private Space[][] board = new Space[GRID_LENGTH][GRID_LENGTH];
+    private final Space[][] board = new Space[GRID_LENGTH][GRID_LENGTH];
 
     /**
      * The Board constructor.
@@ -56,9 +63,11 @@ public class Board {
         board[position.getRow()][position.getCell()].setPiece(piece);
     }
 
-    public void removePieceAt(Position position) {
-        board[position.getRow()][position.getCell()].removePiece();
+    public Piece removePieceAt(Position position) {
+        return board[position.getRow()][position.getCell()].removePiece();
     }
+
+    public Piece getPieceAt(Position position) { return board[position.getRow()][position.getCell()].getPiece(); }
 
     public boolean equals(Object obj) {
         if (!(obj instanceof Board))

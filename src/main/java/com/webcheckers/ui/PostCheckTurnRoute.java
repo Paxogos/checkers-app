@@ -10,27 +10,27 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
-import java.awt.*;
+import java.util.Objects;
 import java.util.Set;
 
 public class PostCheckTurnRoute implements Route {
 
-    private Gson gson;
+    private final Gson gson;
 
-    private final String ACTION_DATA_ATTR = "actionData";
     static final String PLAYER_ATTR = "currentUser";
 
 
     public PostCheckTurnRoute(Gson gson) {
-        this.gson = gson;
+        this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
     }
-
 
     public Object handle(Request request, Response response) {
 
         Session httpSession = request.session();
-        Player currentUser = httpSession.attribute(PLAYER_ATTR);
-        Game currentGame;
+
+        Player currentUser = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
+        Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
+
 
         if (httpSession.attribute(GetGameRoute.GAME_ATTR) != null) {
             currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
@@ -44,5 +44,7 @@ public class PostCheckTurnRoute implements Route {
         }
 
         return gson.toJson(Message.error("Invalid Session"));
+
+
     }
 }

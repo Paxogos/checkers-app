@@ -108,9 +108,11 @@ public class Space {
         this.spaceState = SpaceState.OCCUPIED;
     }
 
-    public void removePiece() {
+    public Piece removePiece() {
         this.spaceState = SpaceState.OPEN;
+        Piece remove = this.piece;
         this.piece = null;
+        return remove;
     }
 
     public boolean isOccupied() {

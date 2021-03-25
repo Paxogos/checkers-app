@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.util.Position;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -72,19 +73,12 @@ public class BoardView implements Iterable<Row>{
     public BoardView rotate(){
 
         BoardView newBoard = this;
-        ArrayList<Row> newRows = new ArrayList<>();
-        Row tempRow;
-        ArrayList<Space> spaceArrayList;
-        for (int i = 0; i < GRID_LENGTH; i++) {
-            tempRow = new Row(i);
-            spaceArrayList = new ArrayList<>();
-            for (int j = GRID_LENGTH - 1; j >= 0 ; j--) {
-                spaceArrayList.add(this.getRowArrayList().get(GRID_LENGTH-1-i).getSpaceArrayList().get(j));
-            }
-            tempRow.setSpaceArrayList(spaceArrayList);
-            newRows.add(tempRow);
+
+        for (Row row: rowArrayList) {
+            Collections.reverse(row.getSpaceArrayList());
         }
-        newBoard.setRowArrayList(newRows);
+        Collections.reverse(rowArrayList);
+
         return newBoard;
     }
 

@@ -193,6 +193,9 @@ public class WebServer {
     //
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gson));
 
+    //
+    post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gson));
+
     LOG.config("WebServer is initialized.");
 
 
