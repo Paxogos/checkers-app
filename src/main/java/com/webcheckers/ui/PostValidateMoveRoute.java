@@ -11,6 +11,8 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
+import java.util.Objects;
+
 public class PostValidateMoveRoute implements Route {
 
     private Gson gson;
@@ -18,7 +20,8 @@ public class PostValidateMoveRoute implements Route {
     private final String ACTION_DATA_ATTR = "actionData";
 
     public PostValidateMoveRoute(Gson gson) {
-        this.gson = gson;
+
+        this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
     }
 
 
