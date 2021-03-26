@@ -29,6 +29,7 @@ public class Single extends Piece{
         if (movingPiece == null)
             return Game.MoveResult.INVALID;
 
+        // left side of OR lets red piece through, right side lets white piece through (if a jump move)
         if ((Math.abs(deltaX) == 2 && deltaY == 2 && jumpee != null &&
                 jumpee.getColor() != movingPiece.getColor() && movingPieceIsRed) ||
                 (Math.abs(deltaX) == 2 && deltaY == -2 && jumpee != null &&

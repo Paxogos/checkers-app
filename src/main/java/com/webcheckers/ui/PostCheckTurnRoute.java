@@ -18,6 +18,8 @@ public class PostCheckTurnRoute implements Route {
     private final Gson gson;
 
     static final String PLAYER_ATTR = "currentUser";
+    static final String GAME_ATTR = "currentGame";
+
 
 
     public PostCheckTurnRoute(Gson gson) {
@@ -28,12 +30,11 @@ public class PostCheckTurnRoute implements Route {
 
         Session httpSession = request.session();
 
-        Player currentUser = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
-        Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
+        Player currentUser = httpSession.attribute(PLAYER_ATTR);
 
 
-        if (httpSession.attribute(GetGameRoute.GAME_ATTR) != null) {
-            currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
+        if (httpSession.attribute(GAME_ATTR) != null) {
+            Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
             Set<String> JSONasString = request.queryParams();
             System.out.println(JSONasString);
             Boolean isPlayersTurn = currentGame.isPlayersTurn(currentUser);
