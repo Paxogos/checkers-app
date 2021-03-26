@@ -21,10 +21,13 @@ public class PostSubmitTurnRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
 
+
         Session httpSession = request.session();
         Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
 
         currentGame.toggleActivePlayer();
+
+        System.out.println(currentGame.getBoard());
 
         return this.gson.toJson(Message.info("Active player has switched."));
 

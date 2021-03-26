@@ -62,10 +62,6 @@ public class Game {
      */
     public MoveResult makeMove(Move move) {
 
-        Move desiredMove = move;
-        if (this.activeColor == Color.WHITE)
-            desiredMove = move.reflect();
-
 
         // Get the piece at the start position of the move
         Piece movingPiece = this.board.getSpace(move.start()).getPiece();
@@ -73,26 +69,26 @@ public class Game {
         if (movingPiece == null)
             return MoveResult.INVALID;
 
-        if (!activeTurn.isContinuous(desiredMove))
+        if (!activeTurn.isContinuous(move))
             return MoveResult.NON_CONTINUOUS;
 
-        MoveResult result = movingPiece.makeMove(desiredMove, this.board);
+        MoveResult result = movingPiece.makeMove(move, this.board);
 
         if (result == MoveResult.SIMPLE_MOVE) {
 
             if (!activeTurn.canPlaySimpleMove())
                 return MoveResult.SIMPLE_MOVES_EXCEEDED;
-            this.board.setSpaceToPiece(desiredMove.end(), movingPiece);
-            this.board.removePieceAt(desiredMove.start());
-            this.activeTurn.addMove(new Move(desiredMove, null));
+            this.board.setSpaceToPiece(move.end(), movingPiece);
+            this.board.removePieceAt(move.start());
+            this.activeTurn.addMove(new Move(move, null));
         }
 
         // If the move was a jump, store the move with captured piece
         else if (result == MoveResult.JUMP) {
-            this.board.setSpaceToPiece(desiredMove.end(), movingPiece);
-            this.board.removePieceAt(desiredMove.start());
-            Piece capturedPiece = this.board.removePieceAt(desiredMove.midpoint());
-            this.activeTurn.addMove(new Move(desiredMove, capturedPiece));
+            this.board.setSpaceToPiece(move.end(), movingPiece);
+            this.board.removePieceAt(move.start());
+            Piece capturedPiece = this.board.removePieceAt(move.midpoint());
+            this.activeTurn.addMove(new Move(move, capturedPiece));
 
             if (movingPiece.getColor() == Color.RED)
                 numWhitePieces--;

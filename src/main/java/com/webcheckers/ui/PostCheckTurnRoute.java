@@ -27,6 +27,7 @@ public class PostCheckTurnRoute implements Route {
         Player currentUser = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
         Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
 
+        System.out.println(currentGame.getBoard());
 
         Piece.Color userColor;
         if (currentUser.equals(currentGame.getRedPlayer()))

@@ -82,4 +82,27 @@ public class Board {
         }
         return true;
     }
+
+    public String toString() {
+
+        String boardAsString = "";
+
+        for (int row = 0; row < GRID_LENGTH; row++) {
+            for (int cell = 0; cell < GRID_LENGTH; cell++) {
+
+                if (board[row][cell].getPiece() == null)
+                    boardAsString += ".";
+                else if (board[row][cell].isValid())
+                    boardAsString += "x";
+                else if (board[row][cell].getPiece().getColor() == Piece.Color.RED)
+                    boardAsString += "R";
+                else
+                    boardAsString += "W";
+            }
+            boardAsString += "\n";
+        }
+        return boardAsString;
+
+    }
+
 }

@@ -16,9 +16,14 @@ public class Single extends Piece{
     @Override
     public Game.MoveResult makeMove(Move move, Board board) {
 
-        Piece movingPiece = board.getSpace(move.start()).getPiece();
+        int directionCorrector = 1;
 
-        int deltaX = move.end().getCell() - move.start().getCell();
+        Piece movingPiece = board.getPieceAt(move.start());
+
+        if (movingPiece.getColor() == Color.WHITE)
+            directionCorrector = -1;
+
+        int deltaX = (move.end().getCell() - move.start().getCell()) * directionCorrector;
         int deltaY = move.start().getRow() - move.end().getRow();
 
         Space midpoint = board.getSpace(new Position(move.start().getRow() - deltaY/2, move.start().getCell() + deltaX/2));
@@ -27,16 +32,16 @@ public class Single extends Piece{
         if (movingPiece == null)
             return Game.MoveResult.INVALID;
 
-        if (Math.abs(deltaX) == 2 && deltaY == 2 && jumpee != null && jumpee.getColor() != movingPiece.getColor())
+        if (Math.abs(deltaX) == 2 && deltaY * directionCorrector == 2 && jumpee != null && jumpee.getColor() != movingPiece.getColor())
             return Game.MoveResult.JUMP;
 
         else if (board.getSpace(move.end()).isOccupied())
             return Game.MoveResult.OCCUPIED;
 
-        else if (deltaY == 1 && Math.abs(deltaX) == 1)
+        else if (deltaY * directionCorrector == 1 && Math.abs(deltaX) == 1)
             return Game.MoveResult.SIMPLE_MOVE;
 
-        else if (!(deltaY == 1 && Math.abs(deltaX) == 1))
+        else if (!(deltaY * directionCorrector == 1 && Math.abs(deltaX) == 1))
             return Game.MoveResult.SINGLE_RESTRICTED;
 
         else { return Game.MoveResult.INVALID; }
