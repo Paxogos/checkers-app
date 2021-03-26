@@ -1,5 +1,6 @@
 package com.webcheckers.util;
 
+import com.webcheckers.model.Board;
 import com.webcheckers.ui.PostCheckTurnRoute;
 
 public class Position {
@@ -16,10 +17,6 @@ public class Position {
     }
     public int getCell() {
         return cell;
-    }
-
-    public void mirrorRow(){ // because javascript positions are weird  ??
-        row = 7 - row;
     }
 
     public String toString() {

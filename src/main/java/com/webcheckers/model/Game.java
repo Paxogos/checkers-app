@@ -83,18 +83,7 @@ public class Game {
      */
     public MoveResult makeMove(Move move) {
 
-        /*Move desiredMove = move;
-        if (this.activeColor == Color.WHITE)
-            desiredMove = move.reflect();*/
-
-
-        if (this.activeColor == Color.WHITE) { //mirror row because javascript positions weird??
-            Position start = move.start();
-            Position end = move.end();
-            start.mirrorRow();
-            end.mirrorRow();
-            move = new Move(start, end);
-        }
+        Move desiredMove = move;
 
         // Get the piece at the start position of the move
         Piece movingPiece = this.board.getSpace(move.start()).getPiece();
@@ -107,9 +96,6 @@ public class Game {
 
         MoveResult result = movingPiece.makeMove(desiredMove, this.board);
 
-        if (result != MoveResult.INVALID) {
-            activeTurn.addMove(move);
-        }
 
         if (result == MoveResult.SIMPLE_MOVE) {
 
