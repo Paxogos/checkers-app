@@ -27,15 +27,10 @@ public class PostCheckTurnRoute implements Route {
         Player currentUser = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
         Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
 
-        System.out.println(currentGame.getBoard());
 
-        Piece.Color userColor;
-        if (currentUser.equals(currentGame.getRedPlayer()))
-            userColor = Piece.Color.RED;
-        else
-            userColor = Piece.Color.WHITE;
+        boolean isPlayersTurn = currentGame.isPlayersTurn(currentUser);
 
-        if (userColor == currentGame.getActiveColor())
+        if (isPlayersTurn)
             return this.gson.toJson(Message.info("true"));
         else
             return this.gson.toJson(Message.info("false"));

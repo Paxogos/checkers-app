@@ -63,7 +63,7 @@ public class Game {
         return activeColor;
     }
 
-    public Boolean isPlayersTurn(Player player) {
+    public boolean isPlayersTurn(Player player) {
         if (player == redPlayer) {
             return Color.RED == activeColor;
         } else if (player == whitePlayer) {
@@ -95,7 +95,7 @@ public class Game {
 
         MoveResult result = movingPiece.makeMove(move, this.board);
 
-
+        // Uses the piece's logic to determine if the move is valid
         if (result == MoveResult.SIMPLE_MOVE) {
 
             if (!activeTurn.canPlaySimpleMove())
@@ -119,7 +119,7 @@ public class Game {
 
         }
 
-        // Uses the piece's logic to determine if the move is valid
+
         return result;
 
     }

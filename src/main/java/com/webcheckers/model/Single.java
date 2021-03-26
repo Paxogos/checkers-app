@@ -16,32 +16,32 @@ public class Single extends Piece{
     @Override
     public Game.MoveResult makeMove(Move move, Board board) {
 
-        int directionCorrector = 1;
+        int directionCorrector = -1;
 
         Piece movingPiece = board.getPieceAt(move.start());
 
         if (movingPiece.getColor() == Color.WHITE)
-            directionCorrector = -1;
+            directionCorrector = 1;
 
-        int deltaX = (move.end().getCell() - move.start().getCell()) * directionCorrector;
-        int deltaY = move.start().getRow() - move.end().getRow();
+        int deltaX = move.end().getCell() - move.start().getCell();
+        int deltaY = (move.end().getRow() - move.start().getRow()) * directionCorrector;
 
-        Space midpoint = board.getSpace(new Position(move.start().getRow() - deltaY/2, move.start().getCell() + deltaX/2));
-        Piece jumpee = midpoint.getPiece();
+        Position midpoint = move.midpoint();
+        Piece jumpee = board.getPieceAt(midpoint);
 
         if (movingPiece == null)
             return Game.MoveResult.INVALID;
 
-        if (Math.abs(deltaX) == 2 && deltaY * directionCorrector == 2 && jumpee != null && jumpee.getColor() != movingPiece.getColor())
+        if (Math.abs(deltaX) == 2 && deltaY == 2 && jumpee != null && jumpee.getColor() != movingPiece.getColor())
             return Game.MoveResult.JUMP;
 
         else if (board.getSpace(move.end()).isOccupied())
             return Game.MoveResult.OCCUPIED;
 
-        else if (deltaY * directionCorrector == 1 && Math.abs(deltaX) == 1)
+        else if (deltaY == 1 && Math.abs(deltaX) == 1)
             return Game.MoveResult.SIMPLE_MOVE;
 
-        else if (!(deltaY * directionCorrector == 1 && Math.abs(deltaX) == 1))
+        else if (!(deltaY == 1 && Math.abs(deltaX) == 1))
             return Game.MoveResult.SINGLE_RESTRICTED;
 
         else { return Game.MoveResult.INVALID; }
