@@ -1,4 +1,6 @@
 package com.webcheckers.model;
+
+
 import com.webcheckers.util.Position;
 import com.webcheckers.model.Piece.Color;
 
@@ -8,11 +10,10 @@ public class Game {
 
     /**
      * The Game class
-     *
+     * <p>
      * This model class holds all of the information for a game of Checkers
      * between two players. It it what is used to determine which moves
      * the user can make and updates the board.
-     *
      */
     private Board board;
     private Player redPlayer;
@@ -25,14 +26,17 @@ public class Game {
     private int numWhitePieces = 0;
     private int numRedPieces = 0;
 
-    public enum MoveResult { INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED,
-                            KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY }
+    public enum MoveResult {
+        INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED,
+        KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY
+    }
+
 
     /**
      * The Game constructor
      *
-     * @param red       Red Player - Player that initiates
-     * @param white     White Player - Player that is invited
+     * @param red   Red Player - Player that initiates
+     * @param white White Player - Player that is invited
      */
     public Game(Player red, Player white) {
         this.redPlayer = red;
@@ -43,22 +47,39 @@ public class Game {
         addPiecesToGame();
     }
 
-    public Player getRedPlayer() { return this.redPlayer;}
+    public Player getRedPlayer() {
+        return this.redPlayer;
+    }
 
-    public Player getWhitePlayer() { return this.whitePlayer;}
+    public Player getWhitePlayer() {
+        return this.whitePlayer;
+    }
 
-    public Board getBoard() { return this.board; }
+    public Board getBoard() {
+        return this.board;
+    }
 
     public Color getActiveColor() {
         return activeColor;
     }
 
+    public Boolean isPlayersTurn(Player player) {
+        if (player == redPlayer) {
+            return Color.RED == activeColor;
+        } else if (player == whitePlayer) {
+            return Color.WHITE == activeColor;
+        } else {
+            throw new IllegalArgumentException("Provided player is not in the game");
+        }
+    }
+
+
     /**
      * Perform the given move if it is valid
      *
-     * @param move      the requested move
-     * @return          a MoveResult that tells the result of attempting
-     *                  to move the piece
+     * @param move the requested move
+     * @return a MoveResult that tells the result of attempting
+     * to move the piece
      */
     public MoveResult makeMove(Move move) {
 
@@ -73,6 +94,7 @@ public class Game {
             return MoveResult.NON_CONTINUOUS;
 
         MoveResult result = movingPiece.makeMove(move, this.board);
+
 
         if (result == MoveResult.SIMPLE_MOVE) {
 
@@ -102,11 +124,16 @@ public class Game {
 
     }
 
+    public void completeTurn() {
+        activeTurn = new Turn();
+        toggleActivePlayer();
+    }
+
 
     /**
      * Checks if the game is over
      *
-     * @return      Is the game over?
+     * @return Is the game over?
      */
     public boolean isWon() {
         // TODO
@@ -117,17 +144,15 @@ public class Game {
      * Changes switches the active color to the other one
      */
     public void toggleActivePlayer() {
-        if (this.activeColor == Color.RED)
+        if (this.activeColor == Color.RED) {
             this.activeColor = Color.WHITE;
-        else
+        } else {
             this.activeColor = Color.RED;
-
-        this.activeTurn = new Turn();
+        }
     }
 
     /**
      * Updates the board and game data to the previous move
-     *
      */
     public boolean backup() {
         Move lastMove = this.activeTurn.popLastMove();
@@ -186,7 +211,7 @@ public class Game {
     public boolean equals(Object object) {
         if (!(object instanceof Game))
             return false;
-        Game game = (Game)object;
+        Game game = (Game) object;
         return game.getRedPlayer().equals(redPlayer) &&
                 game.getWhitePlayer().equals(whitePlayer) &&
                 game.getBoard().equals(board);

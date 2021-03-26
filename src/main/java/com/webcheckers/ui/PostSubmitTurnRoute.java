@@ -25,7 +25,7 @@ public class PostSubmitTurnRoute implements Route {
         Session httpSession = request.session();
         Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
 
-        currentGame.toggleActivePlayer();
+        currentGame.completeTurn();
 
         System.out.println(currentGame.getBoard());
 
