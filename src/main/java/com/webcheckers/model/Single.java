@@ -15,8 +15,10 @@ public class Single extends Piece{
 
     @Override
     public Game.MoveResult makeMove(Move move, Board board) {
-
         Piece movingPiece = board.getSpace(move.start()).getPiece();
+
+        Boolean movingPieceIsRed = movingPiece.getColor() == Color.RED;
+
 
         int deltaX = move.end().getCell() - move.start().getCell();
         int deltaY = move.start().getRow() - move.end().getRow();
@@ -28,9 +30,9 @@ public class Single extends Piece{
             return Game.MoveResult.INVALID;
 
         if ((Math.abs(deltaX) == 2 && deltaY == 2 && jumpee != null &&
-                jumpee.getColor() != movingPiece.getColor() && movingPiece.getColor() == Color.RED) ||
+                jumpee.getColor() != movingPiece.getColor() && movingPieceIsRed) ||
                 (Math.abs(deltaX) == 2 && deltaY == -2 && jumpee != null &&
-                        jumpee.getColor() != movingPiece.getColor() && movingPiece.getColor() == Color.WHITE))
+                        jumpee.getColor() != movingPiece.getColor() && !movingPieceIsRed))
             return Game.MoveResult.JUMP;
 
         else if (board.getSpace(move.end()).isOccupied())
