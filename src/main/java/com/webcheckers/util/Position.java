@@ -1,5 +1,8 @@
 package com.webcheckers.util;
 
+import com.webcheckers.model.Board;
+import com.webcheckers.ui.PostCheckTurnRoute;
+
 public class Position {
     //attributes
     private int row;
