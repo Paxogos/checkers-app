@@ -31,7 +31,7 @@ class GetGameRouteTest {
     private PlayerLobby playerLobby;
     private GameCenter gameCenter;
     private Player currentUser;
-    private Set<String> params;
+    private Player opponent;
 
     @BeforeEach
     public void setup(){
@@ -42,13 +42,16 @@ class GetGameRouteTest {
 
         playerLobby = new PlayerLobby();
         gameCenter = new GameCenter();
-        currentUser = new Player("Test1");
+
+        playerLobby.signIn("Test1");
+        playerLobby.signIn("TestOpp1");
+        currentUser = playerLobby.getPlayer("Test1");
+        opponent = playerLobby.getPlayer("TestOpp1");
 
         session.attribute("currentUser",currentUser);
         when(request.session()).thenReturn(session);
         when(session.attribute("currentUser")).thenReturn(currentUser);
 
-        request.params("TestOpponent1");
 
 
         // create a unique CuT for each test
@@ -58,17 +61,9 @@ class GetGameRouteTest {
     @Test
     public void new_game() {
 
-        HashSet<String> set = new HashSet<>();
-        set.add("TestOpponent1");
-        //request.attribute();
-        request.params("TestOpponent1");
-        params = mock(Set.class);
-        params.add("TestOpponent1");
-
-
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-        when(request.queryParams()).thenReturn(params);
+        when(request.queryString()).thenReturn("TestOpp1");
 
         CuT.handle(request, response);
 

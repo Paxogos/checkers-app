@@ -36,8 +36,10 @@ public class BoardView implements Iterable<Row>{
                 spaceList.add(board.getSpace(spacePos));
             }
             this.rowArrayList.add(new Row(row, spaceList));
+
         }
     }
+
 
 
     @Override
@@ -89,8 +91,12 @@ public class BoardView implements Iterable<Row>{
 
         for (int row = 0; row < GRID_LENGTH; row++) {
             for (int cell = 0; cell < GRID_LENGTH; cell++) {
-                if (this.rowArrayList.get(row).getSpaceArrayList().get(cell).equals(newBoard.getRowArrayList().get(row).getSpaceArrayList().get(cell)))
+                if (this.rowArrayList.get(row).getSpaceArrayList().get(cell).equals(
+                        newBoard.getRowArrayList().get(row).getSpaceArrayList().get(cell))){
+                }else{
                     return false;
+                }
+
             }
         }
 

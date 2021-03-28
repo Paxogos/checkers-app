@@ -35,6 +35,7 @@ public class PostValidateMoveRoute implements Route {
             currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
 
             String JSONasString = request.queryParams(ACTION_DATA_ATTR);
+            System.out.println(request.queryParams());
             System.out.println(JSONasString);
             Move attemptedMove = this.gson.fromJson(JSONasString, Move.class);
             System.out.println(attemptedMove);

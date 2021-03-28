@@ -27,7 +27,9 @@ public class GameTest {
     public void testMakeMove() {
         Position FIRST_POSITION = new Position(5,0);
         Position OCCUPIED_POSITION = new Position(4,1);
+        testGame.getBoard().setSpaceToPiece(new Position(4,1),new Single(Piece.Color.RED));
         Position SECOND_POSITION = new Position(5,4);
+        testGame.getBoard().removePieceAt(new Position(5,4));
         Position SINGLE_RESTRICTED_POSITION = new Position(3,0);
 
         Move moveToOccupiedSpace = new Move(FIRST_POSITION, OCCUPIED_POSITION);

@@ -83,9 +83,8 @@ public class GetGameRoute implements Route {
         Player opponent = gameCenter.getCurrentOpponent(currentUser);
 
         // If the currentUser does not have an existing game and there is not opponent in params, return to HOME_URL
-        Set<String> params = request.queryParams();
-        Iterator<String> paramIterator = params.iterator();
-        if(opponent == null && !paramIterator.hasNext()){
+        String opponentString = request.queryString();
+        if(opponent == null && opponentString == null){
             response.redirect(WebServer.HOME_URL);
             halt();
             return null;
@@ -115,7 +114,7 @@ public class GetGameRoute implements Route {
 
 
         }else{ // create a new game, currentUser must be red
-            opponent = playerLobby.getPlayer(paramIterator.next());
+            opponent = playerLobby.getPlayer(opponentString);
 
             // if the selected opponent is already in a game
             if (playerLobby.isPlayerInGame(opponent)) {
