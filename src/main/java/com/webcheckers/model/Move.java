@@ -13,12 +13,23 @@ public class Move {
     private MoveResult moveResult = MoveResult.SIMPLE_MOVE;
 
 
+    /**
+     * Move constructor with only positions
+     *
+     * @param start     start of the move
+     * @param end       end of the move
+     */
     public Move(Position start, Position end) {
         this.start = start;
         this.end = end;
     }
 
-    // Create a new move with a captured piece if it is a jump
+    /**
+     * Move constructor using a move and Piece if there was a captured piece
+     *
+     * @param move              the move
+     * @param capturedPiece     the captured piece, if there was one
+     */
     public Move(Move move, Piece capturedPiece) {
         this.start = move.start();
         this.end = move.end();
@@ -31,14 +42,29 @@ public class Move {
     }
 
 
+    /**
+     * The start position of the move
+     *
+     * @return      start position
+     */
     public Position start() {
         return this.start;
     }
 
+    /**
+     * The end position of the move
+     *
+     * @return      end position
+     */
     public Position end() {
         return this.end;
     }
 
+    /**
+     * The midpoint position of the move
+     *
+     * @return
+     */
     public Position midpoint() {
         return new Position((end.getRow()-start.getRow())/2 + start.getRow(),
                 (end.getCell()-start.getCell())/2 + start.getCell());
@@ -47,20 +73,13 @@ public class Move {
     public MoveResult getType() { return this.moveResult; }
 
     /**
-     * Return a move that is the reverse of this one
+     * Get the captured piece of the move
      *
-     * @return      a move from end to start (the reverse)
+     * @return      piece that was captured, if it exists; null otherwise
      */
-    public Move reflect() {
-        Position newStart = new Position(Board.GRID_LENGTH - this.start.getRow() - 1,
-                Board.GRID_LENGTH - this.start.getCell() -1 );
-        Position newEnd = new Position(Board.GRID_LENGTH - this.end.getRow() - 1,
-                Board.GRID_LENGTH - this.end.getCell() - 1);
-
-        return new Move(newStart, newEnd);
-    }
-
     public Piece getCapturedPiece() { return this.capturedPiece; }
+
+
 
     public String toString() {
         return "[" + start.getRow() + ", " + start.getCell() + "] -> [" + end.getRow() + ", " + end.getCell() + "]";
