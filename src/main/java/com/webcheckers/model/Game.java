@@ -144,6 +144,21 @@ public class Game {
     }
 
     /**
+     * getGameWinner checks to see if the game is over. If yes, checks to see if who has no pieces on the board, and returns
+     * the other player.
+     *
+     * @return The winner of the game
+     */
+    public Player getGameWinner() {
+        if(isGameOver() && getNumRedPieces() == 0)
+            return whitePlayer;
+        else if(isGameOver() && getNumWhitePieces() == 0)
+            return redPlayer;
+        else
+            return null;
+    }
+
+    /**
      * Changes switches the active color to the other one
      */
     public void toggleActivePlayer() {

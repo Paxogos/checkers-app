@@ -1,20 +1,17 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import spark.*;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -43,6 +40,7 @@ class GetGameRouteTest {
         playerLobby = new PlayerLobby();
         gameCenter = new GameCenter();
         currentUser = new Player("Test1");
+        Gson gson = new Gson();
 
         session.attribute("currentUser",currentUser);
         when(request.session()).thenReturn(session);
@@ -52,7 +50,7 @@ class GetGameRouteTest {
 
 
         // create a unique CuT for each test
-        CuT = new GetGameRoute(playerLobby,gameCenter,engine);
+        CuT = new GetGameRoute(playerLobby,gameCenter,engine, gson);
     }
 
     @Test
