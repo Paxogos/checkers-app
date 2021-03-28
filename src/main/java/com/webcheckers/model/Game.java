@@ -131,13 +131,12 @@ public class Game {
 
 
     /**
-     * Checks if the game is over
+     * Checks to see if the game is over
      *
-     * @return Is the game over?
+     * @return a boolean. True if the game has come to an end, false otherwise.
      */
-    public boolean isWon() {
-        // TODO
-        return false;
+    public boolean isGameOver() {
+        return(numRedPieces == 0 || numWhitePieces == 0);
     }
 
     /**
