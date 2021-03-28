@@ -16,6 +16,15 @@ public class BoardView implements Iterable<Row>{
 
 
     /**
+     * Construct a new BoardView
+     */
+    public BoardView() {
+        this.rowArrayList = new ArrayList<>();
+        for (int row = 0; row < GRID_LENGTH; row++)
+            this.rowArrayList.add(new Row(row));
+    }
+
+    /**
      * BoardView constructor
      *
      * @param board     the board with spaces to be copied
