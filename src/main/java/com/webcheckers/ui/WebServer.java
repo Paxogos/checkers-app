@@ -179,7 +179,7 @@ public class WebServer {
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
 
     // Shows the Checkers Game page.
-    get(GAME_URL, new GetGameRoute(playerLobby, gameCenter, templateEngine));
+    get(GAME_URL, new GetGameRoute(playerLobby, gameCenter, templateEngine, gson));
 
     //
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby, templateEngine));
