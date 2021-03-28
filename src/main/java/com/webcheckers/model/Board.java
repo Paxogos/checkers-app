@@ -59,6 +59,12 @@ public class Board {
         return rotatedBoard;
     }
 
+    /**
+     * Set piece at the given position to the given piece
+     *
+     * @param position      the position to set the piece of
+     * @param piece         piece to set the space to
+     */
     public void setSpaceToPiece(Position position, Piece piece) {
         board[position.getRow()][position.getCell()].setPiece(piece);
     }
@@ -67,8 +73,21 @@ public class Board {
         return board[position.getRow()][position.getCell()].removePiece();
     }
 
+    /**
+     * Get the piece at the given space
+     *
+     * @param position      position to get piece from
+     * @return              the piece
+     */
     public Piece getPieceAt(Position position) { return board[position.getRow()][position.getCell()].getPiece(); }
 
+
+    /**
+     * Checks if two boards have equivalent contents
+     *
+     * @param obj       object being compared
+     * @return          true if contents are equal
+     */
     public boolean equals(Object obj) {
         if (!(obj instanceof Board))
             return false;
@@ -83,25 +102,30 @@ public class Board {
         return true;
     }
 
+    /**
+     * Represents the board as a string
+     *
+     * @return      Board with ASCII art
+     */
     public String toString() {
 
-        String boardAsString = "";
+        StringBuilder boardAsString = new StringBuilder();
 
         for (int row = 0; row < GRID_LENGTH; row++) {
             for (int cell = 0; cell < GRID_LENGTH; cell++) {
 
                 if (board[row][cell].getPiece() == null)
-                    boardAsString += ".";
+                    boardAsString.append(".");
                 else if (board[row][cell].isValid())
-                    boardAsString += "x";
+                    boardAsString.append("x");
                 else if (board[row][cell].getPiece().getColor() == Piece.Color.RED)
-                    boardAsString += "R";
+                    boardAsString.append("R");
                 else
-                    boardAsString += "W";
+                    boardAsString.append("W");
             }
-            boardAsString += "\n";
+            boardAsString.append("\n");
         }
-        return boardAsString;
+        return boardAsString.toString();
 
     }
 

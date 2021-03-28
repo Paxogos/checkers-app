@@ -8,7 +8,7 @@ package com.webcheckers.model;
 public class Player {
 
     //attributes
-    private String name;
+    private final String name;
 
     /**
      * Instantiates a new Player.
@@ -44,7 +44,6 @@ public class Player {
     }
 
     /**
-     *
      * @return hashcode for the player object
      */
     @Override
@@ -52,6 +51,9 @@ public class Player {
         return this.name.hashCode();
     }
 
+    /**
+     * @return string containing the player's name
+     */
     @Override
     public String toString() {
         return "Player: " + name;

@@ -4,8 +4,6 @@ package com.webcheckers.model;
 import com.webcheckers.util.Position;
 import com.webcheckers.model.Piece.Color;
 
-import java.util.HashSet;
-
 public class Game {
 
     /**
@@ -15,9 +13,9 @@ public class Game {
      * between two players. It it what is used to determine which moves
      * the user can make and updates the board.
      */
-    private Board board;
-    private Player redPlayer;
-    private Player whitePlayer;
+    private final Board board;
+    private final Player redPlayer;
+    private final Player whitePlayer;
 
     private Color activeColor = Color.RED;
     private Turn activeTurn;
@@ -26,6 +24,9 @@ public class Game {
     private int numWhitePieces = 0;
     private int numRedPieces = 0;
 
+    /**
+     * Enum for checking the status of a move
+     */
     public enum MoveResult {
         INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED,
         KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY
@@ -47,23 +48,62 @@ public class Game {
         addPiecesToGame();
     }
 
+    /**
+     * Get the red Player object
+     * @return      red player
+     */
     public Player getRedPlayer() {
         return this.redPlayer;
     }
 
+    /**
+     * Get the White player object
+     * @return      white player
+     */
     public Player getWhitePlayer() {
         return this.whitePlayer;
     }
 
+    /**
+     * Get the board containing all of the spaces and pieces currently
+     * in the game
+     * @return      the board of the game
+     */
     public Board getBoard() {
         return this.board;
     }
 
+    /**
+     * Get the color of the player whose turn it is
+     * @return      active color currently taking their turn
+     */
     public Color getActiveColor() {
         return activeColor;
     }
 
-    public Boolean isPlayersTurn(Player player) {
+    /**
+     *
+     * @return      the number of white pieces in the game
+     */
+    public int getNumWhitePieces() {
+        return numWhitePieces;
+    }
+
+    /**
+     *
+     * @return      the number of red pieces in the game
+     */
+    public int getNumRedPieces() {
+        return numRedPieces;
+    }
+
+    /**
+     * Checks if it is the player's turn at the moment
+     *
+     * @param player        player whose turn it might be
+     * @return              whether it is the given player's turn
+     */
+    public boolean isPlayersTurn(Player player) {
         if (player == redPlayer) {
             return Color.RED == activeColor;
         } else if (player == whitePlayer) {
@@ -87,18 +127,20 @@ public class Game {
         // Get the piece at the start position of the move
         Piece movingPiece = this.board.getSpace(move.start()).getPiece();
 
+        // If you attempt to move a piece that is not there
         if (movingPiece == null)
             return MoveResult.INVALID;
 
+        // If you attempt to move a different piece in one turn
         if (!activeTurn.isContinuous(move))
             return MoveResult.NON_CONTINUOUS;
 
         MoveResult result = movingPiece.makeMove(move, this.board);
 
-
+        // Uses the piece's logic to determine if the move is valid
         if (result == MoveResult.SIMPLE_MOVE) {
 
-            if (!activeTurn.canPlaySimpleMove())
+            if (activeTurn.hasPlayedSimpleMove())
                 return MoveResult.SIMPLE_MOVES_EXCEEDED;
             this.board.setSpaceToPiece(move.end(), movingPiece);
             this.board.removePieceAt(move.start());
@@ -112,18 +154,20 @@ public class Game {
             Piece capturedPiece = this.board.removePieceAt(move.midpoint());
             this.activeTurn.addMove(new Move(move, capturedPiece));
 
+            // Adjust the number of pieces accordingly
             if (movingPiece.getColor() == Color.RED)
                 numWhitePieces--;
             else
                 numRedPieces--;
-
         }
 
-        // Uses the piece's logic to determine if the move is valid
         return result;
 
     }
 
+    /**
+     * Resets the turn and toggles the player
+     */
     public void completeTurn() {
         activeTurn = new Turn();
         toggleActivePlayer();
@@ -160,6 +204,7 @@ public class Game {
         if (lastMove == null)
             return false;
 
+        // If the last move was a jump, add the captured piece
         if (lastMove.getCapturedPiece() != null) {
             Piece capturedPiece = lastMove.getCapturedPiece();
             this.board.setSpaceToPiece(lastMove.midpoint(), capturedPiece);
@@ -200,14 +245,14 @@ public class Game {
         }
     }
 
-    public int getNumWhitePieces() {
-        return numWhitePieces;
-    }
 
-    public int getNumRedPieces() {
-        return numRedPieces;
-    }
 
+    /**
+     * Checks if another game is equal to this game
+     *
+     * @param object    game to be compared
+     * @return          true if their contents are equal
+     */
     public boolean equals(Object object) {
         if (!(object instanceof Game))
             return false;

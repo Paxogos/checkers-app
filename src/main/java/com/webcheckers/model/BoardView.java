@@ -15,12 +15,6 @@ public class BoardView implements Iterable<Row>{
     private ArrayList<Row> rowArrayList;
 
 
-    public BoardView() {
-        this.rowArrayList = new ArrayList<>();
-        for (int row = 0; row < GRID_LENGTH; row++)
-            this.rowArrayList.add(new Row(row));
-    }
-
     /**
      * BoardView constructor
      *
@@ -76,6 +70,7 @@ public class BoardView implements Iterable<Row>{
 
         BoardView newBoard = this;
 
+        // Reverse spaceArrayList and the rowArrayList (same as 180 degree rotation)
         for (Row row: rowArrayList) {
             Collections.reverse(row.getSpaceArrayList());
         }

@@ -11,19 +11,25 @@ public class Turn {
         this.moveList = new ArrayList<>();
     }
 
-    public boolean canPlaySimpleMove() {
-        int numSimpleMoves = 0;
+    /**
+     * Checks if a simple move has already been played this turn
+     * @return      true if a simple move has already been played
+     */
+    public boolean hasPlayedSimpleMove() {
 
         for (Move m: this.moveList) {
             if (m.getType() == Game.MoveResult.SIMPLE_MOVE)
-                numSimpleMoves++;
-            if (numSimpleMoves > 0)
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 
-    public boolean isContinuous(Move move) throws IndexOutOfBoundsException{
+    /**
+     * Checks if the latest move starts where the last move ended
+     * @param move      the latest move the player is attempting to make
+     * @return          true if move.start() == lastMove.end()
+     */
+    public boolean isContinuous(Move move){
 
         if (moveList.size() == 0)
             return true;
@@ -32,6 +38,10 @@ public class Turn {
         return move.start().equals(lastMove.end());
     }
 
+    /**
+     * Make an additional move this turn
+     * @param move
+     */
     public void addMove(Move move) {
         this.moveList.add(move);
     }
