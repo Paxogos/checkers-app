@@ -28,7 +28,7 @@ public class Game {
 
     public enum MoveResult {
         INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED,
-        KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY
+        KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY, GAME_OVER
     }
 
 
@@ -119,6 +119,10 @@ public class Game {
 
         }
 
+        //If there are no pieces for a player, moveResult is GAME_OVER
+        if(isGameOver()) {
+            result = MoveResult.GAME_OVER;
+        }
 
         return result;
 
