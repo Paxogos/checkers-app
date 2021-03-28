@@ -25,6 +25,7 @@ public class GetHomeRoute implements Route {
   static final String WELCOME_MSG_ATTR = "message";
   static final String AVAILABLE_PLAYER_LIST_ATTR = "availablePlayerList";
   static final String PLAYER_ATTR = "currentUser";
+  static final String BUSY_ATTR = "opponentBusy";
   static final String BUSY_PLAYER_LIST_ATTR = "busyPlayerList";
   static final String LOBBY_SIZE_ATTR = "lobbySize";
   static final String TITLE = "Welcome to Webcheckers!";
@@ -75,6 +76,8 @@ public class GetHomeRoute implements Route {
       response.redirect("/game?" + opponent.getName());
     }
 
+
+
     // Render the home page
     return templateEngine.render(getHomePage(currentUser, this.playerLobby));
 
@@ -97,6 +100,7 @@ public class GetHomeRoute implements Route {
     vm.put(PLAYER_ATTR, currentUser);
 
     vm.put(LOBBY_SIZE_ATTR, playerLobby.getNumberPlayers());
+
 
 
     if (currentUser != null) {

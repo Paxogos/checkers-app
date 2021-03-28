@@ -37,6 +37,7 @@ public class GetGameRoute implements Route {
     static final String PLAYER_ATTR = "currentUser";
 
     static final String GAME_ATTR = "currentGame";
+    static final String BUSY_ATTR = "opponentBusy";
 
 
     static String TITLE = "Game";
@@ -118,6 +119,7 @@ public class GetGameRoute implements Route {
 
             // if the selected opponent is already in a game
             if (playerLobby.isPlayerInGame(opponent)) {
+                httpSession.attribute(BUSY_ATTR,"true");
                 response.redirect("/");
                 halt();
                 return null;

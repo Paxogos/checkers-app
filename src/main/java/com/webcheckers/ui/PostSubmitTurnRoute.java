@@ -38,7 +38,6 @@ public class PostSubmitTurnRoute implements Route {
 
             }
 
-            currentGame.toggleActivePlayer();
             currentGame.completeTurn();
 
         }
