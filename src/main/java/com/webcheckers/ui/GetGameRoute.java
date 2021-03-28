@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import java.util.*;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.*;
@@ -45,18 +46,22 @@ public class GetGameRoute implements Route {
     static String VIEW_MODE = "PLAY";
     static String MODE_OPTIONS = "{}";
 
+
     private PlayerLobby playerLobby;
     private GameCenter gameCenter;
 
     // Values used in the view-model map for rendering the game view.
     private final TemplateEngine templateEngine;
+    private final Gson gson;
 
     /**
      * The constructor for the {@code GET /game} route handler.
      *
      * @param templateEngine The {@link TemplateEngine} used for rendering page HTML.
+     * @param gson
      */
-    GetGameRoute(PlayerLobby playerLobby, GameCenter gameCenter, final TemplateEngine templateEngine) {
+    GetGameRoute(PlayerLobby playerLobby, GameCenter gameCenter, final TemplateEngine templateEngine, Gson gson) {
+        this.gson = gson;
         // validation
         Objects.requireNonNull(templateEngine, "templateEngine must not be null");
         //
@@ -64,6 +69,7 @@ public class GetGameRoute implements Route {
         this.playerLobby = playerLobby;
         this.gameCenter = gameCenter;
     }
+
 
     /**
      * {@inheritDoc}
@@ -95,6 +101,10 @@ public class GetGameRoute implements Route {
 
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
+        final Map<String, Object> modeOptions = new HashMap<>(2);
+        modeOptions.put("isGameOver", true);
+        modeOptions.put("gameOverMessage", "This is the end of the game");
+
         Game currentGame;
         BoardView boardview;
 
@@ -138,8 +148,12 @@ public class GetGameRoute implements Route {
         vm.put(TITLE_ATTR, TITLE);
         vm.put(CURRENT_USER_ATTR, currentUser);
         vm.put(VIEW_MODE_ATTR, VIEW_MODE);
-        vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
         vm.put(GAME_ID_ATTR, GAME_ID);
+
+        if(currentGame.isGameOver())
+            vm.put(MODE_OPTIONS_ATTR, gson.toJson(modeOptions));
+        else
+            vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
