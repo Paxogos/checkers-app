@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.application.GameCenter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +16,16 @@ class SpaceTest {
     private static final int LARGE_IDX = 8;
     private static final int IDX = 7;
 
+    GameCenter gameCenter = new GameCenter();
+    BoardView boardView;
 
+    private Game testGame = gameCenter.getGame(new Player("Test1"), new Player("Test2"));
+
+
+    @BeforeEach
+    void createBoardView(){
+        boardView = new BoardView(testGame.getBoard());
+    }
 
 
     @Test
@@ -43,7 +54,6 @@ class SpaceTest {
 
     @Test
     void ctor_create_board(){
-        BoardView boardView = new BoardView();
 
         // check if board was created properly
         Iterator iterator = boardView.getRowArrayList().iterator();
