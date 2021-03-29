@@ -46,8 +46,8 @@ public class GetGameRoute implements Route {
     static String VIEW_MODE = "PLAY";
     static String MODE_OPTIONS = "{}";
 
-    private PlayerLobby playerLobby;
-    private GameCenter gameCenter;
+    private final PlayerLobby playerLobby;
+    private final GameCenter gameCenter;
 
     // Values used in the view-model map for rendering the game view.
     private final TemplateEngine templateEngine;
@@ -104,7 +104,7 @@ public class GetGameRoute implements Route {
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
 
-            if(currentUser == currentGame.getRedPlayer()){
+            if(currentUser.equals(currentGame.getRedPlayer())){
                 boardview = currentGame.getBoard().getBoardViewForRed();
             }else{
                 boardview = currentGame.getBoard().getBoardViewForWhite();
