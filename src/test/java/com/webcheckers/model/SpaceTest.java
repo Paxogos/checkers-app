@@ -73,27 +73,4 @@ class SpaceTest {
 
     }
 
-    @Test
-    void getSpaceState(){
-    }
-
-    @Test
-    void getCellIdx() {
-    }
-
-    @Test
-    void getRowIdx() {
-    }
-
-    @Test
-    void isValid() {
-    }
-
-    @Test
-    void getPiece() {
-    }
-
-    @Test
-    void testToString() {
-    }
 }

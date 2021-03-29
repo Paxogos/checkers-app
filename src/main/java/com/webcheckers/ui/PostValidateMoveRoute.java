@@ -37,11 +37,10 @@ public class PostValidateMoveRoute implements Route {
             String JSONasString = request.queryParams(ACTION_DATA_ATTR);
             System.out.println(request.queryParams());
             System.out.println(JSONasString);
-            Move attemptedMove = this.gson.fromJson(JSONasString, Move.class);
+            Move attemptedMove = gson.fromJson(JSONasString, Move.class);
             System.out.println(attemptedMove);
 
             MoveResult result = currentGame.makeMove(attemptedMove);
-
 
             Message returnMessage;
             switch (result) {
