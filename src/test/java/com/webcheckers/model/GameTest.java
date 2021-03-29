@@ -24,12 +24,10 @@ public class GameTest {
     }
 
     @Test
-    public void testMakeMoveRED() {
-        Position FIRST_POSITION = new Position(6,1);
-        Position OCCUPIED_POSITION = new Position(5,0);
+    public void testMakeMove() {
+        Position FIRST_POSITION = new Position(5,0);
+        Position OCCUPIED_POSITION = new Position(4,1);
         Position SECOND_POSITION = new Position(5,4);
-        Position THIRD_POSITION = new Position(4,3);
-        Position FOURTH_POSITION = new Position(3, 4);
         Position SINGLE_RESTRICTED_POSITION = new Position(3,0);
 
         Move moveToOccupiedSpace = new Move(FIRST_POSITION, OCCUPIED_POSITION);
@@ -44,64 +42,18 @@ public class GameTest {
         assertEquals(Game.MoveResult.SINGLE_RESTRICTED, result,
                 "Expected SINGLE_RESTRICTED, but was " + result);
 
-        Move moveSimpleMove = new Move(SECOND_POSITION, THIRD_POSITION);
-        result = testGame.makeMove(moveSimpleMove);
-
-        /*assertEquals(Game.MoveResult.SIMPLE_MOVE, result,
-                "Expected SINGLE_MOVE, but was " + result);*/
-
-        Move simpleMovesExceeded = new Move(THIRD_POSITION, FOURTH_POSITION);
-        result = testGame.makeMove(simpleMovesExceeded);
-
-        assertEquals(Game.MoveResult.SIMPLE_MOVES_EXCEEDED, result,
-                "Expected SIMPLE_MOVES_EXCEEDED, but was " + result);
-
-        Move moveNoPiece = new Move(SECOND_POSITION, FOURTH_POSITION);
-        result = testGame.makeMove(moveNoPiece);
-
-        /*assertEquals(Game.MoveResult.INVALID, result,
-                "Expected INVALID, but was " + result);*/
-
-    }
-
-    @Test
-    public void testMakeMoveWHITE() {
-        Position FIRST_POSITION = new Position(1,2);
-        Position OCCUPIED_POSITION = new Position(2,1);
-        Position SECOND_POSITION = new Position(2,3);
-        Position THIRD_POSITION = new Position(3,2);
-        Position FOURTH_POSITION = new Position(4, 3);
-        Position SINGLE_RESTRICTED_POSITION = new Position(3,0);
-
-        Move moveToOccupiedSpace = new Move(FIRST_POSITION, OCCUPIED_POSITION);
-        Game.MoveResult result = testGame.makeMove(moveToOccupiedSpace);
-
-        assertEquals(Game.MoveResult.OCCUPIED, result,
-                "Expected OCCUPIED, but was " + result);
-
-        Move moveSingleRestricted = new Move(FIRST_POSITION, SINGLE_RESTRICTED_POSITION);
-        result = testGame.makeMove(moveSingleRestricted);
-
-        assertEquals(Game.MoveResult.SINGLE_RESTRICTED, result,
-                "Expected SINGLE_RESTRICTED, but was " + result);
-
-        Move moveSimpleMove = new Move(SECOND_POSITION, THIRD_POSITION);
+        Move moveSimpleMove = new Move(FIRST_POSITION, SECOND_POSITION);
         result = testGame.makeMove(moveSimpleMove);
 
         assertEquals(Game.MoveResult.SIMPLE_MOVE, result,
                 "Expected SINGLE_MOVE, but was " + result);
 
-        Move simpleMovesExceeded = new Move(THIRD_POSITION, FOURTH_POSITION);
-        result = testGame.makeMove(simpleMovesExceeded);
-
-        assertEquals(Game.MoveResult.SIMPLE_MOVES_EXCEEDED, result,
-                "Expected SINGLE_MOVE, but was " + result);
-
-        Move moveNoPiece = new Move(SECOND_POSITION, FOURTH_POSITION);
+        Move moveNoPiece = new Move(FIRST_POSITION, SECOND_POSITION);
         result = testGame.makeMove(moveNoPiece);
 
         assertEquals(Game.MoveResult.INVALID, result,
                 "Expected INVALID, but was " + result);
+
     }
 
 

@@ -16,15 +16,6 @@ public class BoardView implements Iterable<Row>{
 
 
     /**
-     * Construct a new BoardView
-     */
-    public BoardView() {
-        this.rowArrayList = new ArrayList<>();
-        for (int row = 0; row < GRID_LENGTH; row++)
-            this.rowArrayList.add(new Row(row));
-    }
-
-    /**
      * BoardView constructor
      *
      * @param board     the board with spaces to be copied
@@ -39,10 +30,8 @@ public class BoardView implements Iterable<Row>{
                 spaceList.add(board.getSpace(spacePos));
             }
             this.rowArrayList.add(new Row(row, spaceList));
-
         }
     }
-
 
 
     @Override
@@ -95,12 +84,8 @@ public class BoardView implements Iterable<Row>{
 
         for (int row = 0; row < GRID_LENGTH; row++) {
             for (int cell = 0; cell < GRID_LENGTH; cell++) {
-                if (this.rowArrayList.get(row).getSpaceArrayList().get(cell).equals(
-                        newBoard.getRowArrayList().get(row).getSpaceArrayList().get(cell))){
-                }else{
+                if (this.rowArrayList.get(row).getSpaceArrayList().get(cell).equals(newBoard.getRowArrayList().get(row).getSpaceArrayList().get(cell)))
                     return false;
-                }
-
             }
         }
 

@@ -8,40 +8,28 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 public class PostSubmitTurnRoute implements Route {
 
-    private Gson gson;
-
-    private final String ACTION_DATA_ATTR = "actionData";
+    private final Gson gson;
 
     public PostSubmitTurnRoute(Gson gson) {
-        this.gson = gson;
+        this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
     }
 
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
 
-    public Object handle(Request request, Response response) {
 
         Session httpSession = request.session();
-        Game currentGame;
+        Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
 
-        if (httpSession.attribute(GetGameRoute.GAME_ATTR) != null) {
-            currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
-            Set<String> JSONasString = request.queryParams();
-            System.out.println(JSONasString);
+        currentGame.completeTurn();
 
-            if(currentGame.isWon()){
+        System.out.println(currentGame.getBoard());
 
-            }
+        return this.gson.toJson(Message.info("Active player has switched."));
 
-            currentGame.completeTurn();
-
-        }
-
-
-        return gson.toJson(Message.info("Active player has been switched"));
     }
-
 }
