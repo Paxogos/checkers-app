@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 @Tag("Model-tier")
 class SpaceTest {
@@ -74,26 +75,26 @@ class SpaceTest {
     }
 
     @Test
-    void getSpaceState(){
-    }
-
-    @Test
     void getCellIdx() {
+        Space CuT = new Space(2, 3);
+        assertEquals(CuT.getCellIdx(), 3);
     }
 
     @Test
     void getRowIdx() {
+        Space CuT = new Space(2, 3);
+        assertEquals(CuT.getRowIdx(), 2);
     }
 
     @Test
     void isValid() {
-    }
-
-    @Test
-    void getPiece() {
+        Space CuT = new Space(1, 1);
+        assertFalse(CuT.isValid());
     }
 
     @Test
     void testToString() {
+        Space CuT = new Space(1, 1);
+        assertEquals(CuT.toString(), "Space{cellIdx=1}");
     }
 }
