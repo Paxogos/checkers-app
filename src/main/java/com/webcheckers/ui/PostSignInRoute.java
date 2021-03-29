@@ -57,7 +57,7 @@ public class PostSignInRoute implements Route {
             else {
                 Player currentUser = playerLobby.getPlayer(name);
                 httpSession.attribute(PLAYER_ATTR, currentUser);
-                return templateEngine.render(GetHomeRoute.getHomePage(currentUser, playerLobby));
+                return templateEngine.render(GetHomeRoute.getHomePage(currentUser, playerLobby, null));
             }
 
         }
