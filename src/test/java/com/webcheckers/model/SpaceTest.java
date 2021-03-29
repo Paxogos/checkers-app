@@ -1,11 +1,14 @@
 package com.webcheckers.model;
 
+import com.webcheckers.application.GameCenter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 @Tag("Model-tier")
 class SpaceTest {
@@ -14,7 +17,16 @@ class SpaceTest {
     private static final int LARGE_IDX = 8;
     private static final int IDX = 7;
 
+    GameCenter gameCenter = new GameCenter();
+    BoardView boardView;
 
+    private Game testGame = gameCenter.getGame(new Player("Test1"), new Player("Test2"));
+
+
+    @BeforeEach
+    void createBoardView(){
+        boardView = new BoardView(testGame.getBoard());
+    }
 
 
     @Test
@@ -43,7 +55,6 @@ class SpaceTest {
 
     @Test
     void ctor_create_board(){
-        BoardView boardView = new BoardView();
 
         // check if board was created properly
         Iterator iterator = boardView.getRowArrayList().iterator();
@@ -64,26 +75,26 @@ class SpaceTest {
     }
 
     @Test
-    void getSpaceState(){
-    }
-
-    @Test
     void getCellIdx() {
+        Space CuT = new Space(2, 3);
+        assertEquals(CuT.getCellIdx(), 3);
     }
 
     @Test
     void getRowIdx() {
+        Space CuT = new Space(2, 3);
+        assertEquals(CuT.getRowIdx(), 2);
     }
 
     @Test
     void isValid() {
-    }
-
-    @Test
-    void getPiece() {
+        Space CuT = new Space(1, 1);
+        assertFalse(CuT.isValid());
     }
 
     @Test
     void testToString() {
+        Space CuT = new Space(1, 1);
+        assertEquals(CuT.toString(), "Space{cellIdx=1}");
     }
 }
