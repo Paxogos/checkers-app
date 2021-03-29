@@ -141,9 +141,6 @@ public class PlayerLobby {
     }
 
     public boolean isPlayerInGame(Player player) {
-        if(player == null){
-            throw new IllegalArgumentException("The provided player object is null");
-        }
         return busyPlayerList.containsKey(player.getName());
     }
 

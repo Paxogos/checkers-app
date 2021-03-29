@@ -59,7 +59,7 @@ public class PieceTest {
     @Test
     void getter_isSingle_red_false() {
         //Create a RED Piece as type KING
-        Piece CuT = new King(Piece.Color.RED);
+        Piece CuT = new Single(Piece.Color.RED);
         //should return false since CuT isn't type SINGLE
         assertFalse(CuT.isSingle(), "Piece isn't type SINGLE");
     }
@@ -67,7 +67,7 @@ public class PieceTest {
     @Test
     void getter_isSingle_white_false() {
         //Create a WHITE Piece as type KING
-        Piece CuT = new King(Piece.Color.WHITE);
+        Piece CuT = new Single(Piece.Color.WHITE);
         //should return false since CuT isn't type SINGLE
         assertFalse(CuT.isSingle(), "Piece isn't type SINGLE");
     }
@@ -91,7 +91,7 @@ public class PieceTest {
     @Test
     void getter_isKing_red_false() {
         //Create a RED Piece as type KING
-        Piece CuT = new Single(Piece.Color.RED);
+        Piece CuT = new King(Piece.Color.RED);
         //Should hold true since CuT is a KING
         assertFalse(CuT.isKing(), "Piece isn't type KING");
     }
@@ -99,7 +99,7 @@ public class PieceTest {
     @Test
     void getter_isKing_white_false() {
         //Create a WHITE Piece as type KING
-        Piece CuT = new Single(Piece.Color.WHITE);
+        Piece CuT = new King(Piece.Color.WHITE);
         //Should hold true since CuT is a KING
         assertFalse(CuT.isKing(), "Piece isn't type KING");
     }

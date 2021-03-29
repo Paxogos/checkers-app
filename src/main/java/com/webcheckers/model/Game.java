@@ -16,7 +16,6 @@ public class Game {
     private final Board board;
     private final Player redPlayer;
     private final Player whitePlayer;
-    private Player winner;
 
     private Color activeColor = Color.RED;
     private Turn activeTurn;
@@ -182,13 +181,6 @@ public class Game {
      */
     public boolean isWon() {
         // TODO
-        if(numRedPieces == 0){
-            winner = whitePlayer;
-            return true;
-        }else if(numWhitePieces == 0){
-            winner = redPlayer;
-            return true;
-        }
         return false;
     }
 

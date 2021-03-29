@@ -26,6 +26,7 @@ public class GetHomeRoute implements Route {
   static final String AVAILABLE_PLAYER_LIST_ATTR = "availablePlayerList";
   static final String PLAYER_ATTR = "currentUser";
   static final String BUSY_PLAYER_LIST_ATTR = "busyPlayerList";
+  static final String BUSY_PLAYER_ATTR = "playerBusy";
   static final String LOBBY_SIZE_ATTR = "lobbySize";
   static final String TITLE = "Welcome to Webcheckers!";
   static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
@@ -75,8 +76,15 @@ public class GetHomeRoute implements Route {
       response.redirect("/game?" + opponent.getName());
     }
 
+    Message message;
+    if (httpSession.attribute(BUSY_PLAYER_ATTR) != null) {
+      message = Message.info("Selected opponent is already in a game");
+    }
+    else
+      message = WELCOME_MSG;
+
     // Render the home page
-    return templateEngine.render(getHomePage(currentUser, this.playerLobby));
+    return templateEngine.render(getHomePage(currentUser, this.playerLobby, message));
 
   }
 
@@ -87,12 +95,12 @@ public class GetHomeRoute implements Route {
    * @param playerLobby   The lobby containing all Players currently playing
    * @return              The home page contents to be rendered
    */
-  public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby) {
+  public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby, Message message) {
     Map<String, Object> vm = new HashMap<>();
     vm.put(TITLE_ATTR, TITLE);
 
     // display a user message in the Home page
-    vm.put(WELCOME_MSG_ATTR, WELCOME_MSG);
+    vm.put(WELCOME_MSG_ATTR, message);
 
     vm.put(PLAYER_ATTR, currentUser);
 
