@@ -50,9 +50,6 @@ class GetGameRouteTest {
 
         session.attribute("currentUser",currentUser);
         when(request.session()).thenReturn(session);
-        when(session.attribute("currentUser")).thenReturn(currentUser);
-
-
 
         // create a unique CuT for each test
         CuT = new GetGameRoute(playerLobby,gameCenter,engine);
@@ -60,9 +57,9 @@ class GetGameRouteTest {
 
     @Test
     public void new_game() {
-
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        when(session.attribute("currentUser")).thenReturn(currentUser);
         when(request.queryString()).thenReturn("TestOpp1");
 
         CuT.handle(request, response);
@@ -75,5 +72,44 @@ class GetGameRouteTest {
 
         //   * test view name
         testHelper.assertViewName(GetGameRoute.VIEW_NAME);
+    }
+
+    @Test
+    void game_exists(){
+        final TemplateEngineTester testHelper = new TemplateEngineTester();
+        when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        when(session.attribute("currentUser")).thenReturn(currentUser);
+
+        Game currentGame = gameCenter.getGame(currentUser,opponent);
+
+        CuT.handle(request,response);
+
+        testHelper.assertViewModelExists();
+        testHelper.assertViewModelIsaMap();
+        //   * model contains all necessary View-Model data
+
+        //   * test view name
+        testHelper.assertViewName(GetGameRoute.VIEW_NAME);
+    }
+
+    @Test
+    void not_signed_in(){
+        when(session.attribute("currentUser")).thenReturn(null);
+        try{
+            CuT.handle(request,response);
+        }catch (spark.HaltException e){
+            System.out.println(e + ": GetGameRoute halted, this is the expected behavior of this test");
+        }
+    }
+
+    @Test
+    void no_opponent_given(){
+        when(session.attribute("currentUser")).thenReturn(currentUser);
+        when(request.queryString()).thenReturn(null);
+        try{
+            CuT.handle(request,response);
+        }catch (spark.HaltException e){
+            System.out.println(e + ": GetGameRoute halted, this is the expected behavior of this test");
+        }
     }
 }

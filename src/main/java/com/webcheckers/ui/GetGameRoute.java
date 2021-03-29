@@ -34,8 +34,8 @@ public class GetGameRoute implements Route {
     static final String WHITE_PLAYER_ATTR = "whitePlayer";
     static final String ACTIVE_COLOR_ATTR = "activeColor";
     static final String BOARD_ATTR = "board";
-    static final String PLAYER_ATTR = "currentUser";
 
+    static final String PLAYER_ATTR = "currentUser";
     static final String GAME_ATTR = "currentGame";
     static final String BUSY_ATTR = "opponentBusy";
 
@@ -77,7 +77,6 @@ public class GetGameRoute implements Route {
         if(httpSession.attribute(PLAYER_ATTR) == null){
             response.redirect(WebServer.HOME_URL);
             halt();
-            return null;
         }
 
         Player currentUser = httpSession.attribute(PLAYER_ATTR);
@@ -88,7 +87,6 @@ public class GetGameRoute implements Route {
         if(opponent == null && opponentString == null){
             response.redirect(WebServer.HOME_URL);
             halt();
-            return null;
         }
 
 
@@ -122,7 +120,6 @@ public class GetGameRoute implements Route {
                 httpSession.attribute(BUSY_ATTR,"true");
                 response.redirect("/");
                 halt();
-                return null;
             }
 
             currentGame = gameCenter.getGame(currentUser, opponent);

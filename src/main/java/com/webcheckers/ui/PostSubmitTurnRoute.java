@@ -32,9 +32,7 @@ public class PostSubmitTurnRoute implements Route {
             Set<String> JSONasString = request.queryParams();
             System.out.println(JSONasString);
 
-            if(currentGame.getNumRedPieces() == 0){
-
-            }else if(currentGame.getNumWhitePieces() == 0){
+            if(currentGame.isWon()){
 
             }
 

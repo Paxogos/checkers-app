@@ -65,6 +65,7 @@ public class GetHomeRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
+    Message message = null;
     LOG.finer("GetHomeRoute is invoked.");
     Session httpSession = request.session();
 
@@ -76,10 +77,14 @@ public class GetHomeRoute implements Route {
       response.redirect("/game?" + opponent.getName());
     }
 
+    if(httpSession.attribute(BUSY_ATTR) != null){
+      message = Message.info("Selected opponent is already in a game");
+      httpSession.attribute(BUSY_ATTR,null);
+    }
 
 
     // Render the home page
-    return templateEngine.render(getHomePage(currentUser, this.playerLobby));
+    return templateEngine.render(getHomePage(currentUser, this.playerLobby, message));
 
   }
 
@@ -90,7 +95,7 @@ public class GetHomeRoute implements Route {
    * @param playerLobby   The lobby containing all Players currently playing
    * @return              The home page contents to be rendered
    */
-  public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby) {
+  public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby, Message message) {
     Map<String, Object> vm = new HashMap<>();
     vm.put(TITLE_ATTR, TITLE);
 
@@ -101,7 +106,9 @@ public class GetHomeRoute implements Route {
 
     vm.put(LOBBY_SIZE_ATTR, playerLobby.getNumberPlayers());
 
-
+    if(message != null){
+      vm.put("message", message);
+    }
 
     if (currentUser != null) {
       vm.put(AVAILABLE_PLAYER_LIST_ATTR, playerLobby.getAvailablePlayers(currentUser.getName()));
