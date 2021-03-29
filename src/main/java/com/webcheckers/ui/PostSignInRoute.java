@@ -60,9 +60,7 @@ public class PostSignInRoute implements Route {
                 return templateEngine.render(GetHomeRoute.getHomePage(currentUser, playerLobby, null));
             }
 
-        }
-
-        else {
+        } else {
             response.redirect(WebServer.HOME_URL);
             halt();
             return null;
