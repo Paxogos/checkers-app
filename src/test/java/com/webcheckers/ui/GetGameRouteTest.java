@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
@@ -32,6 +33,7 @@ class GetGameRouteTest {
     private GameCenter gameCenter;
     private Player currentUser;
     private Player opponent;
+    private Gson gson;
 
     @BeforeEach
     public void setup(){
@@ -39,6 +41,7 @@ class GetGameRouteTest {
         session = mock(Session.class);
         response = mock(Response.class);
         engine = mock(TemplateEngine.class);
+        gson = mock(Gson.class);
 
         playerLobby = new PlayerLobby();
         gameCenter = new GameCenter();
@@ -52,7 +55,7 @@ class GetGameRouteTest {
         when(request.session()).thenReturn(session);
 
         // create a unique CuT for each test
-        CuT = new GetGameRoute(playerLobby,gameCenter,engine);
+        CuT = new GetGameRoute(playerLobby, gameCenter, engine, gson);
     }
 
     @Test
