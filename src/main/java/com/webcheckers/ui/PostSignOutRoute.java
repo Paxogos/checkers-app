@@ -19,9 +19,10 @@ public class PostSignOutRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
         final Session session = request.session();
-        Player player = session.attribute("currentUser");
+        Player currentUser = session.attribute("currentUser");
 
         // needs to remove player from the lobby
+        playerLobby.signOut(currentUser);
 
         session.removeAttribute("currentUser");
         response.redirect(WebServer.HOME_URL);
