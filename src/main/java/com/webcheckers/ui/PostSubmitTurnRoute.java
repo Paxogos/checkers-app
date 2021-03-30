@@ -8,7 +8,6 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
-import java.util.List;
 import java.util.Set;
 
 public class PostSubmitTurnRoute implements Route {
@@ -32,7 +31,7 @@ public class PostSubmitTurnRoute implements Route {
             Set<String> JSONasString = request.queryParams();
             System.out.println(JSONasString);
 
-            if(currentGame.isWon()){
+            if(currentGame.isGameOver()){
 
             }
 

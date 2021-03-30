@@ -152,7 +152,7 @@ public class GetGameRoute implements Route {
         vm.put(VIEW_MODE_ATTR, VIEW_MODE);
         vm.put(GAME_ID_ATTR, GAME_ID);
 
-        if(currentGame.isWon())
+        if(currentGame.isGameOver())
             vm.put(MODE_OPTIONS_ATTR, gson.toJson(modeOptions));
         else
             vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
