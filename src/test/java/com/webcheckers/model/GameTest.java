@@ -105,7 +105,7 @@ public class GameTest {
                 "Expected INVALID, but was " + result);
     }
 
-    @Test
+   /* @Test
     public void testBackup() {
         Position FIRST_POSITION = new Position(1,2);
         Position SECOND_POSITION = new Position(2,3);
@@ -114,6 +114,6 @@ public class GameTest {
         testGame.makeMove(moveToValidSpace);
 
         assertTrue(testGame.backup());
-    }
+    }*/
 
 }

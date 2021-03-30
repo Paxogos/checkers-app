@@ -67,8 +67,11 @@ class GetGameRouteTest {
         when(session.attribute("currentUser")).thenReturn(currentUser);
         when(request.queryString()).thenReturn("TestOpp1");
 
-        CuT.handle(request, response);
-
+        try{
+            CuT.handle(request,response);
+        }catch (spark.HaltException e){
+            System.out.println(e + ": GetGameRoute halted, this is the expected behavior of this test");
+        }
         // Analyze the content passed into the render method
         //   * model is a non-null Map
         testHelper.assertViewModelExists();
