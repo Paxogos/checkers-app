@@ -62,6 +62,10 @@ public class WebServer {
   public static final String SIGN_IN_URL = "/signin";
 
   /**
+   * The URL pattern to request the Sign Out page.
+   */
+  public static final String SIGN_OUT_URL = "/signout";
+  /**
    * The URL pattern to request the Game page.
    */
   public static final String GAME_URL = "/game";
@@ -85,6 +89,7 @@ public class WebServer {
    * The URL pattern to request move validation
    */
   public static final String SUBMIT_TURN_URL = "/submitTurn";
+
 
   //
   // Attributes
@@ -184,6 +189,8 @@ public class WebServer {
     //
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby, templateEngine));
 
+    //
+    post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby, templateEngine));
     //
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson));
 

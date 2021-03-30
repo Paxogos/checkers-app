@@ -50,6 +50,10 @@ public class PlayerLobby {
             return LoginAttempt.VALID;
         }
     }
+    // Should remove the player from the lobby idk
+    public void removeFromLobby(String name) {
+        //this.availablePlayerList.remove(name, );
+    }
 
     /**
      * Checks if the given name is a valid username
