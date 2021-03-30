@@ -180,8 +180,7 @@ public class Game {
      *
      * @return Is the game over?
      */
-    public boolean isWon() {
-        // TODO
+    public boolean isGameOver() {
         if(numRedPieces == 0){
             winner = whitePlayer;
             return true;
@@ -226,7 +225,6 @@ public class Game {
         this.board.removePieceAt(lastMove.end());
 
         return true;
-
 
     }
 

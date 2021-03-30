@@ -1,6 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.util.Position;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.rowset.FilteredRowSet;
@@ -104,5 +105,15 @@ public class GameTest {
                 "Expected INVALID, but was " + result);
     }
 
+    @Test
+    public void testBackup() {
+        Position FIRST_POSITION = new Position(1,2);
+        Position SECOND_POSITION = new Position(2,3);
+
+        Move moveToValidSpace = new Move(FIRST_POSITION, SECOND_POSITION);
+        testGame.makeMove(moveToValidSpace);
+
+        assertTrue(testGame.backup());
+    }
 
 }

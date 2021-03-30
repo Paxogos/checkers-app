@@ -1,3 +1,4 @@
+
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
@@ -98,7 +99,7 @@ public class PostValidateMoveRouteTest {
 
         when(request.queryParams("actionData")).thenReturn(gson.toJson(new Move(simpleStart1,simpleEnd1)));
 
-        assertEquals(gson.toJson(Message.info("Piece moved from " + simpleStart1 + " to " + simpleEnd1)),
+        assertEquals(gson.toJson(Message.info("Piece jumped from " + simpleStart1 + " to " + simpleEnd1)),
                 CuT.handle(request,response));
 
     }

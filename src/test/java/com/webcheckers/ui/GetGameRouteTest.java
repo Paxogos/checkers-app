@@ -1,5 +1,7 @@
+
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
@@ -51,8 +53,11 @@ class GetGameRouteTest {
         session.attribute("currentUser",currentUser);
         when(request.session()).thenReturn(session);
 
+        //create gson local variable
+        Gson gson = new Gson();
+
         // create a unique CuT for each test
-        CuT = new GetGameRoute(playerLobby,gameCenter,engine);
+        CuT = new GetGameRoute(playerLobby, gameCenter, engine, gson);
     }
 
     @Test
@@ -82,7 +87,11 @@ class GetGameRouteTest {
 
         Game currentGame = gameCenter.getGame(currentUser,opponent);
 
-        CuT.handle(request,response);
+        try{
+            CuT.handle(request,response);
+        }catch (spark.HaltException e){
+            System.out.println(e + ": GetGameRoute halted, this is the expected behavior of this test");
+        }
 
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();

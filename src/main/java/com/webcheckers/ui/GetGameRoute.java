@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import java.util.*;
 
+import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.*;
@@ -34,10 +35,10 @@ public class GetGameRoute implements Route {
     static final String WHITE_PLAYER_ATTR = "whitePlayer";
     static final String ACTIVE_COLOR_ATTR = "activeColor";
     static final String BOARD_ATTR = "board";
-
     static final String PLAYER_ATTR = "currentUser";
+    static final String PLAYER_BUSY_ATTR = "playerBusy";
+
     static final String GAME_ATTR = "currentGame";
-    static final String BUSY_ATTR = "opponentBusy";
 
 
     static String TITLE = "Game";
@@ -46,18 +47,22 @@ public class GetGameRoute implements Route {
     static String VIEW_MODE = "PLAY";
     static String MODE_OPTIONS = "{}";
 
-    private final PlayerLobby playerLobby;
-    private final GameCenter gameCenter;
+
+    private PlayerLobby playerLobby;
+    private GameCenter gameCenter;
 
     // Values used in the view-model map for rendering the game view.
     private final TemplateEngine templateEngine;
+    private final Gson gson;
 
     /**
      * The constructor for the {@code GET /game} route handler.
      *
      * @param templateEngine The {@link TemplateEngine} used for rendering page HTML.
+     * @param gson
      */
-    GetGameRoute(PlayerLobby playerLobby, GameCenter gameCenter, final TemplateEngine templateEngine) {
+    GetGameRoute(PlayerLobby playerLobby, GameCenter gameCenter, final TemplateEngine templateEngine, Gson gson) {
+        this.gson = gson;
         // validation
         Objects.requireNonNull(templateEngine, "templateEngine must not be null");
         //
@@ -65,6 +70,7 @@ public class GetGameRoute implements Route {
         this.playerLobby = playerLobby;
         this.gameCenter = gameCenter;
     }
+
 
     /**
      * {@inheritDoc}
@@ -77,22 +83,29 @@ public class GetGameRoute implements Route {
         if(httpSession.attribute(PLAYER_ATTR) == null){
             response.redirect(WebServer.HOME_URL);
             halt();
+            return null;
         }
 
         Player currentUser = httpSession.attribute(PLAYER_ATTR);
         Player opponent = gameCenter.getCurrentOpponent(currentUser);
 
         // If the currentUser does not have an existing game and there is not opponent in params, return to HOME_URL
-        String opponentString = request.queryString();
-        if(opponent == null && opponentString == null){
+        Set<String> params = request.queryParams();
+        Iterator<String> paramIterator = params.iterator();
+        if(opponent == null && !paramIterator.hasNext()){
             response.redirect(WebServer.HOME_URL);
             halt();
+            return null;
         }
 
 
 
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
+        final Map<String, Object> modeOptions = new HashMap<>(2);
+        modeOptions.put("isGameOver", true);
+        modeOptions.put("gameOverMessage", "This is the end of the game");
+
         Game currentGame;
         BoardView boardview;
 
@@ -104,7 +117,7 @@ public class GetGameRoute implements Route {
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
 
-            if(currentUser.equals(currentGame.getRedPlayer())){
+            if(currentUser == currentGame.getRedPlayer()){
                 boardview = currentGame.getBoard().getBoardViewForRed();
             }else{
                 boardview = currentGame.getBoard().getBoardViewForWhite();
@@ -113,13 +126,14 @@ public class GetGameRoute implements Route {
 
 
         }else{ // create a new game, currentUser must be red
-            opponent = playerLobby.getPlayer(opponentString);
+            opponent = playerLobby.getPlayer(paramIterator.next());
 
             // if the selected opponent is already in a game
             if (playerLobby.isPlayerInGame(opponent)) {
-                httpSession.attribute(BUSY_ATTR,"true");
+                httpSession.attribute(PLAYER_BUSY_ATTR, true);
                 response.redirect("/");
                 halt();
+                return null;
             }
 
             currentGame = gameCenter.getGame(currentUser, opponent);
@@ -136,8 +150,12 @@ public class GetGameRoute implements Route {
         vm.put(TITLE_ATTR, TITLE);
         vm.put(CURRENT_USER_ATTR, currentUser);
         vm.put(VIEW_MODE_ATTR, VIEW_MODE);
-        vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
         vm.put(GAME_ID_ATTR, GAME_ID);
+
+        if(currentGame.isGameOver())
+            vm.put(MODE_OPTIONS_ATTR, gson.toJson(modeOptions));
+        else
+            vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
 
