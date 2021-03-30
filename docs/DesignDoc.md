@@ -9,16 +9,17 @@ geometry: margin=1in
   * Jack Sipley
   * Aaron Schulte
   * Tyler Talarico
-  * Alexic Chiang
 
 ## Executive Summary
 
-This web application is designed with the purpose of allowing users to play online checkers against other users. Users who connect are required to sign in, which simply requires the user to provide a valid username. Once signed in users are presented with a list of other users currently signed in, clicking another user's name will start a game if they are available. Users are presetned with a drag and drop checkers board until they have completed the game and returned to the home page. 
+This web application is designed with the purpose of allowing users to play online checkers against other users. Users who connect are required to sign in, which simply requires the user to 
+provide a valid username. Once signed in users are presented with a list of other users currently signed in, clicking another user's name will start a game if they are available. Users are 
+presetned with a drag and drop checkers board until they have completed the game and returned to the home page. 
 
 
 ### Purpose
 
-To allow users to play a game of drag and drop checkers against other users across the internet.
+To allow users to play a game of drag and drop checkers against other users across the interwebs.
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -27,6 +28,8 @@ To allow users to play a game of drag and drop checkers against other users acro
 |------|------------|
 | VO | Value Object |
 | Position| A coordinate representation of the spaces on a checker board (row,column)|
+| MoveResult | A value the represents what type of move was made |
+| Type | Type of piece that the checker represents |
 
 
 
@@ -44,7 +47,7 @@ This section describes the features of the application.
 Two players must be able to sign in and play a game of checkers based upon the American rules. The game ends when either one player wins or one of the player resigns.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+> Below is a  list of top-level Epics and/or Stories of the MVP._
 
 ###### Start A Game
 As a Player I want to start a game so that I can play checkers with an opponent.
@@ -75,7 +78,7 @@ As a Player I want to be able to resign at any point during a game so that I can
 
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
+> _Below is a list of top-level features in the order you plan to consider them._
 
 #### Epic: Multi-Game Interface
 The player should be equipped with an interface which can display multiple games.
@@ -103,7 +106,7 @@ This section describes the application domain.
 > can discuss the more important domain entities and their relationship
 > to each other._
 
-Two players play in a game, each game consists of one board with 8x8 spaces. Pieces are set up on this board according to the American rules for checkers.
+Two players play a game, each game consists of one 8x8 board consisting 64 spaces. Pieces are set up on this board according to the American rules for checkers.
 
 
 ## Architecture and Design
@@ -132,12 +135,14 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](Sprint 1 State Diagram-1.png)
+![The WebCheckers Web Interface Statechart](Sprint 1 State Diagram.png)
 
 > _Provide a summary of the application's user interface.  Describe, from
 > the user's perspective, the flow of the pages in the web application._
 
 When a user connects they will be directed to the home page where there only option will be to click the "sign-in" button. This will take the user to the sign in page where the user is required to enter a valid username. Once a valid username is entered the user is taken back to the home page and presented with a list of online players. Clicking the name of an online player will take the user to the game page where they will play out their game of checkers until completion. Once completed, the user will be directed back to home. 
+
+![The WebCheckers Web Interface Statechart 2](Sprint%202%20State%20diagram.png)
 
 
 ### UI Tier
