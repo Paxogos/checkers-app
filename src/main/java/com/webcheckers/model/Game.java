@@ -236,9 +236,31 @@ public class Game {
      * @return      true if jump can be made
      */
     public boolean canPlayJumpMove() {
+
         Move lastMove = this.activeTurn.getLastMove();
-        Piece jumper = this.board.getPieceAt(lastMove.end());
-        return lastMove.getType() == MoveResult.SIMPLE_MOVE || !jumper.canJump(lastMove.end(), this.board);
+
+        if (lastMove == null) {
+            for (int row = 0; row < Board.GRID_LENGTH; row++) {
+                for (int cell = 0; cell < Board.GRID_LENGTH; cell++) {
+                    Position thisPos = new Position(row, cell);
+                    Piece nextPiece = board.getPieceAt(thisPos);
+
+                    if (!(nextPiece == null || nextPiece.getColor() != activeColor)) {
+                        if (nextPiece.canJump(thisPos, board))
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        else if (lastMove.getType() == MoveResult.SIMPLE_MOVE)
+            return false;
+
+        else {
+            Piece jumper = this.board.getPieceAt(lastMove.end());
+            return lastMove.getType() == MoveResult.SIMPLE_MOVE || !jumper.canJump(lastMove.end(), this.board);
+        }
 
     }
 
