@@ -1,10 +1,9 @@
 package com.webcheckers.model;
 
 import com.webcheckers.util.Position;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import javax.sql.rowset.FilteredRowSet;
+import com.webcheckers.model.Game.MoveResult;
+import com.webcheckers.model.Piece.Color;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -31,19 +30,19 @@ public class GameTest {
 
                 switch (spaceContents) {
                     case "w":
-                        newSpace = new Space(row, col, new Single(Piece.Color.WHITE));
+                        newSpace = new Space(row, col, new Single(Color.WHITE));
                         break;
 
                     case "W":
-                        newSpace = new Space(row, col, new King(Piece.Color.WHITE));
+                        newSpace = new Space(row, col, new King(Color.WHITE));
                         break;
 
                     case "r":
-                        newSpace = new Space(row, col, new Single(Piece.Color.RED));
+                        newSpace = new Space(row, col, new Single(Color.RED));
                         break;
 
                     case "R":
-                        newSpace = new Space(row, col, new King(Piece.Color.RED));
+                        newSpace = new Space(row, col, new King(Color.RED));
                         break;
 
                     default:
@@ -146,8 +145,48 @@ public class GameTest {
     }
 
     @Test
-    public void testJump() {
+    public void testRedJump() {
+        Game game = getGameFromBoardContents(TestBoards.WHITE_3_4__3_6__2_7_RED_4_5, Color.RED);
 
+        Move validJump = new Move(new Position(4,5), new Position(2,3));
+
+        Move occupiedJump = new Move(new Position(4,5), new Position(2,7));
+
+
+        System.out.println(game.getBoard());
+
+        MoveResult result = game.makeMove(occupiedJump);
+
+        System.out.println(game.getBoard());
+
+        assertEquals(MoveResult.OCCUPIED, result,
+                "Expected "  + MoveResult.OCCUPIED + ", but got " + result);
+
+        result = game.makeMove(validJump);
+
+        System.out.println(game.getBoard());
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected "  + MoveResult.JUMP + ", but got " + result);
+    }
+
+    @Test
+    public void testWhiteJump() {
+        Game game = getGameFromBoardContents(TestBoards.WHITE_3_4__RED_4_3__4_5__5_6, Color.WHITE);
+
+        Move validJump = new Move(new Position(3,4), new Position(5,2));
+
+        Move occupiedJump = new Move(new Position(3,4), new Position(5,6));
+
+        MoveResult result = game.makeMove(occupiedJump);
+
+        assertEquals(MoveResult.OCCUPIED, result,
+                "Expected "  + MoveResult.OCCUPIED + ", but got " + result);
+
+        result = game.makeMove(validJump);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected "  + MoveResult.JUMP + ", but got " + result);
     }
 
    /* @Test

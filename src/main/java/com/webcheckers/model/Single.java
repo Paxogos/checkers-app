@@ -32,11 +32,12 @@ public class Single extends Piece{
         if (movingPiece == null)
             return Game.MoveResult.INVALID;
 
-        if (Math.abs(deltaX) == 2 && deltaY == 2 && jumpee != null && jumpee.getColor() != movingPiece.getColor())
-            return Game.MoveResult.JUMP;
 
-        else if (board.getSpace(move.end()).isOccupied())
+        if (board.getSpace(move.end()).isOccupied())
             return Game.MoveResult.OCCUPIED;
+
+        else if (Math.abs(deltaX) == 2 && deltaY == 2 && jumpee != null && jumpee.getColor() != movingPiece.getColor())
+            return Game.MoveResult.JUMP;
 
         else if (deltaY == 1 && Math.abs(deltaX) == 1)
             return Game.MoveResult.SIMPLE_MOVE;

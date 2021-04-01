@@ -116,10 +116,15 @@ public class Board {
 
                 if (board[row][cell].getPiece() == null)
                     boardAsString.append(".");
-                else if (board[row][cell].isValid())
-                    boardAsString.append("x");
-                else if (board[row][cell].getPiece().getColor() == Piece.Color.RED)
+                else if (board[row][cell].getPiece().getColor() == Piece.Color.RED &&
+                        board[row][cell].getPiece().getType() == Piece.Type.SINGLE)
+                    boardAsString.append("r");
+                else if (board[row][cell].getPiece().getColor() == Piece.Color.RED &&
+                        board[row][cell].getPiece().getType() == Piece.Type.KING)
                     boardAsString.append("R");
+                else if (board[row][cell].getPiece().getColor() == Piece.Color.WHITE &&
+                        board[row][cell].getPiece().getType() == Piece.Type.SINGLE)
+                    boardAsString.append("w");
                 else
                     boardAsString.append("W");
             }

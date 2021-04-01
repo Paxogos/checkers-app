@@ -116,7 +116,7 @@ public class Space {
     }
 
     public boolean isOccupied() {
-        return this.spaceState == SpaceState.OCCUPIED;
+        return this.spaceState == SpaceState.OCCUPIED || this.piece != null;
     }
 
 
@@ -131,9 +131,15 @@ public class Space {
     public Space(int rowIdx, int cellIdx, Piece piece) {
         this.rowIdx = rowIdx;
         this.cellIdx = cellIdx;
-        if ((rowIdx + cellIdx) % 2 != 0)
-            this.piece = piece;
-        else
+
+        if ((rowIdx+cellIdx)%2 != 1) {
             this.piece = null;
+            this.spaceState = SpaceState.INVALID;
+        }
+
+        else if (piece == null)
+            this.spaceState = SpaceState.OPEN;
+        else
+            setPiece(piece);
     }
 }
