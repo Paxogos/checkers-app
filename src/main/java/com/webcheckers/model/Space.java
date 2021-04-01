@@ -127,4 +127,13 @@ public class Space {
         return newSpace.spaceState == this.spaceState &&
                 ((this.piece == null && newSpace.getPiece() == null) || this.piece.equals(newSpace.piece));
     }
+
+    public Space(int rowIdx, int cellIdx, Piece piece) {
+        this.rowIdx = rowIdx;
+        this.cellIdx = cellIdx;
+        if ((rowIdx + cellIdx) % 2 != 0)
+            this.piece = piece;
+        else
+            this.piece = null;
+    }
 }
