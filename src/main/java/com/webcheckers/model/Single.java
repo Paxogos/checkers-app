@@ -18,9 +18,7 @@ public class Single extends Piece{
 
         int directionCorrector = -1;
 
-        Piece movingPiece = board.getPieceAt(move.start());
-
-        if (movingPiece.getColor() == Color.WHITE)
+        if (this.getColor() == Color.WHITE)
             directionCorrector = 1;
 
         int deltaX = move.end().getCell() - move.start().getCell();
@@ -29,14 +27,10 @@ public class Single extends Piece{
         Position midpoint = move.midpoint();
         Piece jumpee = board.getPieceAt(midpoint);
 
-        if (movingPiece == null)
-            return Game.MoveResult.INVALID;
-
-
         if (board.getSpace(move.end()).isOccupied())
             return Game.MoveResult.OCCUPIED;
 
-        else if (Math.abs(deltaX) == 2 && deltaY == 2 && jumpee != null && jumpee.getColor() != movingPiece.getColor())
+        else if (Math.abs(deltaX) == 2 && deltaY == 2 && jumpee != null && jumpee.getColor() != this.getColor())
             return Game.MoveResult.JUMP;
 
         else if (deltaY == 1 && Math.abs(deltaX) == 1)
