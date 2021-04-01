@@ -31,7 +31,6 @@ public class PostSubmitTurnRoute implements Route {
         if (httpSession.attribute(GetGameRoute.GAME_ATTR) != null) {
             currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
             Set<String> JSONasString = request.queryParams();
-            System.out.println(JSONasString);
 
             if(currentGame.isGameOver()){
 

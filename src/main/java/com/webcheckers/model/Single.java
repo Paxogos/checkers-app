@@ -51,6 +51,7 @@ public class Single extends Piece{
 
     public boolean canJump(Position currentPosition, Board board) {
 
+        System.out.println("Position of last piece: " + currentPosition);
         boolean canJumpRight;
         boolean canJumpLeft;
 
@@ -65,24 +66,24 @@ public class Single extends Piece{
         int currentRow = currentPosition.getRow();
         int currentCell = currentPosition.getCell();
 
-        if (currentRow + deltaY > Board.GRID_LENGTH || currentRow + deltaY < 0)
+        if (currentRow + deltaY >= Board.GRID_LENGTH || currentRow + deltaY < 0)
             return false;
 
 
-        if (currentCell + deltaX > Board.GRID_LENGTH || currentCell + deltaX < 0)
+        if (currentCell + deltaX >= Board.GRID_LENGTH || currentCell + deltaX < 0)
             canJumpLeft = false;
         else {
-        Position leftJump = new Position (currentRow + deltaY, currentRow + deltaX);
+        Position leftJump = new Position (currentRow + deltaY, currentCell + deltaX);
         Position leftJumpCapture = new Move(currentPosition, leftJump).midpoint();
-        canJumpLeft = !board.getSpace(leftJump).isOccupied() &&
+        canJumpLeft = !board.getSpace(leftJump).isOccupied() && board.getPieceAt(leftJumpCapture) != null &&
                 board.getPieceAt(leftJumpCapture).getColor() != this.getColor(); }
 
-        if (currentCell - deltaX > Board.GRID_LENGTH || currentCell - deltaX < 0)
+        if (currentCell - deltaX >= Board.GRID_LENGTH || currentCell - deltaX < 0)
             canJumpRight = false;
         else {
         Position rightJump = new Position (currentRow + deltaY, currentCell - deltaX);
         Position rightJumpCapture = new Move(currentPosition, rightJump).midpoint();
-        canJumpRight = !board.getSpace(rightJump).isOccupied() &&
+        canJumpRight = !board.getSpace(rightJump).isOccupied() && board.getPieceAt(rightJumpCapture) != null &&
                 board.getPieceAt(rightJumpCapture).getColor() != this.getColor(); }
 
 

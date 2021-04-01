@@ -30,7 +30,7 @@ public class Game {
      */
     public enum MoveResult {
         INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED,
-        KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY
+        KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, CAN_PLAY_JUMP, EMPTY
     }
 
 
@@ -141,7 +141,10 @@ public class Game {
         // Uses the piece's logic to determine if the move is valid
         if (result == MoveResult.SIMPLE_MOVE) {
 
-            if (activeTurn.hasPlayedSimpleMove())
+            if (canPlayJumpMove())
+                return MoveResult.CAN_PLAY_JUMP;
+
+            if (activeTurn.hasPlayedSimpleMove() || activeTurn.hasPlayedJumpMove())
                 return MoveResult.SIMPLE_MOVES_EXCEEDED;
             this.board.setSpaceToPiece(move.end(), movingPiece);
             this.board.removePieceAt(move.start());
@@ -239,6 +242,7 @@ public class Game {
 
         Move lastMove = this.activeTurn.getLastMove();
 
+
         if (lastMove == null) {
             for (int row = 0; row < Board.GRID_LENGTH; row++) {
                 for (int cell = 0; cell < Board.GRID_LENGTH; cell++) {
@@ -254,12 +258,13 @@ public class Game {
             return false;
         }
 
-        else if (lastMove.getType() == MoveResult.SIMPLE_MOVE)
+        else if (lastMove.getType() == MoveResult.SIMPLE_MOVE) {
             return false;
+        }
 
         else {
             Piece jumper = this.board.getPieceAt(lastMove.end());
-            return lastMove.getType() == MoveResult.SIMPLE_MOVE || !jumper.canJump(lastMove.end(), this.board);
+            return jumper.canJump(lastMove.end(), this.board);
         }
 
     }
