@@ -49,27 +49,37 @@ public class Single extends Piece{
 
     }
 
+    /**
+     * Checks if this single can jump in any direction
+     *
+     * @param currentPosition       current position of the piece
+     * @param board                 current configuration of the board
+     * @return  true if piece can legally jump another piece
+     */
     public boolean canJump(Position currentPosition, Board board) {
 
         System.out.println("Position of last piece: " + currentPosition);
         boolean canJumpRight;
         boolean canJumpLeft;
 
+        // Corrects the direction of movement based on piece color
+        // Red technically moves backward, white moves forward
         int directionCorrector = -1;
-
         if (this.getColor() == Color.WHITE)
             directionCorrector = 1;
 
+        //Distance in each direction for a jump
         int deltaY = 2 * directionCorrector;
         int deltaX = 2 * directionCorrector;
 
         int currentRow = currentPosition.getRow();
         int currentCell = currentPosition.getCell();
 
+        // Checks if a jump to the left or right is out of bounds in the y-direction
         if (currentRow + deltaY >= Board.GRID_LENGTH || currentRow + deltaY < 0)
             return false;
 
-
+        // Checks if a jump to the left is out of bounds in the x-direction
         if (currentCell + deltaX >= Board.GRID_LENGTH || currentCell + deltaX < 0)
             canJumpLeft = false;
         else {
@@ -78,6 +88,7 @@ public class Single extends Piece{
         canJumpLeft = !board.getSpace(leftJump).isOccupied() && board.getPieceAt(leftJumpCapture) != null &&
                 board.getPieceAt(leftJumpCapture).getColor() != this.getColor(); }
 
+        // Checks if a jump to the right is out of bounds in the x-direction
         if (currentCell - deltaX >= Board.GRID_LENGTH || currentCell - deltaX < 0)
             canJumpRight = false;
         else {
