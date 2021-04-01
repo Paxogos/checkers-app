@@ -208,11 +208,8 @@ When a user connects they will be directed to the home page where there only opt
 > have not had any testing yet. Highlight the issues found during
 > acceptance testing and if there are any concerns._
 
-Currently the only user story to have completed acceptance testing is "Sign-In"
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Report on the code coverage
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets. If there are any anomalies, discuss
-> those._
+> _Unit Tests for Simple Move and Jump Move have been fully written
+> and passed. They cover various situations such as occupied spaces
+> and restrictions for simple pieces._
