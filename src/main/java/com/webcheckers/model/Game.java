@@ -167,23 +167,14 @@ public class Game {
     }
 
     /**
-     * Resets the turn and toggles the player
-     * @return returns false if another jump can be made
+     * Resets the turn and toggles the player, only if the player cannot make another move
      */
-    public boolean completeTurn() {
+    public void completeTurn() {
 
-        Move lastMove = this.activeTurn.getLastMove();
-        Piece jumper = this.board.getPieceAt(lastMove.end());
-
-        if (lastMove.getType() == MoveResult.SIMPLE_MOVE || !jumper.canJump(lastMove.end(), this.board)) {
+        if (!canPlayJumpMove()) {
             activeTurn = new Turn();
             toggleActivePlayer();
-            return true;
         }
-
-        return false;
-
-
     }
 
 
@@ -237,6 +228,17 @@ public class Game {
         this.board.removePieceAt(lastMove.end());
 
         return true;
+
+    }
+
+    /**
+     * Checks if a jump move can be played
+     * @return      true if jump can be made
+     */
+    public boolean canPlayJumpMove() {
+        Move lastMove = this.activeTurn.getLastMove();
+        Piece jumper = this.board.getPieceAt(lastMove.end());
+        return lastMove.getType() == MoveResult.SIMPLE_MOVE || !jumper.canJump(lastMove.end(), this.board);
 
     }
 

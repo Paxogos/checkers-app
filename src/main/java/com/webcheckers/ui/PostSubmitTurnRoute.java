@@ -26,7 +26,7 @@ public class PostSubmitTurnRoute implements Route {
         Session httpSession = request.session();
         Game currentGame;
 
-        boolean pieceCannotJump = true;
+        boolean pieceCanJump = false;
 
         if (httpSession.attribute(GetGameRoute.GAME_ATTR) != null) {
             currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
@@ -36,16 +36,16 @@ public class PostSubmitTurnRoute implements Route {
             if(currentGame.isGameOver()){
 
             }
-
-            pieceCannotJump = currentGame.completeTurn();
+            pieceCanJump = currentGame.canPlayJumpMove();
+            currentGame.completeTurn();
 
         }
 
 
-        if (pieceCannotJump)
-            return gson.toJson(Message.info("Active player has been switched"));
+        if (pieceCanJump)
+            return gson.toJson(Message.error("A piece can still be moved"));
         else
-            return gson.toJson(Message.error("The last piece moved can make an additional jump"));
+            return gson.toJson(Message.info("Active player has been switched"));
     }
 
 }
