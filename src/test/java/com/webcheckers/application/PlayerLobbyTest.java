@@ -9,6 +9,8 @@ class PlayerLobbyTest {
     private PlayerLobby playerLobby;
 
    @Test
-    void invalid_name_blank(){
+    void signInBlankName(){
+
+
    }
 }

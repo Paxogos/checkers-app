@@ -129,4 +129,15 @@ public class Board {
 
     }
 
+    /**
+     * Constructor for creating test boards
+     *
+     * @param spaces        spaces being put into the board
+     */
+    public Board (Space[][] spaces) {
+        for (int row = 0; row < GRID_LENGTH; row++) {
+            System.arraycopy(spaces[row], 0, this.board[row], 0, GRID_LENGTH);
+        }
+    }
+
 }

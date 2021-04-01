@@ -268,4 +268,20 @@ public class Game {
                 game.getBoard().equals(board);
     }
 
+    /**
+     * Constructor used for testing moves
+     *
+     * @param testBoard         board being used to test moves
+     * @param activeColor       active color being tested
+     */
+    public Game (Board testBoard, Color activeColor) {
+        this.board = testBoard;
+        this.activeColor = activeColor;
+        this.activeTurn = new Turn();
+        this.redPlayer = new Player("TestRed0");
+        this.whitePlayer = new Player("TestWhite0");
+
+        addPiecesToGame();
+    }
+
 }

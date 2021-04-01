@@ -105,6 +105,11 @@ public class GameTest {
                 "Expected INVALID, but was " + result);
     }
 
+    @Test
+    public void testJump() {
+
+    }
+
    /* @Test
     public void testBackup() {
         Position FIRST_POSITION = new Position(1,2);
