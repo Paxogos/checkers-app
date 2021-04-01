@@ -11,6 +11,19 @@ public class Turn {
         this.moveList = new ArrayList<>();
     }
 
+
+    /**
+     * Checks if a jump move has already been played this turn
+     * @return      true if a jump move has been played
+     */
+    public boolean hasPlayedJumpMove() {
+        for (Move m: this.moveList) {
+            if (m.getType() == Game.MoveResult.JUMP)
+                return true;
+        }
+        return false;
+    }
+
     /**
      * Checks if a simple move has already been played this turn
      * @return      true if a simple move has already been played
@@ -45,6 +58,21 @@ public class Turn {
     public void addMove(Move move) {
         this.moveList.add(move);
     }
+
+    /**
+     * Retrieve the last move played without removing it from the list
+     *
+     * @return Last move played
+     * @throws IndexOutOfBoundsException
+     */
+    public Move getLastMove() throws IndexOutOfBoundsException {
+        try {
+            return this.moveList.get(this.moveList.size() - 1);
+        }catch (IndexOutOfBoundsException iobe) {
+            return null;
+        }
+    }
+
 
     /**
      * Takes the last move from the turn, removes it

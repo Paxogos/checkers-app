@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 import com.webcheckers.model.Game.MoveResult;
+import com.webcheckers.util.Position;
 
 /**
  * Piece represents one checker on the board, which is used to play the game of checkers
@@ -63,6 +64,8 @@ public abstract class Piece {
     public Type getType() { return this.type; }
 
     public abstract MoveResult makeMove(Move move, Board board);
+
+    public abstract boolean canJump(Position position, Board board);
 
     public boolean equals(Object obj) {
         if (!(obj instanceof Piece))

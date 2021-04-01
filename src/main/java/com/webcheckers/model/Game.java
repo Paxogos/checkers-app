@@ -168,10 +168,22 @@ public class Game {
 
     /**
      * Resets the turn and toggles the player
+     * @return returns false if another jump can be made
      */
-    public void completeTurn() {
-        activeTurn = new Turn();
-        toggleActivePlayer();
+    public boolean completeTurn() {
+
+        Move lastMove = this.activeTurn.getLastMove();
+        Piece jumper = this.board.getPieceAt(lastMove.end());
+
+        if (lastMove.getType() == MoveResult.SIMPLE_MOVE || !jumper.canJump(lastMove.end(), this.board)) {
+            activeTurn = new Turn();
+            toggleActivePlayer();
+            return true;
+        }
+
+        return false;
+
+
     }
 
 
@@ -283,5 +295,4 @@ public class Game {
 
         addPiecesToGame();
     }
-
 }

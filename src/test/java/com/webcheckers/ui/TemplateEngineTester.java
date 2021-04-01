@@ -45,7 +45,7 @@ public class TemplateEngineTester {
    * Assert that the View-Model object exists.
    */
   public void assertViewModelExists() {
-    assertNotNull(model, "the View-Model exists");
+    assertNotNull(model, "the View-Model is null");
   }
 
   /**
