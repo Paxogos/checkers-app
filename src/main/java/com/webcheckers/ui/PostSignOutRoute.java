@@ -26,6 +26,7 @@ public class PostSignOutRoute implements Route {
 
         session.removeAttribute("currentUser");
         response.redirect(WebServer.HOME_URL);
+
         return null;
     }
 }

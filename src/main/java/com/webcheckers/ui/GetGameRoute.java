@@ -99,7 +99,6 @@ public class GetGameRoute implements Route {
         }
 
 
-
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
         final Map<String, Object> modeOptions = new HashMap<>(2);
