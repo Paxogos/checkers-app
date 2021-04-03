@@ -179,9 +179,12 @@ When a user connects they will be directed to the home page where there only opt
 
 
 ### Model Tier
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+> _The Model Tier encapsulates the base of the Webcheckers project.
+> The Game class holds relevant information for any game between two players.
+> Players control pieces located in the UI. The pieces themselves determine
+> whether a move is possible based on the current board configuration. 
+> The Game uses information passed into it from the Piece in order to accordingly
+> update the Board object that represents the current game._
 
 ![The Model's class diagram'](model_UML2.png)
 
@@ -210,6 +213,6 @@ When a user connects they will be directed to the home page where there only opt
 
 
 ### Unit Testing and Code Coverage
-> _Unit Tests for Simple Move and Jump Move have been fully written
-> and passed. They cover various situations such as occupied spaces
-> and restrictions for simple pieces._
+> _Unit Tests for Simple Move, Jump Move, and Multi Jump have been fully written
+> and passed. They cover various situations such as occupied spaces, jump requirements,
+> and restrictions on movement for single pieces._

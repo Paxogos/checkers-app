@@ -30,7 +30,7 @@ public class Game {
      */
     public enum MoveResult {
         INVALID, SIMPLE_MOVE, JUMP, OCCUPIED, SINGLE_RESTRICTED,
-        KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, EMPTY
+        KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, CAN_PLAY_JUMP, EMPTY
     }
 
 
@@ -141,7 +141,10 @@ public class Game {
         // Uses the piece's logic to determine if the move is valid
         if (result == MoveResult.SIMPLE_MOVE) {
 
-            if (activeTurn.hasPlayedSimpleMove())
+            if (canPlayJumpMove())
+                return MoveResult.CAN_PLAY_JUMP;
+
+            if (activeTurn.hasPlayedSimpleMove() || activeTurn.hasPlayedJumpMove())
                 return MoveResult.SIMPLE_MOVES_EXCEEDED;
             this.board.setSpaceToPiece(move.end(), movingPiece);
             this.board.removePieceAt(move.start());
@@ -167,11 +170,14 @@ public class Game {
     }
 
     /**
-     * Resets the turn and toggles the player
+     * Resets the turn and toggles the player, only if the player cannot make another move
      */
     public void completeTurn() {
-        activeTurn = new Turn();
-        toggleActivePlayer();
+
+        if (!canPlayJumpMove()) {
+            activeTurn = new Turn();
+            toggleActivePlayer();
+        }
     }
 
 
@@ -225,6 +231,41 @@ public class Game {
         this.board.removePieceAt(lastMove.end());
 
         return true;
+
+    }
+
+    /**
+     * Checks if a jump move can be played
+     * @return      true if jump can be made
+     */
+    public boolean canPlayJumpMove() {
+
+        Move lastMove = this.activeTurn.getLastMove();
+
+
+        if (lastMove == null) {
+            for (int row = 0; row < Board.GRID_LENGTH; row++) {
+                for (int cell = 0; cell < Board.GRID_LENGTH; cell++) {
+                    Position thisPos = new Position(row, cell);
+                    Piece nextPiece = board.getPieceAt(thisPos);
+
+                    if (!(nextPiece == null || nextPiece.getColor() != activeColor)) {
+                        if (nextPiece.canJump(thisPos, board))
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        else if (lastMove.getType() == MoveResult.SIMPLE_MOVE) {
+            return false;
+        }
+
+        else {
+            Piece jumper = this.board.getPieceAt(lastMove.end());
+            return jumper.canJump(lastMove.end(), this.board);
+        }
 
     }
 
@@ -283,5 +324,4 @@ public class Game {
 
         addPiecesToGame();
     }
-
 }

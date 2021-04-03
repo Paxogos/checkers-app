@@ -77,6 +77,10 @@ public class PostValidateMoveRoute implements Route {
                     returnMessage = Message.error("There is no piece at " + attemptedMove.start());
                     break;
 
+                case CAN_PLAY_JUMP:
+                    returnMessage = Message.error("A jump move can be played");
+                    break;
+
                 default:
                     returnMessage = Message.error("Something went wrong, but we're not sure what.");
             }

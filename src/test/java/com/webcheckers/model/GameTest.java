@@ -18,42 +18,7 @@ public class GameTest {
     private final Game testGame = new Game(player1, player2);
 
 
-    private Game getGameFromBoardContents(String[] boardsContents, Piece.Color activeColor) {
-        Iterator<String> contentsIterator = Arrays.stream(boardsContents).iterator();
-        Space[][] board = new Space[Board.GRID_LENGTH][Board.GRID_LENGTH];
 
-        for (int row = 0; row < Board.GRID_LENGTH; row++) {
-            for (int col = 0; col < Board.GRID_LENGTH; col++) {
-
-                String spaceContents = contentsIterator.next();
-                Space newSpace;
-
-                switch (spaceContents) {
-                    case "w":
-                        newSpace = new Space(row, col, new Single(Color.WHITE));
-                        break;
-
-                    case "W":
-                        newSpace = new Space(row, col, new King(Color.WHITE));
-                        break;
-
-                    case "r":
-                        newSpace = new Space(row, col, new Single(Color.RED));
-                        break;
-
-                    case "R":
-                        newSpace = new Space(row, col, new King(Color.RED));
-                        break;
-
-                    default:
-                        newSpace = new Space(row, col, null);
-                }
-                board[row][col] = newSpace;
-            }
-        }
-
-        return new Game(new Board(board), activeColor);
-    }
 
     @Test
     public void testAddPieces() {
@@ -87,8 +52,8 @@ public class GameTest {
         Move moveSimpleMove = new Move(SECOND_POSITION, THIRD_POSITION);
         result = testGame.makeMove(moveSimpleMove);
 
-        /*assertEquals(Game.MoveResult.SIMPLE_MOVE, result,
-                "Expected SINGLE_MOVE, but was " + result);*/
+        assertEquals(Game.MoveResult.SIMPLE_MOVE, result,
+                "Expected SINGLE_MOVE, but was " + result);
 
         Move simpleMovesExceeded = new Move(THIRD_POSITION, FOURTH_POSITION);
         result = testGame.makeMove(simpleMovesExceeded);
@@ -99,8 +64,8 @@ public class GameTest {
         Move moveNoPiece = new Move(SECOND_POSITION, FOURTH_POSITION);
         result = testGame.makeMove(moveNoPiece);
 
-        /*assertEquals(Game.MoveResult.INVALID, result,
-                "Expected INVALID, but was " + result);*/
+        assertEquals(Game.MoveResult.INVALID, result,
+                "Expected INVALID, but was " + result);
 
     }
 
@@ -146,33 +111,25 @@ public class GameTest {
 
     @Test
     public void testRedJump() {
-        Game game = getGameFromBoardContents(TestBoards.WHITE_3_4__3_6__2_7_RED_4_5, Color.RED);
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.WHITE_3_4__3_6__2_7_RED_4_5, Color.RED);
 
         Move validJump = new Move(new Position(4,5), new Position(2,3));
 
         Move occupiedJump = new Move(new Position(4,5), new Position(2,7));
 
 
-        System.out.println(game.getBoard());
-
         MoveResult result = game.makeMove(occupiedJump);
-
-        System.out.println(game.getBoard());
-
         assertEquals(MoveResult.OCCUPIED, result,
                 "Expected "  + MoveResult.OCCUPIED + ", but got " + result);
 
         result = game.makeMove(validJump);
-
-        System.out.println(game.getBoard());
-
         assertEquals(MoveResult.JUMP, result,
                 "Expected "  + MoveResult.JUMP + ", but got " + result);
     }
 
     @Test
     public void testWhiteJump() {
-        Game game = getGameFromBoardContents(TestBoards.WHITE_3_4__RED_4_3__4_5__5_6, Color.WHITE);
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.WHITE_3_4__RED_4_3__4_5__5_6, Color.WHITE);
 
         Move validJump = new Move(new Position(3,4), new Position(5,2));
 
@@ -187,6 +144,76 @@ public class GameTest {
 
         assertEquals(MoveResult.JUMP, result,
                 "Expected "  + MoveResult.JUMP + ", but got " + result);
+    }
+
+
+    @Test
+    public void testMultiJumpRed() {
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.WHITE_1_4__1_6__3_6_RED_4_5, Color.RED);
+
+        Position start = new Position(4,5);
+        Position simpleMoveSpace = new Position(3,4);
+        Position jumpOneSpace = new Position(2,7);
+        Position jumpTwoSpace = new Position(0,5);
+
+
+        Move invalidSimpleMove = new Move(start, simpleMoveSpace);
+        MoveResult result = game.makeMove(invalidSimpleMove);
+
+        assertEquals(MoveResult.CAN_PLAY_JUMP, result,
+                "Expected " + MoveResult.CAN_PLAY_JUMP + ", but got " + result);
+
+        Move jumpOne = new Move(start, jumpOneSpace);
+        result = game.makeMove(jumpOne);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+        assertTrue(game.canPlayJumpMove());
+
+        Move jumpTwo = new Move(jumpOneSpace, jumpTwoSpace);
+        result = game.makeMove(jumpTwo);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+
+        assertFalse(game.canPlayJumpMove());
+
+
+    }
+
+
+    @Test
+    public void testMultiJumpWhite() {
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.WHITE_3_4__RED_4_5__6_3__6_5, Color.WHITE);
+
+        Position start = new Position(3,4);
+        Position simpleMoveSpace = new Position(4,3);
+        Position jumpOneSpace = new Position(5,6);
+        Position jumpTwoSpace = new Position(7,4);
+
+
+        Move invalidSimpleMove = new Move(start, simpleMoveSpace);
+        MoveResult result = game.makeMove(invalidSimpleMove);
+
+        assertEquals(MoveResult.CAN_PLAY_JUMP, result,
+                "Expected " + MoveResult.CAN_PLAY_JUMP + ", but got " + result);
+
+        Move jumpOne = new Move(start, jumpOneSpace);
+        result = game.makeMove(jumpOne);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+        assertTrue(game.canPlayJumpMove());
+
+        Move jumpTwo = new Move(jumpOneSpace, jumpTwoSpace);
+        result = game.makeMove(jumpTwo);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+
+        assertFalse(game.canPlayJumpMove());
+
+
     }
 
    /* @Test
