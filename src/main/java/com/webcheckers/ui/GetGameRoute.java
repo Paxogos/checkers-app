@@ -98,6 +98,8 @@ public class GetGameRoute implements Route {
             return null;
         }
 
+        Game currentGame;
+        BoardView boardview;
 
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
@@ -105,8 +107,6 @@ public class GetGameRoute implements Route {
         modeOptions.put("isGameOver", true);
         modeOptions.put("gameOverMessage", "This is the end of the game");
 
-        Game currentGame;
-        BoardView boardview;
 
         // game exists, retrieve game and render FTL accordingly
         if(opponent != null){
@@ -114,6 +114,17 @@ public class GetGameRoute implements Route {
             vm.put(RED_PLAYER_ATTR,currentGame.getRedPlayer());
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
+
+            if (currentGame.isGameOver()) {
+                Piece.Color activeColor = currentGame.getActiveColor();
+                Piece.Color winningColor;
+                if (activeColor == Piece.Color.WHITE)
+                    winningColor = Piece.Color.RED;
+                else
+                    winningColor = Piece.Color.WHITE;
+
+                modeOptions.put("gameOverMessage", winningColor + " has won!");
+            }
 
 
             if(currentUser == currentGame.getRedPlayer()){
