@@ -188,6 +188,7 @@ public class Game {
      * @return Is the game over?
      */
     public boolean isGameOver() {
+
         if(numRedPieces == 0){
             winner = whitePlayer;
             return true;
@@ -195,7 +196,14 @@ public class Game {
             winner = redPlayer;
             return true;
         }
-        return false;
+        return winner != null;
+    }
+
+    public void resignGame() {
+        if (activeColor == Color.RED)
+            this.winner = this.whitePlayer;
+        else
+            this.winner = this.redPlayer;
     }
 
     public void kingPiece() {
