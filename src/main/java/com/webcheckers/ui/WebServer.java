@@ -90,6 +90,11 @@ public class WebServer {
    */
   public static final String SUBMIT_TURN_URL = "/submitTurn";
 
+  /**
+   *
+   *
+   */
+  public static final String EXIT_GAME_URL = "/exitGame";
 
   //
   // Attributes
@@ -191,6 +196,11 @@ public class WebServer {
 
     //
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby, templateEngine));
+
+
+    //
+    post(EXIT_GAME_URL, new PostExitGameRoute(playerLobby, templateEngine));
+
     //
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson));
 
@@ -202,6 +212,7 @@ public class WebServer {
 
     //
     post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gson));
+
 
     LOG.config("WebServer is initialized.");
 
