@@ -54,8 +54,6 @@ public class PlayerLobby {
     public void signOut(Player currentUser) { // TODO handle situation where player signs out mid game
         availablePlayerList.remove(currentUser.getName());
         busyPlayerList.remove(currentUser.getName());
-
-        System.out.println("test");
     }
 
     /**

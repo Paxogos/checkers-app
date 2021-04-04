@@ -31,6 +31,7 @@ public class GetHomeRoute implements Route {
   static final String TITLE = "Welcome to Webcheckers!";
   static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   static final String VIEW_NAME = "home.ftl";
+  static final String SIGNED_OUT_ATTR = "playerSignOut";
 
   //Attributes
   private final PlayerLobby playerLobby;
@@ -79,6 +80,9 @@ public class GetHomeRoute implements Route {
     Message message;
     if (httpSession.attribute(BUSY_PLAYER_ATTR) != null) {
       message = Message.info("Selected opponent is already in a game");
+    }
+    else if (httpSession.attribute(SIGNED_OUT_ATTR) != null) {
+      message = Message.info("You've successfully signed out");
     }
     else
       message = WELCOME_MSG;
