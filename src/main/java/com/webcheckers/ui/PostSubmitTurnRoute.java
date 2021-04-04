@@ -34,9 +34,7 @@ public class PostSubmitTurnRoute implements Route {
             currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
             Set<String> JSONasString = request.queryParams();
 
-            if(currentGame.isGameOver()){
 
-            }
             pieceCanJump = currentGame.canPlayJumpMove();
             currentGame.completeTurn();
 
