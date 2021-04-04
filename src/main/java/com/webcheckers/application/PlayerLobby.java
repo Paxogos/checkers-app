@@ -59,16 +59,6 @@ public class PlayerLobby {
     }
 
     /**
-     * Removes the player from the busyPlayerList and adds them to the availablePlayerList
-     *
-     * @param currentUser user playing the game
-     */
-    public void removePlayerFromGame(Player currentUser) {
-        busyPlayerList.remove(currentUser.getName());
-        availablePlayerList.remove(currentUser.getName());
-    }
-
-    /**
      * Checks if the given name is a valid username
      *
      * @param name      the desired name
