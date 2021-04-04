@@ -175,6 +175,7 @@ public class Game {
     public void completeTurn() {
 
         if (!canPlayJumpMove()) {
+            kingPiece();
             activeTurn = new Turn();
             toggleActivePlayer();
         }
@@ -195,6 +196,24 @@ public class Game {
             return true;
         }
         return false;
+    }
+
+    public void kingPiece() {
+
+        Piece tempPiece;
+
+        Position lastSpace = activeTurn.getLastMove().end();
+        Piece lastPiece = board.getPieceAt(lastSpace);
+
+        // Check if a Red Single has made it to the other side of the board
+        if (lastSpace.getRow() == 0 && lastPiece.getType() == Piece.Type.SINGLE && lastPiece.getColor() == Color.RED)
+            board.setSpaceToPiece(lastSpace, new King(Color.RED));
+
+        // Checks if a White Single has made it to the other side of the board
+        else if (lastSpace.getRow() == Board.GRID_LENGTH-1 && lastPiece.getType() == Piece.Type.SINGLE &&
+                lastPiece.getColor() == Color.WHITE)
+            board.setSpaceToPiece(lastSpace, new King(Color.WHITE));
+
     }
 
     /**

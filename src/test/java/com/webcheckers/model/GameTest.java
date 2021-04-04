@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import com.webcheckers.model.Game.MoveResult;
 import com.webcheckers.model.Piece.Color;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -214,6 +215,112 @@ public class GameTest {
         assertFalse(game.canPlayJumpMove());
 
 
+    }
+
+    @Test
+    public void testRedKingSimpleMove() {
+
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.RED_KING_4_5, Color.RED);
+
+        Position FIRST_POSITION = new Position(4,5);
+        Position SECOND_POSITION = new Position(5,4);
+
+        Move validMove = new Move(FIRST_POSITION, SECOND_POSITION);
+        MoveResult result = game.makeMove(validMove);
+
+        assertEquals(MoveResult.SIMPLE_MOVE, result);
+    }
+
+    @Test
+    public void testWhiteKingSimpleMove() {
+
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.WHITE_KING_3_4, Color.WHITE);
+
+        Position FIRST_POSITION = new Position(3,4);
+        Position SECOND_POSITION = new Position(2,3);
+
+        Move validMove = new Move(FIRST_POSITION, SECOND_POSITION);
+        MoveResult result = game.makeMove(validMove);
+
+        assertEquals(MoveResult.SIMPLE_MOVE, result);
+    }
+
+    @Test
+    public void testMultiJumpRedKing() {
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.WHITE_1_4__1_6__3_6_RED_KING_4_5, Color.RED);
+
+        Position start = new Position(4, 5);
+        Position simpleMoveSpace = new Position(3, 4);
+        Position jumpOneSpace = new Position(2, 7);
+        Position jumpTwoSpace = new Position(0, 5);
+        Position jumpThreeSpace = new Position(2, 3);
+
+
+        Move invalidSimpleMove = new Move(start, simpleMoveSpace);
+        MoveResult result = game.makeMove(invalidSimpleMove);
+
+        assertEquals(MoveResult.CAN_PLAY_JUMP, result,
+                "Expected " + MoveResult.CAN_PLAY_JUMP + ", but got " + result);
+
+        Move jumpOne = new Move(start, jumpOneSpace);
+        result = game.makeMove(jumpOne);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+        assertTrue(game.canPlayJumpMove());
+
+        Move jumpTwo = new Move(jumpOneSpace, jumpTwoSpace);
+        result = game.makeMove(jumpTwo);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+
+        assertTrue(game.canPlayJumpMove());
+
+        Move jumpThree = new Move(jumpTwoSpace, jumpThreeSpace);
+        result = game.makeMove(jumpThree);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+    }
+
+    @Test
+    public void testMultiJumpWhiteKing() {
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.WHITE_KING_3_4__RED_4_5__6_3__6_5, Color.WHITE);
+
+        Position start = new Position(3, 4);
+        Position simpleMoveSpace = new Position(4, 5);
+        Position jumpOneSpace = new Position(5, 6);
+        Position jumpTwoSpace = new Position(7, 4);
+        Position jumpThreeSpace = new Position(5, 2);
+
+
+        Move invalidSimpleMove = new Move(start, simpleMoveSpace);
+        MoveResult result = game.makeMove(invalidSimpleMove);
+
+        assertEquals(MoveResult.OCCUPIED, result,
+                "Expected " + MoveResult.OCCUPIED + ", but got " + result);
+
+        Move jumpOne = new Move(start, jumpOneSpace);
+        result = game.makeMove(jumpOne);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+        assertTrue(game.canPlayJumpMove());
+
+        Move jumpTwo = new Move(jumpOneSpace, jumpTwoSpace);
+        result = game.makeMove(jumpTwo);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
+
+        assertTrue(game.canPlayJumpMove());
+
+        Move jumpThree = new Move(jumpTwoSpace, jumpThreeSpace);
+        result = game.makeMove(jumpThree);
+
+        assertEquals(MoveResult.JUMP, result,
+                "Expected " + MoveResult.JUMP + ", but got " + result);
     }
 
    /* @Test
