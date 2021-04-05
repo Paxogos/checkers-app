@@ -116,14 +116,8 @@ public class GetGameRoute implements Route {
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
             if (currentGame.isGameOver()) {
-                Piece.Color activeColor = currentGame.getActiveColor();
-                Piece.Color winningColor;
-                if (activeColor == Piece.Color.WHITE)
-                    winningColor = Piece.Color.RED;
-                else
-                    winningColor = Piece.Color.WHITE;
 
-                modeOptions.put("gameOverMessage", winningColor + " has won!");
+                modeOptions.put("gameOverMessage", currentGame.getWinner().getName() + " has won!");
             }
 
 

@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Piece;
+import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.Request;
 import spark.Response;
@@ -24,12 +25,13 @@ public class PostResignRoute implements Route {
         Session httpSession = request.session();
 
         Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
+        Player currentUser = httpSession.attribute(GetGameRoute.PLAYER_ATTR);
 
         if (currentGame != null) {
-            currentGame.resignGame();
+            currentGame.resignGame(currentUser);
             Piece.Color resigningColor = currentGame.getActiveColor();
 
-            return this.gson.toJson(Message.info(resigningColor + " has resigned."));
+            return this.gson.toJson(Message.info(currentUser.getName() + " has resigned."));
         }
         else {
             response.redirect(WebServer.GAME_URL);

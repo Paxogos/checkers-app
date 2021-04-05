@@ -114,6 +114,8 @@ public class Game {
         }
     }
 
+    public Player getWinner() { return this.winner; }
+
 
     /**
      * Perform the given move if it is valid
@@ -199,9 +201,11 @@ public class Game {
         return winner != null;
     }
 
-    public void resignGame() {
-        if (activeColor == Color.RED)
+    public void resignGame(Player resignee) {
+        if (resignee.equals(redPlayer)) {
             this.winner = this.whitePlayer;
+            toggleActivePlayer();
+        }
         else
             this.winner = this.redPlayer;
     }
