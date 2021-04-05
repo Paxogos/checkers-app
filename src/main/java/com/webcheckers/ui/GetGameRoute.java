@@ -136,6 +136,15 @@ public class GetGameRoute implements Route {
             }
 
             currentGame = gameCenter.getGame(currentUser, opponent);
+
+            if(currentGame.isGameOver()) {
+                gameCenter.removeGame(currentUser, opponent);
+                response.redirect("/");
+                halt();
+                return null;
+            }
+
+
             vm.put(RED_PLAYER_ATTR, currentUser);
             vm.put(WHITE_PLAYER_ATTR, opponent);
             vm.put(ACTIVE_COLOR_ATTR, Piece.Color.RED);
@@ -151,12 +160,18 @@ public class GetGameRoute implements Route {
         vm.put(VIEW_MODE_ATTR, VIEW_MODE);
         vm.put(GAME_ID_ATTR, GAME_ID);
 
+        vm.put(MODE_OPTIONS_ATTR, gson.toJson(modeOptions));
+
+        /*
         if(currentGame.isGameOver())
             vm.put(MODE_OPTIONS_ATTR, gson.toJson(modeOptions));
         else
             vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
 
+         */
+
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
+
 
     }
 

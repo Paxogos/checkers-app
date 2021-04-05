@@ -66,6 +66,10 @@ public class GameCenter {
         }
     }
 
+    public void removeGame(Player player1, Player player2) {
+        gamesList.remove(getCorrectKey(player1, player2));
+    }
+
     public Player getCurrentOpponent(Player currentUser) { return opponentList.get(currentUser); }
 
 }
