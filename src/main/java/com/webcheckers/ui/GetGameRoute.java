@@ -24,8 +24,6 @@ import static spark.Spark.halt;
  */
 public class GetGameRoute implements Route {
 
-    // These are test values!! Do not leave them without verifying they belong!!
-
     static final String TITLE_ATTR = "title";
     static final String GAME_ID_ATTR = "gameID";
     static final String CURRENT_USER_ATTR = "currentUser";
@@ -39,7 +37,7 @@ public class GetGameRoute implements Route {
     static final String PLAYER_BUSY_ATTR = "playerBusy";
 
     static final String GAME_ATTR = "currentGame";
-
+    static final String GAME_OVER_MESSAGE_ATTR = "gameOverMessage";
 
     static String TITLE = "Game";
     static String VIEW_NAME = "game.ftl";
@@ -103,24 +101,28 @@ public class GetGameRoute implements Route {
 
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
+
+        //modeOptions decides what game state the game is in.
         final Map<String, Object> modeOptions = new HashMap<>(2);
+
+        //if the game is over, then mode options will trigger game over state
         modeOptions.put("isGameOver", true);
-        modeOptions.put("gameOverMessage", "This is the end of the game");
+        modeOptions.put(GAME_OVER_MESSAGE_ATTR, "This is the end of the game");
 
 
         // game exists, retrieve game and render FTL accordingly
         if(opponent != null){
-            currentGame = gameCenter.getGame(currentUser,opponent);
+            currentGame = gameCenter.getGame(currentUser, opponent);
             vm.put(RED_PLAYER_ATTR,currentGame.getRedPlayer());
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
             if (currentGame.isGameOver()) {
-
-                modeOptions.put("gameOverMessage", currentGame.getWinner().getName() + " has won!");
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner().getName() + " has won!");
             }
 
 
+            //generates the board view for the current user
             if(currentUser == currentGame.getRedPlayer()){
                 boardview = currentGame.getBoard().getBoardViewForRed();
             }else{
@@ -151,11 +153,17 @@ public class GetGameRoute implements Route {
         playerLobby.setPlayerBusy(currentUser);
         playerLobby.setPlayerBusy(opponent);
 
+        //population the view models to generate the game page
         vm.put(TITLE_ATTR, TITLE);
         vm.put(CURRENT_USER_ATTR, currentUser);
         vm.put(VIEW_MODE_ATTR, VIEW_MODE);
         vm.put(GAME_ID_ATTR, GAME_ID);
 
+
+        /**
+         * Checks to see if the game is over. If true, then the gamve over state is triggered,
+         * otherwise the game continues and the game state doesn't change
+         */
         if(currentGame.isGameOver())
             vm.put(MODE_OPTIONS_ATTR, gson.toJson(modeOptions));
         else

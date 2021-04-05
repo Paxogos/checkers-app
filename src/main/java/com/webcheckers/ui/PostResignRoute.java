@@ -30,8 +30,9 @@ public class PostResignRoute implements Route {
         if (currentGame != null) {
             currentGame.resignGame(currentUser);
             Piece.Color resigningColor = currentGame.getActiveColor();
-
-            return this.gson.toJson(Message.info(currentUser.getName() + " has resigned."));
+            String resigningPlayerName = currentUser.getName();
+            
+            return this.gson.toJson(Message.info(resigningPlayerName + " has resigned."));
         }
         else {
             response.redirect(WebServer.GAME_URL);
