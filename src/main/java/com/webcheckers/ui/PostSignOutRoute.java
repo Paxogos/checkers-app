@@ -22,6 +22,7 @@ public class PostSignOutRoute implements Route {
         final Session session = request.session();
         Player currentUser = session.attribute("currentUser");
 
+        
         //Session attribute to set player sign out status
         session.attribute(SIGNED_OUT_ATTR, true);
         // needs to remove player from the lobby

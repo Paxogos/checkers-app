@@ -38,6 +38,7 @@ public class GetGameRoute implements Route {
 
     static final String GAME_ATTR = "currentGame";
     static final String GAME_OVER_MESSAGE_ATTR = "gameOverMessage";
+    static final String GAME_RESIGN_ATTR = "gameResigned";
 
     static String TITLE = "Game";
     static String VIEW_NAME = "game.ftl";
@@ -117,8 +118,12 @@ public class GetGameRoute implements Route {
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
-            if (currentGame.isGameOver()) {
+            if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) == null) {
                 modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner().getName() + " has won!");
+            }
+            if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) != null) {
+                currentGame.resignGame(currentUser);
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentUser.getName() + " has resigned");
             }
 
 
