@@ -39,7 +39,7 @@ public class PostSignInRoute implements Route {
 
         final Session httpSession = request.session();
         HashMap<String, Object> vm = new HashMap<>();
-        final String name = request.queryParams(USERNAME_PARAM);
+        final String name = request.queryParams(USERNAME_PARAM).trim();
 
         // Checks if the user is coming from a new browser
         if (httpSession.attribute(PLAYER_ATTR) == null) {
