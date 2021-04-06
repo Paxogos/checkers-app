@@ -47,7 +47,6 @@ public class Turn {
         if (moveList.size() == 0)
             return true;
         Move lastMove = this.moveList.get(moveList.size() - 1);
-        System.out.println("Not continuous: " + move.start() + "->" + lastMove.end());
         return move.start().equals(lastMove.end());
     }
 

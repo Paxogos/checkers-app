@@ -31,12 +31,11 @@ public class PlayerLobby {
     /**
      * The method for signing in
      *
-     * @param desiredName      desired username
+     * @param userName      desired username
      * @return              the new Player object (null if the name is taken)
      */
-    public LoginAttempt signIn(String desiredName) {
+    public LoginAttempt signIn(String userName) {
 
-        String userName = desiredName.trim();
         if (nameIsInvalid(userName))
             return LoginAttempt.INVALID;
 
