@@ -21,6 +21,9 @@ public class Game {
     private Color activeColor = Color.RED;
     private Turn activeTurn;
 
+    private boolean isGameResigned;
+    private Player resignee;
+
     // Ints for checking how many pieces are left
     private int numWhitePieces = 0;
     private int numRedPieces = 0;
@@ -47,6 +50,7 @@ public class Game {
         this.activeTurn = new Turn();
 
         addPiecesToGame();
+        this.isGameResigned = false;
     }
 
     /**
@@ -92,10 +96,18 @@ public class Game {
 
     /**
      *
-     * @return      the number of red pieces in the game
+     * @return the number of red pieces in the game
      */
     public int getNumRedPieces() {
         return numRedPieces;
+    }
+
+    /**
+     * 
+     * @return the value of isGameResigned
+     */
+    public boolean getIsGameResigned() {
+        return isGameResigned;
     }
 
     /**
@@ -204,10 +216,18 @@ public class Game {
     public void resignGame(Player resignee) {
         if (resignee.equals(redPlayer)) {
             this.winner = this.whitePlayer;
-            toggleActivePlayer();
+            if(activeColor == Color.RED)
+                toggleActivePlayer();
         }
-        else
+        else {
+            if(activeColor == Color.WHITE)
+                toggleActivePlayer();
             this.winner = this.redPlayer;
+        }
+
+        //Sets the resignee instance to the player who resigned
+        this.resignee = resignee;
+        isGameResigned = true;
     }
 
     public void kingPiece() {
