@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
@@ -15,9 +16,11 @@ import java.util.Objects;
 public class PostCheckTurnRoute implements Route {
 
     private final Gson gson;
+    private GameCenter gameCenter;
 
-    public PostCheckTurnRoute(Gson gson) {
+    public PostCheckTurnRoute(Gson gson,GameCenter gameCenter) {
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
+        this.gameCenter = gameCenter;
     }
 
     public Object handle(Request request, Response response) {
@@ -25,7 +28,7 @@ public class PostCheckTurnRoute implements Route {
         Session httpSession = request.session();
 
         Player currentUser = httpSession.attribute(GetHomeRoute.PLAYER_ATTR);
-        Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
+        Game currentGame = gameCenter.getGame(Integer.parseInt(request.queryParams("gameID")));
 
 
         boolean isPlayersTurn = currentGame.isPlayersTurn(currentUser);

@@ -28,7 +28,7 @@ To allow users to play a game of drag and drop checkers against other users acro
 |------|------------|
 | VO | Value Object |
 | Position| A coordinate representation of the spaces on a checker board (row,column)|
-| MoveResult | A value the represents what type of move was made |
+| MoveResult | A value the represents what pieceType of move was made |
 | Type | Type of piece that the checker represents |
 
 

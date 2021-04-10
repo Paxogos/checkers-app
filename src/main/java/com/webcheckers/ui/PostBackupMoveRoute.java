@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.Game;
 import com.webcheckers.util.Message;
 import spark.Request;
@@ -13,9 +14,11 @@ import java.util.Objects;
 public class PostBackupMoveRoute implements Route {
 
     private Gson gson;
+    private GameCenter gameCenter;
 
-    public PostBackupMoveRoute(Gson gson) {
+    public PostBackupMoveRoute(Gson gson, GameCenter gameCenter) {
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
+        this.gameCenter = gameCenter;
     }
 
 
@@ -24,7 +27,7 @@ public class PostBackupMoveRoute implements Route {
 
         Session httpSession = request.session();
 
-        Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
+        Game currentGame = gameCenter.getGame(Integer.parseInt(request.queryParams("gameID")));
 
         boolean successfulBackup = currentGame.backup();
 

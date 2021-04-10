@@ -5,6 +5,7 @@ import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 /**
  * GameCenter keeps track of the two players playing the same game, and if they're supposed to be in the same game together
@@ -15,12 +16,15 @@ import java.util.HashMap;
 public class GameCenter {
 
     private final HashMap<String, Game> gamesList;
-    private final HashMap<Player, Player> opponentList;
+    private final HashMap<Integer, Game> gamesIDList;
+    private final HashMap<Player, ArrayList<Player>> opponentList;
+    private static int gameIDGenerator = 00000;
 
 
     public GameCenter() {
         this.gamesList = new HashMap<>();
         this.opponentList = new HashMap<>();
+        this.gamesIDList = new HashMap<>();
     }
 
     /**
@@ -30,15 +34,52 @@ public class GameCenter {
      * @return BoardView with a gamekey related to both players
      */
     public Game getGame(Player player1, Player player2) {
+        ArrayList<Player> oppList;
         if (gameExists(player1, player2)) {
             return gamesList.get(getCorrectKey(player1, player2));
         } else {
             String gameKey = player1.getName() + player2.getName();
-            this.gamesList.put(gameKey, new Game(player1, player2));
-            this.opponentList.put(player1, player2);
-            this.opponentList.put(player2, player1);
+            int gameID = gameIDGenerator++;
+            if(gameID == 99999){
+                gameID = 00000;
+            }
+            System.out.println(gameID);
+            Game currentGame = new Game(player1, player2,gameID);
+            this.gamesList.put(gameKey,currentGame);
+            this.gamesIDList.put(gameID,currentGame);
+
+            /*
+            checks if player1 has a list of opponents yet, if not a list is created.
+            if player1 does have a list, we append the new opponent to that list.
+            The same is then done for player2
+             */
+            if(!opponentList.containsKey(player1)){
+                oppList = new ArrayList<>();
+                oppList.add(player2);
+                opponentList.put(player1,oppList);
+            }else{
+                oppList = opponentList.get(player1);
+                oppList.add(player2);
+            }
+
+            if(!opponentList.containsKey(player2)){
+                oppList = new ArrayList<>();
+                oppList.add(player1);
+                opponentList.put(player2,oppList);
+            }else{
+                oppList = opponentList.get(player2);
+                oppList.add(player1);
+            }
             return gamesList.get(gameKey);
         }
+    }
+
+    public Game getGame(int gameID){
+        Game game = gamesIDList.get(gameID);
+        if (game == null){
+            throw new IllegalArgumentException();
+        }
+        return game;
     }
 
     /**
@@ -66,6 +107,49 @@ public class GameCenter {
         }
     }
 
-    public Player getCurrentOpponent(Player currentUser) { return opponentList.get(currentUser); }
+    public boolean isPlayerInGame(Player player) {
+        if (player == null) {
+            throw new IllegalArgumentException("The provided player object is null");
+        }
+        if(opponentList.get(player) == null){
 
+            return false;
+        }
+        return !opponentList.get(player).isEmpty();
+    }
+
+    public Player getCurrentOpponent(Player currentUser) {
+        ArrayList<Player> opponents = opponentList.get(currentUser);
+        if(opponents == null){
+            return null;
+        }else if(opponents.size() == 0){
+            return null;
+        }else if(opponents.size() == 1){
+            return opponents.get(0);
+        }else{
+            return new Player("multipleOpponents");
+        }
+    }
+
+    public ArrayList<Player> getOpponentList(Player player) {
+        if(player == null){
+            throw new IllegalArgumentException();
+        }
+        return opponentList.get(player);
+    }
+
+    public ArrayList<String> getOpponentStringList(Player player) {
+        if(player == null){
+            throw new IllegalArgumentException();
+        }
+        ArrayList<Player> opponents = opponentList.get(player);
+        if(opponents == null){
+            return null;
+        }
+        ArrayList<String> opponentStrings = new ArrayList<>();
+        for (Player opponent : opponents) {
+            opponentStrings.add(opponent.getName());
+        }
+        return opponentStrings;
+    }
 }

@@ -17,6 +17,7 @@ public class Game {
     private final Player redPlayer;
     private final Player whitePlayer;
     private Player winner;
+    private int gameID;
 
     private Color activeColor = Color.RED;
     private Turn activeTurn;
@@ -43,11 +44,12 @@ public class Game {
      * @param red   Red Player - Player that initiates
      * @param white White Player - Player that is invited
      */
-    public Game(Player red, Player white) {
+    public Game(Player red, Player white, int gameID) {
         this.redPlayer = red;
         this.whitePlayer = white;
         this.board = new Board();
         this.activeTurn = new Turn();
+        this.gameID = gameID;
 
         addPiecesToGame();
         this.isGameResigned = false;
@@ -128,6 +130,9 @@ public class Game {
 
     public Player getWinner() { return this.winner; }
 
+    public int getGameID() {
+        return gameID;
+    }
 
     /**
      * Perform the given move if it is valid

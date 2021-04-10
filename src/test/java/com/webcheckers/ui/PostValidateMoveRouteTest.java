@@ -62,7 +62,7 @@ public class PostValidateMoveRouteTest {
         when(request.session()).thenReturn(session);
         when(session.attribute("currentGame")).thenReturn(currentGame);
 
-        CuT = new PostValidateMoveRoute(gson);
+        CuT = new PostValidateMoveRoute(gson,gameCenter);
     }
 
     @Test

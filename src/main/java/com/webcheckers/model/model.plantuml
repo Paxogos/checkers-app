@@ -1,0 +1,284 @@
+@startuml
+
+title __MODEL's Class Diagram__\n
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Board {
+          {static} + GRID_LENGTH : int
+          - board : Space[][]
+          + Board()
+          + Board()
+          + equals()
+          + getBoardViewForRed()
+          + getBoardViewForWhite()
+          + getPieceAt()
+          + getSpace()
+          + removePieceAt()
+          + setSpaceToPiece()
+          + toString()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.BoardView {
+          {static} + GRID_LENGTH : int
+          - rowArrayList : ArrayList<Row>
+          + BoardView()
+          + BoardView()
+          + equals()
+          + getRowArrayList()
+          + iterator()
+          + rotate()
+          + setRowArrayList()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Game {
+          - gameID : int
+          - isGameResigned : boolean
+          - numRedPieces : int
+          - numWhitePieces : int
+          + Game()
+          + Game()
+          + backup()
+          + canPlayJumpMove()
+          + completeTurn()
+          + equals()
+          + getActiveColor()
+          + getBoard()
+          + getGameID()
+          + getIsGameResigned()
+          + getNumRedPieces()
+          + getNumWhitePieces()
+          + getRedPlayer()
+          + getWhitePlayer()
+          + getWinner()
+          + isGameOver()
+          + isPlayersTurn()
+          + kingPiece()
+          + makeMove()
+          + resignGame()
+          + toggleActivePlayer()
+          - addPiecesToGame()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      enum MoveResult {
+        CAN_PLAY_JUMP
+        EMPTY
+        INVALID
+        JUMP
+        KING_RESTRICTED
+        NON_CONTINUOUS
+        OCCUPIED
+        SIMPLE_MOVE
+        SIMPLE_MOVES_EXCEEDED
+        SINGLE_RESTRICTED
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.King {
+          + King()
+          + canJump()
+          + makeMove()
+          - canJumpBackward()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Move {
+          + Move()
+          + Move()
+          + end()
+          + getCapturedPiece()
+          + getType()
+          + midpoint()
+          + start()
+          + toString()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      abstract class com.webcheckers.model.Piece {
+          + Piece()
+          {abstract} + canJump()
+          + equals()
+          + getColor()
+          + getType()
+          + isKing()
+          + isSingle()
+          {abstract} + makeMove()
+          + toString()
+          # canJumpForward()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      enum Color {
+        RED
+        WHITE
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      enum Type {
+        KING
+        SINGLE
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Player {
+          - name : String
+          + Player()
+          + equals()
+          + getName()
+          + hashCode()
+          + toString()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Row {
+          - index : int
+          - spaceArrayList : ArrayList<Space>
+          + Row()
+          + Row()
+          + getIndex()
+          + getSpaceArrayList()
+          + iterator()
+          + setSpaceArrayList()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Single {
+          + Single()
+          + canJump()
+          + makeMove()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Space {
+          - cellIdx : int
+          - rowIdx : int
+          + Space()
+          + Space()
+          + equals()
+          + getCellIdx()
+          + getPiece()
+          + getPosition()
+          + getRowIdx()
+          + getSpaceState()
+          + isOccupied()
+          + isValid()
+          + removePiece()
+          + setPiece()
+          + toString()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      enum SpaceState {
+        INVALID
+        OCCUPIED
+        OPEN
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Turn {
+          - moveList : ArrayList<Move>
+          + Turn()
+          + addMove()
+          + getLastMove()
+          + hasPlayedJumpMove()
+          + hasPlayedSimpleMove()
+          + isContinuous()
+          + popLastMove()
+      }
+    }
+  }
+  
+
+  com.webcheckers.model.BoardView .up.|> java.lang.Iterable
+  com.webcheckers.model.Game o-- com.webcheckers.model.Piece.Color : activeColor
+  com.webcheckers.model.Game o-- com.webcheckers.model.Turn : activeTurn
+  com.webcheckers.model.Game o-- com.webcheckers.model.Board : board
+  com.webcheckers.model.Game o-- com.webcheckers.model.Player : redPlayer
+  com.webcheckers.model.Game o-- com.webcheckers.model.Player : resignee
+  com.webcheckers.model.Game o-- com.webcheckers.model.Player : whitePlayer
+  com.webcheckers.model.Game o-- com.webcheckers.model.Player : winner
+  com.webcheckers.model.Game +-down- com.webcheckers.model.Game.MoveResult
+  com.webcheckers.model.King -up-|> com.webcheckers.model.Piece
+  com.webcheckers.model.Move o-- com.webcheckers.model.Piece : capturedPiece
+  com.webcheckers.model.Move o-- com.webcheckers.util.Position : end
+  com.webcheckers.model.Move o-- com.webcheckers.model.Game.MoveResult : moveResult
+  com.webcheckers.model.Move o-- com.webcheckers.util.Position : start
+  com.webcheckers.model.Piece o-- com.webcheckers.model.Piece.Color : color
+  com.webcheckers.model.Piece o-- com.webcheckers.model.Piece.Type : pieceType
+  com.webcheckers.model.Piece +-down- com.webcheckers.model.Piece.Color
+  com.webcheckers.model.Piece +-down- com.webcheckers.model.Piece.Type
+  com.webcheckers.model.Row .up.|> java.lang.Iterable
+  com.webcheckers.model.Single -up-|> com.webcheckers.model.Piece
+  com.webcheckers.model.Space o-- com.webcheckers.model.Piece : piece
+  com.webcheckers.model.Space o-- com.webcheckers.util.Position : position
+  com.webcheckers.model.Space o-- com.webcheckers.model.Space.SpaceState : spaceState
+  com.webcheckers.model.Space +-down- com.webcheckers.model.Space.SpaceState
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

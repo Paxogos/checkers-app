@@ -1,12 +1,12 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 
-import jdk.javadoc.internal.doclets.formats.html.SourceToHTMLConverter;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -18,8 +18,11 @@ public class PostResignRoute implements Route {
 
     static final String GAME_RESIGN_ATTR = "gameResigned";
     private final Gson gson;
-    public PostResignRoute(Gson gson) {
+    private final GameCenter gameCenter;
+
+    public PostResignRoute(Gson gson, GameCenter gameCenter) {
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
+        this.gameCenter = gameCenter;
     }
 
 
@@ -27,7 +30,7 @@ public class PostResignRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         Session httpSession = request.session();
 
-        Game currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
+        Game currentGame = gameCenter.getGame(Integer.parseInt(request.queryParams("gameID")));
         Player currentUser = httpSession.attribute(GetGameRoute.PLAYER_ATTR);
 
         if (currentGame != null) {

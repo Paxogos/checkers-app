@@ -37,7 +37,7 @@ class PostSignInRouteTest {
 
         when(request.session()).thenReturn(session);
 
-        CuT = new PostSignInRoute(playerLobby,engine);
+        CuT = new PostSignInRoute(playerLobby,gameCenter,engine);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.Game;
 import com.webcheckers.util.Message;
 import spark.Request;
@@ -15,11 +16,12 @@ import java.util.Set;
 public class PostSubmitTurnRoute implements Route {
 
     private Gson gson;
-
+    private final GameCenter gameCenter;
     private final String ACTION_DATA_ATTR = "actionData";
 
-    public PostSubmitTurnRoute(Gson gson) {
+    public PostSubmitTurnRoute(Gson gson, GameCenter gameCenter) {
         this.gson = gson;
+        this.gameCenter = gameCenter;
     }
 
 
@@ -30,8 +32,8 @@ public class PostSubmitTurnRoute implements Route {
 
         boolean pieceCanJump = false;
 
-        if (httpSession.attribute(GetGameRoute.GAME_ATTR) != null) {
-            currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
+        if (request.queryParams("gameID") != null) {
+            currentGame = gameCenter.getGame(Integer.parseInt(request.queryParams("gameID")));
             Set<String> JSONasString = request.queryParams();
 
             if(currentGame.isGameOver()){

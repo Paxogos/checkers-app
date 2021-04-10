@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Move;
 import com.webcheckers.model.Game.MoveResult;
@@ -16,24 +17,23 @@ import java.util.Objects;
 public class PostValidateMoveRoute implements Route {
 
     private Gson gson;
+    private GameCenter gameCenter;
 
     private final String ACTION_DATA_ATTR = "actionData";
 
-    public PostValidateMoveRoute(Gson gson) {
+    public PostValidateMoveRoute(Gson gson, GameCenter gameCenter) {
 
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
+        this.gameCenter = gameCenter;
     }
 
 
     public Object handle(Request request, Response response) {
 
-        Session httpSession = request.session();
         Game currentGame;
 
-        if (httpSession.attribute(GetGameRoute.GAME_ATTR) != null) {
-
-            currentGame = httpSession.attribute(GetGameRoute.GAME_ATTR);
-
+        if (request.queryParams("gameID") != null) {
+            currentGame = gameCenter.getGame(Integer.parseInt(request.queryParams("gameID")));
             String JSONasString = request.queryParams(ACTION_DATA_ATTR);
             System.out.println(request.queryParams());
             System.out.println(JSONasString);

@@ -1,0 +1,215 @@
+@startuml
+
+title __UI's Class Diagram__\n
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.GetGameRoute {
+          {static} ~ ACTIVE_COLOR_ATTR : String
+          {static} ~ BOARD_ATTR : String
+          {static} ~ CURRENT_USER_ATTR : String
+          {static} ~ GAME_ATTR : String
+          {static} ~ GAME_ID_ATTR : String
+          {static} ~ GAME_OVER_MESSAGE_ATTR : String
+          {static} ~ GAME_REQUEST_ATTR : String
+          {static} ~ GAME_RESIGN_ATTR : String
+          {static} ~ MESSAGE_ATTR : String
+          {static} ~ MODE_OPTIONS : String
+          {static} ~ MODE_OPTIONS_ATTR : String
+          {static} ~ PLAYER_ATTR : String
+          {static} ~ RED_PLAYER_ATTR : String
+          {static} ~ TITLE : String
+          {static} ~ TITLE_ATTR : String
+          {static} ~ VIEW_MODE : String
+          {static} ~ VIEW_MODE_ATTR : String
+          {static} ~ VIEW_NAME : String
+          {static} ~ WHITE_PLAYER_ATTR : String
+          - gson : Gson
+          - templateEngine : TemplateEngine
+          + handle()
+          ~ GetGameRoute()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.GetHomeRoute {
+          {static} ~ AVAILABLE_PLAYER_LIST_ATTR : String
+          {static} ~ CURRENT_GAME_LIST_ATTR : String
+          {static} ~ LOBBY_SIZE_ATTR : String
+          {static} ~ PLAYER_ATTR : String
+          {static} ~ SIGNED_OUT_ATTR : String
+          {static} ~ TITLE : String
+          {static} ~ TITLE_ATTR : String
+          {static} ~ VIEW_NAME : String
+          {static} ~ WELCOME_MSG : Message
+          {static} ~ WELCOME_MSG_ATTR : String
+          {static} - LOG : Logger
+          - templateEngine : TemplateEngine
+          + GetHomeRoute()
+          {static} + getHomePage()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.GetSignInRoute {
+          {static} - LOG : Logger
+          {static} - SIGN_IN_MSG : Message
+          - templateEngine : TemplateEngine
+          + GetSignInRoute()
+          {static} + getSignInPage()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostBackupMoveRoute {
+          - gson : Gson
+          + PostBackupMoveRoute()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostCheckTurnRoute {
+          - gson : Gson
+          + PostCheckTurnRoute()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostResignRoute {
+          {static} ~ GAME_RESIGN_ATTR : String
+          - gson : Gson
+          + PostResignRoute()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostSignInRoute {
+          ~ MESSAGE_ATTR : String
+          ~ PLAYER_ATTR : String
+          ~ USERNAME_PARAM : String
+          - templateEngine : TemplateEngine
+          + PostSignInRoute()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostSignOutRoute {
+          {static} ~ SIGNED_OUT_ATTR : String
+          ~ USERNAME_PARAM : String
+          - templateEngine : TemplateEngine
+          + PostSignOutRoute()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostSubmitTurnRoute {
+          - ACTION_DATA_ATTR : String
+          - gson : Gson
+          + PostSubmitTurnRoute()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostValidateMoveRoute {
+          - ACTION_DATA_ATTR : String
+          - gson : Gson
+          + PostValidateMoveRoute()
+          + handle()
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.WebServer {
+          {static} + BACKUP_MOVE_URL : String
+          {static} + CHECK_TURN_URL : String
+          {static} + GAME_URL : String
+          {static} + HOME_URL : String
+          {static} + RESIGN_URL : String
+          {static} + SIGN_IN_URL : String
+          {static} + SIGN_OUT_URL : String
+          {static} + SUBMIT_TURN_URL : String
+          {static} + VALIDATE_MOVE_URL : String
+          {static} - LOG : Logger
+          - gson : Gson
+          - templateEngine : TemplateEngine
+          + WebServer()
+          + initialize()
+      }
+    }
+  }
+  
+
+  com.webcheckers.ui.GetGameRoute .up.|> spark.Route
+  com.webcheckers.ui.GetGameRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.GetGameRoute o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.ui.GetHomeRoute .up.|> spark.Route
+  com.webcheckers.ui.GetHomeRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.GetHomeRoute o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.ui.GetSignInRoute .up.|> spark.Route
+  com.webcheckers.ui.PostBackupMoveRoute .up.|> spark.Route
+  com.webcheckers.ui.PostBackupMoveRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostCheckTurnRoute .up.|> spark.Route
+  com.webcheckers.ui.PostCheckTurnRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostResignRoute .up.|> spark.Route
+  com.webcheckers.ui.PostResignRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostSignInRoute .up.|> spark.Route
+  com.webcheckers.ui.PostSignInRoute o-- com.webcheckers.util.Message : INVALID
+  com.webcheckers.ui.PostSignInRoute o-- com.webcheckers.util.Message : NAME_TAKEN
+  com.webcheckers.ui.PostSignInRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostSignInRoute o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.ui.PostSignOutRoute .up.|> spark.Route
+  com.webcheckers.ui.PostSignOutRoute o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.ui.PostSubmitTurnRoute .up.|> spark.Route
+  com.webcheckers.ui.PostSubmitTurnRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostValidateMoveRoute .up.|> spark.Route
+  com.webcheckers.ui.PostValidateMoveRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.WebServer o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.WebServer o-- com.webcheckers.application.PlayerLobby : playerLobby
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

@@ -25,8 +25,7 @@ public class GetHomeRoute implements Route {
   static final String WELCOME_MSG_ATTR = "message";
   static final String AVAILABLE_PLAYER_LIST_ATTR = "availablePlayerList";
   static final String PLAYER_ATTR = "currentUser";
-  static final String BUSY_PLAYER_LIST_ATTR = "busyPlayerList";
-  static final String BUSY_PLAYER_ATTR = "playerBusy";
+  static final String CURRENT_GAME_LIST_ATTR = "currentGameList";
   static final String LOBBY_SIZE_ATTR = "lobbySize";
   static final String TITLE = "Welcome to Webcheckers!";
   static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
@@ -72,23 +71,26 @@ public class GetHomeRoute implements Route {
     // Retrieve the Player object from the user's session
     Player currentUser = httpSession.attribute(PLAYER_ATTR);
 
-    if(gameCenter.getCurrentOpponent(currentUser) != null){
+    /*if(gameCenter.getCurrentOpponent(currentUser) != null){
       Player opponent = gameCenter.getCurrentOpponent(currentUser);
       response.redirect("/game?" + opponent.getName());
-    }
+    }*/
+
+
+
+    /*if (httpSession.attribute(BUSY_PLAYER_ATTR) != null) {
+      message = Message.info("Selected opponent is already in a game");
+    }else */
 
     Message message;
-    if (httpSession.attribute(BUSY_PLAYER_ATTR) != null) {
-      message = Message.info("Selected opponent is already in a game");
-    }
-    else if (httpSession.attribute(SIGNED_OUT_ATTR) != null) {
+    if (httpSession.attribute(SIGNED_OUT_ATTR) != null) {
       message = Message.info("You've successfully signed out");
     }
     else
       message = WELCOME_MSG;
 
     // Render the home page
-    return templateEngine.render(getHomePage(currentUser, this.playerLobby, message));
+    return templateEngine.render(getHomePage(currentUser, this.playerLobby, gameCenter,message));
 
   }
 
@@ -99,7 +101,7 @@ public class GetHomeRoute implements Route {
    * @param playerLobby   The lobby containing all Players currently playing
    * @return              The home page contents to be rendered
    */
-  public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby, Message message) {
+  public static ModelAndView getHomePage(Player currentUser, PlayerLobby playerLobby, GameCenter gameCenter, Message message) {
     Map<String, Object> vm = new HashMap<>();
     vm.put(TITLE_ATTR, TITLE);
 
@@ -113,7 +115,7 @@ public class GetHomeRoute implements Route {
 
     if (currentUser != null) {
       vm.put(AVAILABLE_PLAYER_LIST_ATTR, playerLobby.getAvailablePlayers(currentUser.getName()));
-      vm.put(BUSY_PLAYER_LIST_ATTR, playerLobby.getBusyPlayers(currentUser.getName()));
+      vm.put(CURRENT_GAME_LIST_ATTR, gameCenter.getOpponentStringList(currentUser));
     }
 
     return new ModelAndView(vm, VIEW_NAME);

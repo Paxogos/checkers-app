@@ -1,0 +1,276 @@
+@startuml
+
+title __CHECKERS-APP's Class Diagram__\n
+
+  namespace com.webcheckers {
+    class com.webcheckers.Application {
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace application {
+      class com.webcheckers.application.GameCenter {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace application {
+      class com.webcheckers.application.PlayerLobby {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Board {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.BoardView {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Game {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.King {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Move {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      abstract class com.webcheckers.model.Piece {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Player {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Row {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Single {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Space {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace model {
+      class com.webcheckers.model.Turn {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.GetGameRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.GetHomeRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.GetSignInRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostBackupMoveRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostCheckTurnRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostResignRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostSignInRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostSignOutRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostSubmitTurnRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.PostValidateMoveRoute {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace ui {
+      class com.webcheckers.ui.WebServer {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace util {
+      class com.webcheckers.util.Message {
+      }
+    }
+  }
+  
+
+  namespace com.webcheckers {
+    namespace util {
+      class com.webcheckers.util.Position {
+      }
+    }
+  }
+  
+
+  com.webcheckers.Application o-- com.webcheckers.ui.WebServer : webServer
+  com.webcheckers.model.BoardView .up.|> java.lang.Iterable
+  com.webcheckers.model.Game o-- com.webcheckers.model.Piece.Color : activeColor
+  com.webcheckers.model.Game o-- com.webcheckers.model.Turn : activeTurn
+  com.webcheckers.model.Game o-- com.webcheckers.model.Board : board
+  com.webcheckers.model.Game o-- com.webcheckers.model.Player : redPlayer
+  com.webcheckers.model.Game o-- com.webcheckers.model.Player : resignee
+  com.webcheckers.model.Game o-- com.webcheckers.model.Player : whitePlayer
+  com.webcheckers.model.Game o-- com.webcheckers.model.Player : winner
+  com.webcheckers.model.King -up-|> com.webcheckers.model.Piece
+  com.webcheckers.model.Move o-- com.webcheckers.model.Piece : capturedPiece
+  com.webcheckers.model.Move o-- com.webcheckers.util.Position : end
+  com.webcheckers.model.Move o-- com.webcheckers.model.Game.MoveResult : moveResult
+  com.webcheckers.model.Move o-- com.webcheckers.util.Position : start
+  com.webcheckers.model.Piece o-- com.webcheckers.model.Piece.Color : color
+  com.webcheckers.model.Piece o-- com.webcheckers.model.Piece.Type : pieceType
+  com.webcheckers.model.Row .up.|> java.lang.Iterable
+  com.webcheckers.model.Single -up-|> com.webcheckers.model.Piece
+  com.webcheckers.model.Space o-- com.webcheckers.model.Piece : piece
+  com.webcheckers.model.Space o-- com.webcheckers.util.Position : position
+  com.webcheckers.model.Space o-- com.webcheckers.model.Space.SpaceState : spaceState
+  com.webcheckers.ui.GetGameRoute .up.|> spark.Route
+  com.webcheckers.ui.GetGameRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.GetGameRoute o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.ui.GetHomeRoute .up.|> spark.Route
+  com.webcheckers.ui.GetHomeRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.GetHomeRoute o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.ui.GetSignInRoute .up.|> spark.Route
+  com.webcheckers.ui.PostBackupMoveRoute .up.|> spark.Route
+  com.webcheckers.ui.PostBackupMoveRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostCheckTurnRoute .up.|> spark.Route
+  com.webcheckers.ui.PostCheckTurnRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostResignRoute .up.|> spark.Route
+  com.webcheckers.ui.PostResignRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostSignInRoute .up.|> spark.Route
+  com.webcheckers.ui.PostSignInRoute o-- com.webcheckers.util.Message : INVALID
+  com.webcheckers.ui.PostSignInRoute o-- com.webcheckers.util.Message : NAME_TAKEN
+  com.webcheckers.ui.PostSignInRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostSignInRoute o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.ui.PostSignOutRoute .up.|> spark.Route
+  com.webcheckers.ui.PostSignOutRoute o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.ui.PostSubmitTurnRoute .up.|> spark.Route
+  com.webcheckers.ui.PostSubmitTurnRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.PostValidateMoveRoute .up.|> spark.Route
+  com.webcheckers.ui.PostValidateMoveRoute o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.WebServer o-- com.webcheckers.application.GameCenter : gameCenter
+  com.webcheckers.ui.WebServer o-- com.webcheckers.application.PlayerLobby : playerLobby
+  com.webcheckers.util.Message o-- com.webcheckers.util.Message.Type : pieceType
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

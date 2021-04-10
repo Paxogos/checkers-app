@@ -1,6 +1,8 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 import spark.*;
@@ -23,14 +25,16 @@ public class PostSignInRoute implements Route {
     final String PLAYER_ATTR = "currentUser";
 
     private final PlayerLobby playerLobby;
+    private final GameCenter gameCenter;
     private final TemplateEngine templateEngine;
 
-    public PostSignInRoute(PlayerLobby playerLobby, TemplateEngine templateEngine) {
+    public PostSignInRoute(PlayerLobby playerLobby,GameCenter gameCenter,TemplateEngine templateEngine) {
         // validation
         Objects.requireNonNull(playerLobby, "playerLobby must not be null");
         Objects.requireNonNull(templateEngine, "templateEngine must not be null");
 
         this.playerLobby = playerLobby;
+        this.gameCenter = gameCenter;
         this.templateEngine = templateEngine;
     }
 
@@ -57,7 +61,7 @@ public class PostSignInRoute implements Route {
             else {
                 Player currentUser = playerLobby.getPlayer(name);
                 httpSession.attribute(PLAYER_ATTR, currentUser);
-                return templateEngine.render(GetHomeRoute.getHomePage(currentUser, playerLobby, null));
+                return templateEngine.render(GetHomeRoute.getHomePage(currentUser, playerLobby, gameCenter, null));
             }
 
         } else {
