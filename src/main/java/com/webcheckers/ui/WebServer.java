@@ -95,6 +95,11 @@ public class WebServer {
    */
   public static final String RESIGN_URL = "/resignGame";
 
+  /**
+   * The URL pattern to decline a game
+   */
+  public static final String DECLINE_URL = "/declineGame";
+
 
   //
   // Attributes
@@ -196,6 +201,7 @@ public class WebServer {
 
     //
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby, templateEngine));
+
     //
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson,gameCenter));
 
@@ -210,6 +216,9 @@ public class WebServer {
 
     //
     post(RESIGN_URL, new PostResignRoute(gson,gameCenter));
+
+    //
+    post(DECLINE_URL, new PostDeclineGameRoute(gson,playerLobby));
 
     LOG.config("WebServer is initialized.");
 

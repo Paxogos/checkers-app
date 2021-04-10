@@ -18,6 +18,7 @@
 
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
+      <#include "notification.ftl" />
 
     <#if currentUser??>
     <p> Click a name to start a game! </p>

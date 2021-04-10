@@ -1,7 +1,7 @@
 package com.webcheckers.application;
 
 import com.webcheckers.model.Player;
-import com.webcheckers.util.PlayerMessage;
+import com.webcheckers.util.Message;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class PlayerLobby {
 
     // List containing all players
     HashMap<String, Player> availablePlayerList;
-    HashMap<Player, LinkedList<PlayerMessage>> requestList;
+    HashMap<Player, LinkedList<Message>> messageList;
 
 
     public enum LoginAttempt {NAME_TAKEN, INVALID, VALID}
@@ -26,7 +26,7 @@ public class PlayerLobby {
 
     public PlayerLobby() {
         this.availablePlayerList = new HashMap<>();
-        this.requestList = new HashMap<>();
+        this.messageList = new HashMap<>();
     }
 
     /**
@@ -45,14 +45,14 @@ public class PlayerLobby {
         } else {
             Player newPlayer = new Player(userName);
             this.availablePlayerList.put(userName, newPlayer);
-            this.requestList.put(newPlayer,new LinkedList<>());
+            this.messageList.put(newPlayer,new LinkedList<>());
             return LoginAttempt.VALID;
         }
     }
 
     public void signOut(Player currentUser) { // TODO handle situation where player signs out mid game
         availablePlayerList.remove(currentUser.getName());
-        requestList.remove(currentUser);
+        messageList.remove(currentUser);
     }
 
     /**
@@ -113,15 +113,23 @@ public class PlayerLobby {
     }
 
     public void newGameRequest(Player sender, Player recipient){
-        requestList.get(recipient).add(PlayerMessage.getNewGameRequest(sender,recipient));
+        messageList.get(recipient).add(Message.newGame(sender.getName()));
     }
 
-    public boolean hasRequest(Player player){
-        return !requestList.get(player).isEmpty();
+    public void gameStartedMessage(Player sender,Player recipient){
+        messageList.get(recipient).add(Message.gameAccepted(sender.getName()));
     }
 
-    public PlayerMessage getPlayerMessage(Player player){
-        return requestList.get(player).getFirst();
+    public boolean hasMessage(Player player){
+        return !messageList.get(player).isEmpty();
+    }
+
+    public Message getPlayerMessage(Player player){
+        return messageList.get(player).getFirst();
+    }
+
+    public void declineGameRequest(Player sender, Player recipient){
+        messageList.get(recipient).add(Message.info(sender.getName() + " has declined to start a game"));
     }
 
 

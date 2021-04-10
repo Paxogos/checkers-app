@@ -16,9 +16,12 @@ import java.util.logging.Logger;
 public final class Message {
   private static final Logger LOG = Logger.getLogger(Message.class.getName());
 
+
   //
   // Static Factory methods
   //
+
+
 
   /**
    * A static helper method to create new error messages.
@@ -42,6 +45,36 @@ public final class Message {
     return new Message(message, Type.INFO);
   }
 
+  public static Message newGame(final String name) {
+    return new Message(name, Type.NEW_GAME_REQUEST);
+  }
+
+  public static Message gameAccepted(final String name){
+    return new Message(name,Type.GAME_REQUEST_ACCEPTED);
+  }
+
+  public static Message gameDeclined(final String name){
+    return new Message(name,Type.GAME_REQUEST_DECLINED);
+  }
+
+  public boolean isNewGameMessage(){
+    return this.getType().equals(Type.NEW_GAME_REQUEST);
+  }
+
+  public boolean isGameAcceptedMessage(){
+    return this.getType().equals(Type.GAME_REQUEST_ACCEPTED);
+  }
+
+  public boolean isGameDeclinedMessage(){
+    return this.getType().equals(Type.GAME_REQUEST_DECLINED);
+  }
+
+
+
+
+
+
+
   //
   // Inner Types
   //
@@ -50,7 +83,7 @@ public final class Message {
    * The type of {@link Message}; either information or an error.
    */
   public enum Type {
-    INFO, ERROR
+    INFO, ERROR, NEW_GAME_REQUEST,GAME_REQUEST_ACCEPTED,GAME_REQUEST_DECLINED, DIRECT_MESSAGE
   }
 
   //

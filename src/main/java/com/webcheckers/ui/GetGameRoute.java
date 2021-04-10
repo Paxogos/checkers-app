@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.*;
-import com.webcheckers.util.PlayerMessage;
+import com.webcheckers.util.Message;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -42,7 +42,7 @@ public class GetGameRoute implements Route {
     static final String GAME_ATTR = "currentGame";
     static final String GAME_OVER_MESSAGE_ATTR = "gameOverMessage";
     static final String GAME_RESIGN_ATTR = "gameResigned";
-    static final String NEW_GAME_REQUEST_ATTR = "newGameRequest";
+    //static final String NEW_GAME_REQUEST_ATTR = "newGameRequest";
 
 
     static String TITLE = "Game";
@@ -129,13 +129,8 @@ public class GetGameRoute implements Route {
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
-            if(playerLobby.hasRequest(currentUser)){
-                PlayerMessage playerMessage = playerLobby.getPlayerMessage(currentUser);
-
-                switch (playerMessage.getMessageType()){
-                    case NEW_GAME_REQUEST:
-                        vm.put(NEW_GAME_REQUEST_ATTR,playerMessage.getSender().getName());
-                }
+            if(playerLobby.hasMessage(currentUser)){
+                vm.put("notification", playerLobby.getPlayerMessage(currentUser));
             }
 
             if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) == null) {
@@ -162,6 +157,7 @@ public class GetGameRoute implements Route {
             return null;
         }else{ // create a new game, opponent has no other games
             opponent = playerLobby.getPlayer(paramIterator.next());
+            playerLobby.gameStartedMessage(currentUser,opponent);
 
             // if the selected opponent is already in a game
             /*if (playerLobby.isPlayerInGame(opponent)) {

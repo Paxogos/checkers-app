@@ -27,12 +27,7 @@
 
       <div id="help_text" class="INFO"></div>
 
-      <#if newGameRequest??>
-        <p>${newGameRequest} would like to play a game.
-          <a href="/game?${newGameRequest}">Accept</a>
-          <a href="/declineGame" method="post">Decline</a>
-        </p>
-      </#if>
+      <#include "notification.ftl" />
 
       <div>
         <div id="game-controls">
