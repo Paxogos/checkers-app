@@ -45,7 +45,6 @@ public class GameCenter {
             if(gameID == 99999){
                 gameID = 00000;
             }
-            System.out.println(gameID);
             Game currentGame = new Game(player1, player2,gameID);
             this.gamesList.put(gameKey,currentGame);
             this.gamesIDList.put(gameID,currentGame);

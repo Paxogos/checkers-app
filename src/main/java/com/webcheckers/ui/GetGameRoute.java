@@ -94,7 +94,7 @@ public class GetGameRoute implements Route {
         Player currentUser = httpSession.attribute(PLAYER_ATTR);
 
         // If the request did not provide an opponent, check if the currentUser has a game in attributes
-        String opponentString = request.queryString();
+        String opponentString = request.queryParams("opp");
         if(opponentString==null){
             currentGame = httpSession.attribute(MOST_RECENT_GAME_ATTR);
         }
@@ -129,7 +129,8 @@ public class GetGameRoute implements Route {
 
             if(playerLobby.hasNotification(currentUser)){
                 Message notification = playerLobby.getPlayerNotification(currentUser);
-                if(notification.isGameAcceptedMessage()){
+                String accept = request.queryParams("accept");
+                if(notification.isGameAcceptedMessage() || "1".equals(accept)){
                     playerLobby.deleteNotification(currentUser);
                 }else{
                     vm.put("notification", notification);

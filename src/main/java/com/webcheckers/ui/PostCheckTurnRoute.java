@@ -36,9 +36,6 @@ public class PostCheckTurnRoute implements Route {
 
         boolean isPlayersTurn = currentGame.isPlayersTurn(currentUser);
 
-        if(playerLobby.hasNotification(currentUser)){
-            response.redirect(WebServer.GAME_URL);
-        }
 
         if (isPlayersTurn)
             return this.gson.toJson(Message.info("true"));

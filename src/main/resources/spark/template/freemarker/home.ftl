@@ -24,7 +24,7 @@
     <p> Click a name to start a game! </p>
     <p> Players: </p>
         <#list availablePlayerList as player>
-          <p><a href="/game?${player}">${player}</a></p>
+          <p><a href="/game?opp=${player}">${player}</a></p>
         </#list>
         <#if availablePlayerList?size == 0>
             <p>There are no other players available at this time.</p>
@@ -33,7 +33,7 @@
         <#if currentGameList??>
             <p>Current Games:</p>
             <#list currentGameList as player>
-                <p><a href="/game?${player}">${player}</a></p>
+                <p><a href="/game?opp=${player}">${player}</a></p>
             </#list>
             <#else><p>You do not have any current games.</p>
         </#if>
