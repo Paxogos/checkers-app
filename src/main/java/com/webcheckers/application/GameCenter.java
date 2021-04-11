@@ -18,6 +18,8 @@ public class GameCenter {
     private final HashMap<String, Game> gamesList;
     private final HashMap<Integer, Game> gamesIDList;
     private final HashMap<Player, ArrayList<Player>> opponentList;
+
+
     private static int gameIDGenerator = 00000;
 
 
@@ -89,6 +91,9 @@ public class GameCenter {
      * @return true if gamesList has the correct gamekey for the board being viewed, false otherwise
      */
     public Boolean gameExists(Player player1, Player player2) {
+        if(player1 == null || player2==null){
+            return false;
+        }
         String gameKey1 = player1.getName() + player2.getName();
         String gameKey2 = player2.getName() + player1.getName();
         return (gamesList.containsKey(gameKey1) || gamesList.containsKey(gameKey2));
@@ -130,6 +135,7 @@ public class GameCenter {
             return new Player("multipleOpponents");
         }
     }
+
 
     public ArrayList<Player> getOpponentList(Player player) {
         if(player == null){

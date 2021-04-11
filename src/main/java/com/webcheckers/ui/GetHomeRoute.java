@@ -71,16 +71,6 @@ public class GetHomeRoute implements Route {
     // Retrieve the Player object from the user's session
     Player currentUser = httpSession.attribute(PLAYER_ATTR);
 
-    /*if(gameCenter.getCurrentOpponent(currentUser) != null){
-      Player opponent = gameCenter.getCurrentOpponent(currentUser);
-      response.redirect("/game?" + opponent.getName());
-    }*/
-
-
-
-    /*if (httpSession.attribute(BUSY_PLAYER_ATTR) != null) {
-      message = Message.info("Selected opponent is already in a game");
-    }else */
 
     Message message;
     if (httpSession.attribute(SIGNED_OUT_ATTR) != null) {

@@ -113,7 +113,7 @@ public class PlayerLobby {
     }
 
     public void newGameNotification(Player sender, Player recipient){
-        notificationList.get(recipient).add(Message.newGame(sender.getName()));
+        notificationList.get(recipient).add(Message.newGameRequest(sender.getName()));
     }
 
     public void gameStartedNotification(Player sender, Player recipient){
@@ -135,6 +135,7 @@ public class PlayerLobby {
     public void deleteNotification(Player player){
         notificationList.get(player).removeFirst();
     }
+
 
 
     // For testing

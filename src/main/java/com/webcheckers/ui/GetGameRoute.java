@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.*;
+import com.webcheckers.util.Message;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -38,7 +39,7 @@ public class GetGameRoute implements Route {
 
 
 
-    static final String GAME_ATTR = "currentGame";
+    static final String MOST_RECENT_GAME_ATTR = "mostRecentGame";
     static final String GAME_OVER_MESSAGE_ATTR = "gameOverMessage";
     static final String GAME_RESIGN_ATTR = "gameResigned";
     //static final String NEW_GAME_REQUEST_ATTR = "newGameRequest";
@@ -80,6 +81,8 @@ public class GetGameRoute implements Route {
     @Override
     public String handle(Request request, Response response) {
 
+        Game currentGame = null;
+        BoardView boardview;
 
         final Session httpSession = request.session();
         if(httpSession.attribute(PLAYER_ATTR) == null){
@@ -90,20 +93,16 @@ public class GetGameRoute implements Route {
 
         Player currentUser = httpSession.attribute(PLAYER_ATTR);
 
-        // If the currentUser does not have an existing game and there is not opponent in params, return to HOME_URL
-        Set<String> params = request.queryParams();
-        Iterator<String> paramIterator = params.iterator();
-        if(!paramIterator.hasNext()){
-            response.redirect(WebServer.HOME_URL);
-            halt();
-            return null;
+        // If the request did not provide an opponent, check if the currentUser has a game in attributes
+        String opponentString = request.queryString();
+        if(opponentString==null){
+            currentGame = httpSession.attribute(MOST_RECENT_GAME_ATTR);
         }
 
-        Player opponent = playerLobby.getPlayer(request.queryString());
+        Player opponent = playerLobby.getPlayer(opponentString);
         String gameIDString = request.queryParams("gameID");
 
-        Game currentGame;
-        BoardView boardview;
+
 
         // build the View-Model
         final Map<String, Object> vm = new HashMap<>();
@@ -117,19 +116,24 @@ public class GetGameRoute implements Route {
 
 
         // game exists, retrieve game and render FTL accordingly
-        if(gameIDString != null || gameCenter.gameExists(currentUser,opponent)){
+        if(gameIDString != null || gameCenter.gameExists(currentUser,opponent) || currentGame!=null){
 
-            if(gameIDString == null){
-                currentGame = gameCenter.getGame(currentUser, opponent);
-            }else{
+            if(gameIDString != null){
                 currentGame = gameCenter.getGame(Integer.parseInt(gameIDString));
+            }else if(gameCenter.gameExists(currentUser,opponent)){
+                currentGame = gameCenter.getGame(currentUser, opponent);
             }
             vm.put(RED_PLAYER_ATTR,currentGame.getRedPlayer());
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
             if(playerLobby.hasNotification(currentUser)){
-                vm.put("notification", playerLobby.getPlayerNotification(currentUser));
+                Message notification = playerLobby.getPlayerNotification(currentUser);
+                if(notification.isGameAcceptedMessage()){
+                    playerLobby.deleteNotification(currentUser);
+                }else{
+                    vm.put("notification", notification);
+                }
             }
 
             if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) == null) {
@@ -155,16 +159,8 @@ public class GetGameRoute implements Route {
             response.redirect(WebServer.HOME_URL);
             return null;
         }else{ // create a new game, opponent has no other games
-            opponent = playerLobby.getPlayer(paramIterator.next());
+            opponent = playerLobby.getPlayer(opponentString);
             playerLobby.gameStartedNotification(currentUser,opponent);
-
-            // if the selected opponent is already in a game
-            /*if (playerLobby.isPlayerInGame(opponent)) {
-                httpSession.attribute(PLAYER_BUSY_ATTR, true);
-                response.redirect("/");
-                halt();
-                return null;
-            }*/
 
             currentGame = gameCenter.getGame(currentUser, opponent);
             vm.put(RED_PLAYER_ATTR, currentUser);
@@ -173,9 +169,7 @@ public class GetGameRoute implements Route {
             vm.put(BOARD_ATTR, currentGame.getBoard().getBoardViewForRed());
         }
 
-        //httpSession.attribute(GAME_ATTR, currentGame);
-      /*  playerLobby.setPlayerBusy(currentUser);
-        playerLobby.setPlayerBusy(opponent);*/
+        httpSession.attribute(MOST_RECENT_GAME_ATTR, currentGame);
 
         //population the view models to generate the game page
         vm.put(TITLE_ATTR, TITLE);

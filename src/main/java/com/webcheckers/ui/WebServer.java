@@ -98,12 +98,13 @@ public class WebServer {
   /**
    * The URL pattern to decline a game
    */
-  public static final String DECLINE_URL = "/decline";
+  public static final String DECLINE_GAME_URL = "/decline";
 
   /**
-   * The URL pattern to delete a notification
+   * The URL pattern to decline a game
    */
   public static final String DELETE_NOTIFICATION_URL = "/delete";
+
 
 
   //
@@ -211,7 +212,7 @@ public class WebServer {
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson,gameCenter));
 
     //
-    post(CHECK_TURN_URL, new PostCheckTurnRoute(gson,gameCenter));
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(gson,gameCenter,playerLobby));
 
     //
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gson,gameCenter));
@@ -223,10 +224,10 @@ public class WebServer {
     post(RESIGN_URL, new PostResignRoute(gson,gameCenter));
 
     //
-    post(DECLINE_URL, new PostDeclineGameRoute(gson,playerLobby));
+    post(DECLINE_GAME_URL, new PostDeclineGameRoute(gson,playerLobby));
 
     //
-    post(DELETE_NOTIFICATION_URL, new PostDeleteNotificationRoute(playerLobby));
+    post(DELETE_NOTIFICATION_URL, new PostDeleteNotificationRoute(gson,playerLobby));
 
 
     LOG.config("WebServer is initialized.");

@@ -45,7 +45,7 @@ public final class Message {
     return new Message(message, Type.INFO);
   }
 
-  public static Message newGame(final String name) {
+  public static Message newGameRequest(final String name) {
     return new Message(name, Type.NEW_GAME_REQUEST);
   }
 

@@ -13,7 +13,7 @@ public class PostDeclineGameRoute implements Route {
     private final PlayerLobby playerLobby;
     private final Gson gson;
 
-    public PostDeclineGameRoute(Gson gson,PlayerLobby playerLobby) {
+    public PostDeclineGameRoute(Gson gson, PlayerLobby playerLobby) {
         this.playerLobby = playerLobby;
         this.gson = gson;
     }
@@ -26,6 +26,9 @@ public class PostDeclineGameRoute implements Route {
         Player sender = playerLobby.getPlayer(newGameRequest.getText());
         playerLobby.declineGameNotification(currentUser,sender);
         playerLobby.deleteNotification(currentUser);
+
+        response.redirect(WebServer.GAME_URL);
+
 
         return gson.toJson(Message.info("Game Declined"));
 
