@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.*;
-import com.webcheckers.util.Message;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -129,8 +128,8 @@ public class GetGameRoute implements Route {
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
-            if(playerLobby.hasMessage(currentUser)){
-                vm.put("notification", playerLobby.getPlayerMessage(currentUser));
+            if(playerLobby.hasNotification(currentUser)){
+                vm.put("notification", playerLobby.getPlayerNotification(currentUser));
             }
 
             if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) == null) {
@@ -152,12 +151,12 @@ public class GetGameRoute implements Route {
 
 
         }else if(gameCenter.isPlayerInGame(opponent)){ // if the opponent is already in a game we have to send request
-            playerLobby.newGameRequest(currentUser, opponent);
+            playerLobby.newGameNotification(currentUser, opponent);
             response.redirect(WebServer.HOME_URL);
             return null;
         }else{ // create a new game, opponent has no other games
             opponent = playerLobby.getPlayer(paramIterator.next());
-            playerLobby.gameStartedMessage(currentUser,opponent);
+            playerLobby.gameStartedNotification(currentUser,opponent);
 
             // if the selected opponent is already in a game
             /*if (playerLobby.isPlayerInGame(opponent)) {

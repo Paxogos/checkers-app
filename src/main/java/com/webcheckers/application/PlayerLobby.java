@@ -15,7 +15,7 @@ public class PlayerLobby {
 
     // List containing all players
     HashMap<String, Player> availablePlayerList;
-    HashMap<Player, LinkedList<Message>> messageList;
+    HashMap<Player, LinkedList<Message>> notificationList;
 
 
     public enum LoginAttempt {NAME_TAKEN, INVALID, VALID}
@@ -26,7 +26,7 @@ public class PlayerLobby {
 
     public PlayerLobby() {
         this.availablePlayerList = new HashMap<>();
-        this.messageList = new HashMap<>();
+        this.notificationList = new HashMap<>();
     }
 
     /**
@@ -45,14 +45,14 @@ public class PlayerLobby {
         } else {
             Player newPlayer = new Player(userName);
             this.availablePlayerList.put(userName, newPlayer);
-            this.messageList.put(newPlayer,new LinkedList<>());
+            this.notificationList.put(newPlayer,new LinkedList<>());
             return LoginAttempt.VALID;
         }
     }
 
     public void signOut(Player currentUser) { // TODO handle situation where player signs out mid game
         availablePlayerList.remove(currentUser.getName());
-        messageList.remove(currentUser);
+        notificationList.remove(currentUser);
     }
 
     /**
@@ -112,24 +112,28 @@ public class PlayerLobby {
         return player;
     }
 
-    public void newGameRequest(Player sender, Player recipient){
-        messageList.get(recipient).add(Message.newGame(sender.getName()));
+    public void newGameNotification(Player sender, Player recipient){
+        notificationList.get(recipient).add(Message.newGame(sender.getName()));
     }
 
-    public void gameStartedMessage(Player sender,Player recipient){
-        messageList.get(recipient).add(Message.gameAccepted(sender.getName()));
+    public void gameStartedNotification(Player sender, Player recipient){
+        notificationList.get(recipient).add(Message.gameAccepted(sender.getName()));
     }
 
-    public boolean hasMessage(Player player){
-        return !messageList.get(player).isEmpty();
+    public boolean hasNotification(Player player){
+        return !notificationList.get(player).isEmpty();
     }
 
-    public Message getPlayerMessage(Player player){
-        return messageList.get(player).getFirst();
+    public Message getPlayerNotification(Player player){
+        return notificationList.get(player).getFirst();
     }
 
-    public void declineGameRequest(Player sender, Player recipient){
-        messageList.get(recipient).add(Message.info(sender.getName() + " has declined to start a game"));
+    public void declineGameNotification(Player sender, Player recipient){
+        notificationList.get(recipient).add(Message.info(sender.getName() + " has declined to start a game"));
+    }
+
+    public void deleteNotification(Player player){
+        notificationList.get(player).removeFirst();
     }
 
 
