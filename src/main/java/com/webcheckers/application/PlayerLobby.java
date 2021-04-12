@@ -31,12 +31,11 @@ public class PlayerLobby {
     /**
      * The method for signing in
      *
-     * @param desiredName      desired username
+     * @param userName      desired username
      * @return              the new Player object (null if the name is taken)
      */
-    public LoginAttempt signIn(String desiredName) {
+    public LoginAttempt signIn(String userName) {
 
-        String userName = desiredName.trim();
         if (nameIsInvalid(userName))
             return LoginAttempt.INVALID;
 
@@ -56,16 +55,6 @@ public class PlayerLobby {
         busyPlayerList.remove(currentUser.getName());
 
         System.out.println("test");
-    }
-
-    /**
-     * Removes the player from the busyPlayerList and adds them to the availablePlayerList
-     *
-     * @param currentUser user playing the game
-     */
-    public void removePlayerFromGame(Player currentUser) {
-        busyPlayerList.remove(currentUser.getName());
-        availablePlayerList.remove(currentUser.getName());
     }
 
     /**

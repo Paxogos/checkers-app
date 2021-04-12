@@ -90,6 +90,12 @@ public class WebServer {
    */
   public static final String SUBMIT_TURN_URL = "/submitTurn";
 
+  /**
+   * The URL pattern to resign the game
+   */
+  public static final String RESIGN_URL = "/resignGame";
+
+
   //
   // Attributes
   //
@@ -190,8 +196,6 @@ public class WebServer {
 
     //
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby, templateEngine));
-
-
     //
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson));
 
@@ -204,6 +208,8 @@ public class WebServer {
     //
     post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gson));
 
+    //
+    post(RESIGN_URL, new PostResignRoute(gson));
 
     LOG.config("WebServer is initialized.");
 

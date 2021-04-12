@@ -1,0 +1,8 @@
+Instructions to run webcheckers program:
+
+1.) Using the terminal, navigate to the root folder of the project
+2.) Once in the right directory, use the command "mvn compile exec:java" to compile and run the program
+	Note: the following command results in a build error, try entering the command "mvn clean".
+3.) When the program is running, head over to your browser and enter your local address "http://localhost:4567/". When testing more than one 
+    player, open up a second browser. If it's showing the same player as the last browser, try using a different browser for the other palyer,
+    incognito also works.
