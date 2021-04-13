@@ -118,12 +118,14 @@ public class GetGameRoute implements Route {
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
-            if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) == null) {
-                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner().getName() + " has won!");
+            if (currentGame.isGameOver() && currentGame.getResignee() != null) {
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getResignee().getName() + " has resigned!");
+                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
             }
-            if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) != null) {
-                currentGame.resignGame(currentUser);
-                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentUser.getName() + " has resigned");
+
+            else if (currentGame.isGameOver()) {
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner() + "has won!");
+                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
             }
 
 

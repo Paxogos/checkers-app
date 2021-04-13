@@ -6,7 +6,6 @@ import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 
-import jdk.javadoc.internal.doclets.formats.html.SourceToHTMLConverter;
 import spark.Request;
 import spark.Response;
 import spark.Route;
