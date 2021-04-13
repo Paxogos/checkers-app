@@ -157,4 +157,10 @@ public class GameCenter {
         }
         return opponentStrings;
     }
+
+    public void removeGame(Player currentUser, Player opponent) {
+        String key = getCorrectKey(currentUser, opponent);
+
+        this.gamesList.remove(key);
+    }
 }
