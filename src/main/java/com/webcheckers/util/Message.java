@@ -57,6 +57,10 @@ public final class Message {
     return new Message(name,Type.GAME_REQUEST_DECLINED);
   }
 
+  public static Message playerMessage(final String content){
+    return new Message(content,Type.DIRECT_MESSAGE);
+  }
+
   public boolean isNewGameMessage(){
     return this.getType().equals(Type.NEW_GAME_REQUEST);
   }
@@ -67,6 +71,10 @@ public final class Message {
 
   public boolean isGameDeclinedMessage(){
     return this.getType().equals(Type.GAME_REQUEST_DECLINED);
+  }
+
+  public boolean isDirectMessage(){
+    return this.getType().equals(Type.DIRECT_MESSAGE);
   }
 
 

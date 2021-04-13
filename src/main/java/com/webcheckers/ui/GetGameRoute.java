@@ -36,6 +36,7 @@ public class GetGameRoute implements Route {
     static final String BOARD_ATTR = "board";
     static final String PLAYER_ATTR = "currentUser";
     static final String MESSAGE_ATTR = "message";
+    static final String DIRECT_MESSAGE_ATTR = "directMessages";
 
 
 
@@ -123,6 +124,7 @@ public class GetGameRoute implements Route {
             }else if(gameCenter.gameExists(currentUser,opponent)){
                 currentGame = gameCenter.getGame(currentUser, opponent);
             }
+            vm.put(DIRECT_MESSAGE_ATTR,currentGame.getDirectMessages());
             vm.put(RED_PLAYER_ATTR,currentGame.getRedPlayer());
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());

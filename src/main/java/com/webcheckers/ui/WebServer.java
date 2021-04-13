@@ -105,6 +105,11 @@ public class WebServer {
    */
   public static final String DELETE_NOTIFICATION_URL = "/delete";
 
+  /**
+   * The URL pattern to decline a game
+   */
+  public static final String DIRECT_MESSAGE_URL = "/directMessage";
+
 
 
   //
@@ -228,6 +233,9 @@ public class WebServer {
 
     //
     post(DELETE_NOTIFICATION_URL, new PostDeleteNotificationRoute(gson,playerLobby));
+
+    //
+    post(DIRECT_MESSAGE_URL, new PostDirectMessageRoute(gson,playerLobby));
 
 
     LOG.config("WebServer is initialized.");

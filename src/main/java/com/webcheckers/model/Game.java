@@ -4,6 +4,8 @@ package com.webcheckers.model;
 import com.webcheckers.util.Position;
 import com.webcheckers.model.Piece.Color;
 
+import java.util.ArrayList;
+
 public class Game {
 
     /**
@@ -18,6 +20,7 @@ public class Game {
     private final Player whitePlayer;
     private Player winner;
     private int gameID;
+    private String directMessages;
 
     private Color activeColor = Color.RED;
     private Turn activeTurn;
@@ -50,9 +53,19 @@ public class Game {
         this.board = new Board();
         this.activeTurn = new Turn();
         this.gameID = gameID;
+        this.directMessages = "";
 
         addPiecesToGame();
         this.isGameResigned = false;
+    }
+
+    public void sendDirectMessage(Player sender,String message){
+        String formattedMessage = sender.getName() + ": " + message + "\n";
+        directMessages = directMessages + formattedMessage;
+    }
+
+    public String getDirectMessages() {
+        return directMessages;
     }
 
     /**
