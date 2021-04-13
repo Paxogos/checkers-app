@@ -111,10 +111,6 @@ public class GetGameRoute implements Route {
         //modeOptions decides what game state the game is in.
         final Map<String, Object> modeOptions = new HashMap<>(2);
 
-        //if the game is over, then mode options will trigger game over state
-        modeOptions.put("isGameOver", true);
-        modeOptions.put(GAME_OVER_MESSAGE_ATTR, "This is the end of the game");
-
 
         // game exists, retrieve game and render FTL accordingly
         if(gameIDString != null || gameCenter.gameExists(currentUser,opponent) || currentGame!=null){
@@ -139,12 +135,14 @@ public class GetGameRoute implements Route {
                 }
             }
 
-            if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) == null) {
-                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner().getName() + " has won!");
-            }
-            if (currentGame.isGameOver() && httpSession.attribute(GAME_RESIGN_ATTR) != null) {
-                currentGame.resignGame(currentUser);
-                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentUser.getName() + " has resigned");
+
+
+            if (currentGame.isGameOver() && currentGame.getResignee() != null) {
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getResignee().getName() + " has resigned!");
+                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
+            }else if (currentGame.isGameOver()) {
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner() + "has won!");
+                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
             }
 
 
@@ -166,6 +164,15 @@ public class GetGameRoute implements Route {
             playerLobby.gameStartedNotification(currentUser,opponent);
 
             currentGame = gameCenter.getGame(currentUser, opponent);
+
+            if(currentGame.isGameOver()) {
+                gameCenter.removeGame(currentUser, opponent);
+                response.redirect("/");
+                halt();
+                return null;
+            }
+
+
             vm.put(RED_PLAYER_ATTR, currentUser);
             vm.put(WHITE_PLAYER_ATTR, opponent);
             vm.put(ACTIVE_COLOR_ATTR, Piece.Color.RED);
@@ -193,6 +200,7 @@ public class GetGameRoute implements Route {
             vm.put(MODE_OPTIONS_ATTR, MODE_OPTIONS);
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
+
 
     }
 

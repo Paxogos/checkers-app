@@ -248,6 +248,15 @@ public class Game {
         isGameResigned = true;
     }
 
+    /**
+     * Retrieve the player that resigned
+     *
+     * @return resignee, null if none
+     */
+    public Player getResignee() {
+        return this.resignee;
+    }
+
     public void kingPiece() {
 
         Piece tempPiece;
