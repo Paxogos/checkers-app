@@ -31,8 +31,7 @@
 
       <div style="height:150px;width:670px;overflow:auto;
       background-color:#CAECFF;color:#020000;scrollbar-base-color:#0022ff;
-      font-family:sans-serif;padding:10px;white-space: pre-wrap;">
-        <#if directMessages??>${directMessages}</#if>
+      font-family:sans-serif;padding:10px;white-space: pre-wrap;"><#if directMessages??>${directMessages}</#if>
       </div>
       <form action="/directMessage" method="post">
         <label for="messageBox">Send a message:</label>
