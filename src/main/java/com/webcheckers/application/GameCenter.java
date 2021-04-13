@@ -143,6 +143,10 @@ public class GameCenter {
         return opponentList.get(player);
     }
 
+    public void removeGame(Player player1, Player player2) {
+        gamesList.remove(getCorrectKey(player1, player2));
+    }
+
     public ArrayList<String> getOpponentStringList(Player player) {
         if(player == null){
             throw new IllegalArgumentException();

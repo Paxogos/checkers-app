@@ -139,10 +139,10 @@ public class GetGameRoute implements Route {
 
             if (currentGame.isGameOver() && currentGame.getResignee() != null) {
                 modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getResignee().getName() + " has resigned!");
-                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
+                httpSession.removeAttribute(GetGameRoute.MOST_RECENT_GAME_ATTR);
             }else if (currentGame.isGameOver()) {
                 modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner() + "has won!");
-                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
+                httpSession.removeAttribute(GetGameRoute.MOST_RECENT_GAME_ATTR);
             }
 
 
