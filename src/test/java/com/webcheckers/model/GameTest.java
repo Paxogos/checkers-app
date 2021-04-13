@@ -15,8 +15,9 @@ public class GameTest {
 
     private final Player player1 = new Player("Player1");
     private final Player player2 = new Player("Player2");
+    private final int gameID = 0;
 
-    private final Game testGame = new Game(player1, player2);
+    private final Game testGame = new Game(player1, player2, gameID);
 
 
 
@@ -321,6 +322,12 @@ public class GameTest {
 
         assertEquals(MoveResult.JUMP, result,
                 "Expected " + MoveResult.JUMP + ", but got " + result);
+    }
+
+    @Test
+    public void testGetGameID() {
+        Game CuT = testGame;
+        assertEquals(CuT.getGameID(), 0);
     }
 
    /* @Test

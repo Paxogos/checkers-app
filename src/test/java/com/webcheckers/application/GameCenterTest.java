@@ -18,8 +18,10 @@ public class GameCenterTest {
     Player WHITE_PLAYER = new Player(WHITE_PLAYER_NAME);
     Player THIRD_PLAYER = new Player("notActive");
 
-    Game testGameRW = new Game(RED_PLAYER, WHITE_PLAYER);
-    Game testGameWR = new Game(WHITE_PLAYER, RED_PLAYER);
+    int gameID = 10;
+
+    Game testGameRW = new Game(RED_PLAYER, WHITE_PLAYER, gameID);
+    Game testGameWR = new Game(WHITE_PLAYER, RED_PLAYER, gameID);
 
     @Test
     public void testGetGame() {
