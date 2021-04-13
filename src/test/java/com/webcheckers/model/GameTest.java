@@ -341,6 +341,18 @@ public class GameTest {
         assertEquals(CuT.getWinner(), winner);
     }
 
+    @Test
+    public void victoryThroughCaputresRed_Test() {
+        String[] redWinningConfig = TestBoards.RED_KING_4_5;
+        Piece.Color redColor = Color.RED;
+        Game winningBoard = TestBoards.getGameFromBoardContents(redWinningConfig, redColor);
+        Game CuT = winningBoard;
+
+        assertTrue(CuT.isGameOver());
+        if(CuT.isGameOver())
+            assertEquals(CuT.getWinner(), CuT.getRedPlayer());
+    }
+
    /* @Test
     public void testBackup() {
         Position FIRST_POSITION = new Position(1,2);
