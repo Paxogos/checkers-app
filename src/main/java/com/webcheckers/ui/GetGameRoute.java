@@ -118,13 +118,22 @@ public class GetGameRoute implements Route {
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
 
+            /**
+             * If the game is over and the game was reigned, then the game will end and display a message of the
+             * player who resigned
+             */
             if (currentGame.isGameOver() && currentGame.getResignee() != null) {
-                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getResignee().getName() + " has resigned!");
+                Player resignee = currentGame.getResignee();
+                Player winningPlayer = gameCenter.getCurrentOpponent(resignee);
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, resignee.getName() + " has resigned. " + winningPlayer.getName() + " wins by default");
                 httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
             }
 
+            /**
+             * If the game is over without someone resigning, then the game is over and just displays the winner
+             */
             else if (currentGame.isGameOver()) {
-                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner() + "has won!");
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner() + "has captured all the pieces.");
                 httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
             }
 
