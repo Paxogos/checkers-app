@@ -10,6 +10,7 @@ public class PostSignOutRoute implements Route {
     private final PlayerLobby playerLobby;
     private final TemplateEngine templateEngine;
     final String USERNAME_PARAM = "userName";
+    static final String SIGNED_OUT_ATTR = "playerSignOut";
 
     public PostSignOutRoute(PlayerLobby playerLobby, TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
@@ -21,6 +22,9 @@ public class PostSignOutRoute implements Route {
         final Session session = request.session();
         Player currentUser = session.attribute("currentUser");
 
+        
+        //Session attribute to set player sign out status
+        session.attribute(SIGNED_OUT_ATTR, true);
         // needs to remove player from the lobby
         playerLobby.signOut(currentUser);
 

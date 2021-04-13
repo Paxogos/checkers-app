@@ -5,6 +5,7 @@ import com.webcheckers.model.Game;
 import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
+
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 public class PostResignRoute implements Route {
 
+    static final String GAME_RESIGN_ATTR = "gameResigned";
     private final Gson gson;
     public PostResignRoute(Gson gson) {
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
@@ -28,6 +30,8 @@ public class PostResignRoute implements Route {
         Player currentUser = httpSession.attribute(GetGameRoute.PLAYER_ATTR);
 
         if (currentGame != null) {
+            httpSession.attribute(GAME_RESIGN_ATTR, true);
+
             currentGame.resignGame(currentUser);
             Piece.Color resigningColor = currentGame.getActiveColor();
             String resigningPlayerName = currentUser.getName();
