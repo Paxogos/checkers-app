@@ -323,6 +323,24 @@ public class GameTest {
                 "Expected " + MoveResult.JUMP + ", but got " + result);
     }
 
+    @Test
+    public void getResignee_Test() {
+        Game CuT = testGame;
+        Player resignee = player1;
+        CuT.resignGame(resignee);
+        assertEquals(CuT.getResignee(), resignee);
+    }
+
+    @Test
+    public void getWinnerThroughResignation_Test() {
+        Game CuT = testGame;
+        Player resignee = player2;
+        Player winner = player1;
+        CuT.resignGame(resignee);
+
+        assertEquals(CuT.getWinner(), winner);
+    }
+
    /* @Test
     public void testBackup() {
         Position FIRST_POSITION = new Position(1,2);

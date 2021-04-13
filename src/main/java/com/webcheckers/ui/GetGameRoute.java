@@ -38,7 +38,6 @@ public class GetGameRoute implements Route {
 
     static final String GAME_ATTR = "currentGame";
     static final String GAME_OVER_MESSAGE_ATTR = "gameOverMessage";
-    static final String GAME_RESIGN_ATTR = "gameResigned";
 
     static String TITLE = "Game";
     static String VIEW_NAME = "game.ftl";
@@ -177,7 +176,7 @@ public class GetGameRoute implements Route {
 
 
         /**
-         * Checks to see if the game is over. If true, then the gamve over state is triggered,
+         * Checks to see if the game is over. If true, then the gae over state is triggered,
          * otherwise the game continues and the game state doesn't change
          */
         if(currentGame.isGameOver())
