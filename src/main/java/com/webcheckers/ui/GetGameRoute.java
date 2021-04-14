@@ -39,9 +39,8 @@ public class GetGameRoute implements Route {
     static final String MESSAGE_ATTR = "message";
     static final String DIRECT_MESSAGE_ATTR = "directMessages";
 
-
-
     static final String MOST_RECENT_GAME_ATTR = "mostRecentGame";
+    static final String GAME_OVER_ATTR = "isGameOver";
     static final String GAME_OVER_MESSAGE_ATTR = "gameOverMessage";
 
     static String TITLE = "Game";
@@ -108,6 +107,10 @@ public class GetGameRoute implements Route {
 
         //modeOptions decides what game state the game is in.
         final Map<String, Object> modeOptions = new HashMap<>(2);
+
+        //if the game is over, then mode options will trigger game over state
+        modeOptions.put(GAME_OVER_ATTR, true);
+        modeOptions.put(GAME_OVER_MESSAGE_ATTR, "This is the end of the game");
 
 
         // game exists, retrieve game and render FTL accordingly
