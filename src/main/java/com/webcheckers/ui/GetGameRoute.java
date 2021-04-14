@@ -28,6 +28,7 @@ public class GetGameRoute implements Route {
     static final String TITLE_ATTR = "title";
     static final String GAME_ID_ATTR = "gameID";
     static final String CURRENT_USER_ATTR = "currentUser";
+    static final String GAME_ATTR = "currentGame";
     static final String VIEW_MODE_ATTR = "viewMode";
     static final String MODE_OPTIONS_ATTR = "modeOptionsAsJSON";
     static final String RED_PLAYER_ATTR = "redPlayer";
@@ -121,6 +122,16 @@ public class GetGameRoute implements Route {
             vm.put(RED_PLAYER_ATTR,currentGame.getRedPlayer());
             vm.put(WHITE_PLAYER_ATTR,currentGame.getWhitePlayer());
             vm.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
+
+            if(playerLobby.hasNotification(currentUser)){
+                Message notification = playerLobby.getPlayerNotification(currentUser);
+                String accept = request.queryParams("accept");
+                if(notification.isGameAcceptedMessage() || "1".equals(accept)){
+                    playerLobby.deleteNotification(currentUser);
+                }else{
+                    vm.put("notification", notification);
+                }
+            }
 
             /**
              * If the game is over and the game was reigned, then the game will end and display a message of the
