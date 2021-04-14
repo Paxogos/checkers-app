@@ -3,6 +3,7 @@ package com.webcheckers.application;
 import com.webcheckers.model.BoardView;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
+import com.webcheckers.util.TestBoards;
 
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class GameCenter {
      * @param player2 instance of Player that represents player 2 who joins game after player
      * @return BoardView with a gamekey related to both players
      */
-    public Game getGame(Player player1, Player player2) {
+    public Game getGame(Player player1, Player player2, int testID) {
         ArrayList<Player> oppList;
         if (gameExists(player1, player2)) {
             return gamesList.get(getCorrectKey(player1, player2));
@@ -45,7 +46,12 @@ public class GameCenter {
             if(gameID == 99999){
                 gameID = 00000;
             }
-            Game currentGame = new Game(player1, player2,gameID);
+            Game currentGame;
+            if(testID != 0){
+                currentGame = TestBoards.getGameFromBoardContents(testID,player1,player2,gameID);
+            }else{
+                currentGame = new Game(player1, player2,gameID);
+            }
             this.gamesList.put(gameKey,currentGame);
             this.gamesIDList.put(gameID,currentGame);
 
@@ -82,6 +88,8 @@ public class GameCenter {
         }
         return game;
     }
+
+
 
     /**
      *

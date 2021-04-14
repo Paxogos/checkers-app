@@ -114,7 +114,7 @@ public class GetGameRoute implements Route {
             if(gameIDString != null){
                 currentGame = gameCenter.getGame(Integer.parseInt(gameIDString));
             }else if(gameCenter.gameExists(currentUser,opponent)){
-                currentGame = gameCenter.getGame(currentUser, opponent);
+                currentGame = gameCenter.getGame(currentUser, opponent,0);
             }
             vm.put(DIRECT_MESSAGE_ATTR,currentGame.getDirectMessages());
             vm.put(RED_PLAYER_ATTR,currentGame.getRedPlayer());
@@ -173,8 +173,13 @@ public class GetGameRoute implements Route {
             opponent = playerLobby.getPlayer(opponentString);
             playerLobby.gameStartedNotification(currentUser,opponent);
 
-            currentGame = gameCenter.getGame(currentUser, opponent);
-
+            String testString = request.queryParams("test");
+            if(request.queryParams("test") != null){
+                currentGame = gameCenter.getGame(currentUser,opponent,Integer.parseInt(testString));
+                testString = null;
+            }else{
+                currentGame = gameCenter.getGame(currentUser, opponent,0);
+            }
             vm.put(RED_PLAYER_ATTR, currentUser);
             vm.put(WHITE_PLAYER_ATTR, opponent);
             vm.put(ACTIVE_COLOR_ATTR, Piece.Color.RED);

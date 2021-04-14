@@ -59,6 +59,23 @@ public class Game {
         this.isGameResigned = false;
     }
 
+    /**
+     * Constructor used for testing moves
+     *
+     * @param testBoard         board being used to test moves
+     * @param activeColor       active color being tested
+     */
+    public Game (Board testBoard,Player redPlayer,Player whitePlayer,int gameID) {
+        this.board = testBoard;
+        this.activeColor = Color.RED;
+        this.activeTurn = new Turn();
+        this.gameID = gameID;
+        this.redPlayer = redPlayer;
+        this.whitePlayer = whitePlayer;
+
+        addPiecesToGame();
+    }
+
     public void sendDirectMessage(Player sender,String message){
         String formattedMessage = sender.getName() + ": " + message + "\n";
         directMessages = directMessages + formattedMessage;
