@@ -147,7 +147,7 @@ public class GameCenter {
         gamesList.remove(getCorrectKey(player1, player2));
     }
 
-    public ArrayList<String> getOpponentStringList(Player player) {
+    public ArrayList<String> getCurrentGameList(Player player) {
         if(player == null){
             throw new IllegalArgumentException();
         }
@@ -156,6 +156,7 @@ public class GameCenter {
             return null;
         }
         ArrayList<String> opponentStrings = new ArrayList<>();
+        Game currentGame;
         for (Player opponent : opponents) {
             opponentStrings.add(opponent.getName());
         }

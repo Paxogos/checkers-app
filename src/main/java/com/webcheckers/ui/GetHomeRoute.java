@@ -108,7 +108,7 @@ public class GetHomeRoute implements Route {
         vm.put("notification", playerLobby.getPlayerNotification(currentUser));
       }
       vm.put(AVAILABLE_PLAYER_LIST_ATTR, playerLobby.getAvailablePlayers(currentUser.getName()));
-      vm.put(CURRENT_GAME_LIST_ATTR, gameCenter.getOpponentStringList(currentUser));
+      vm.put(CURRENT_GAME_LIST_ATTR, gameCenter.getCurrentGameList(currentUser));
     }
 
     return new ModelAndView(vm, VIEW_NAME);

@@ -27,7 +27,6 @@
 
       <div id="help_text" class="INFO"></div>
 
-      <#include "notification.ftl" />
 
       <div style="height:150px;width:670px;overflow:auto;
       background-color:#CAECFF;color:#020000;scrollbar-base-color:#0022ff;
@@ -39,6 +38,7 @@
         <button  type="Send" value="Send">Send</button>
       </form>
 
+      <#include "notification.ftl" />
 
       <div>
         <div id="game-controls">
