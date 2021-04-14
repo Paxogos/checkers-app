@@ -325,9 +325,33 @@ public class GameTest {
     }
 
     @Test
-    public void testGetGameID() {
+    public void getResignee_Test() {
         Game CuT = testGame;
-        assertEquals(CuT.getGameID(), 0);
+        Player resignee = player1;
+        CuT.resignGame(resignee);
+        assertEquals(CuT.getResignee(), resignee);
+    }
+
+    @Test
+    public void getWinnerThroughResignation_Test() {
+        Game CuT = testGame;
+        Player resignee = player2;
+        Player winner = player1;
+        CuT.resignGame(resignee);
+
+        assertEquals(CuT.getWinner(), winner);
+    }
+
+    @Test
+    public void victoryThroughCaputresRed_Test() {
+        String[] redWinningConfig = TestBoards.RED_KING_4_5;
+        Piece.Color redColor = Color.RED;
+        Game winningBoard = TestBoards.getGameFromBoardContents(redWinningConfig, redColor);
+        Game CuT = winningBoard;
+
+        assertTrue(CuT.isGameOver());
+        if(CuT.isGameOver())
+            assertEquals(CuT.getWinner(), CuT.getRedPlayer());
     }
 
    /* @Test
