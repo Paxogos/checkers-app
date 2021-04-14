@@ -143,8 +143,13 @@ public class GameCenter {
         return opponentList.get(player);
     }
 
-    public void removeGame(Player player1, Player player2) {
+    public void removeGame(Player player1, Player player2,int id) {
         gamesList.remove(getCorrectKey(player1, player2));
+        gamesIDList.remove(id);
+        ArrayList<Player> player1List = opponentList.get(player1);
+        ArrayList<Player> player2List = opponentList.get(player2);
+        player1List.remove(player2);
+        player2List.remove(player1);
     }
 
     public ArrayList<String> getCurrentGameList(Player player) {
@@ -161,11 +166,5 @@ public class GameCenter {
             opponentStrings.add(opponent.getName());
         }
         return opponentStrings;
-    }
-
-    public void removeGame(Player currentUser, Player opponent) {
-        String key = getCorrectKey(currentUser, opponent);
-
-        this.gamesList.remove(key);
     }
 }

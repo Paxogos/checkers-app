@@ -15,6 +15,8 @@
     "whitePlayer" : "${whitePlayer.name! 'whiteTestName'}",
     "activeColor" : "${activeColor}"
   };
+
+
   </script>
 </head>
 <body>

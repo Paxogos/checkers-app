@@ -194,7 +194,7 @@ define(function(require){
    * Exit the game by navigating to the Home page.
    */
   PlayController.prototype.exitGame = function exitGame() {
-    window.location = '/';
+    window.location = '/?delGame=1';
   };
 
   /**

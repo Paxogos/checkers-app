@@ -101,14 +101,19 @@ public class WebServer {
   public static final String DECLINE_GAME_URL = "/decline";
 
   /**
-   * The URL pattern to decline a game
+   * The URL pattern to delete a game
    */
   public static final String DELETE_NOTIFICATION_URL = "/delete";
 
   /**
-   * The URL pattern to decline a game
+   * The URL pattern to send a ,eesage
    */
   public static final String DIRECT_MESSAGE_URL = "/directMessage";
+
+  /**
+   * The URL pattern to exit the game
+   */
+  public static final String EXIT_GAME_URL = "/exitGame";
 
 
 
@@ -236,6 +241,7 @@ public class WebServer {
 
     //
     post(DIRECT_MESSAGE_URL, new PostDirectMessageRoute(gson,playerLobby));
+
 
 
     LOG.config("WebServer is initialized.");

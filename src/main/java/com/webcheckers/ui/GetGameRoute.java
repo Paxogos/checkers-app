@@ -28,7 +28,6 @@ public class GetGameRoute implements Route {
     static final String TITLE_ATTR = "title";
     static final String GAME_ID_ATTR = "gameID";
     static final String CURRENT_USER_ATTR = "currentUser";
-    static final String GAME_ATTR = "currentGame";
     static final String VIEW_MODE_ATTR = "viewMode";
     static final String MODE_OPTIONS_ATTR = "modeOptionsAsJSON";
     static final String RED_PLAYER_ATTR = "redPlayer";
@@ -108,10 +107,6 @@ public class GetGameRoute implements Route {
         //modeOptions decides what game state the game is in.
         final Map<String, Object> modeOptions = new HashMap<>(2);
 
-        //if the game is over, then mode options will trigger game over state
-        modeOptions.put(GAME_OVER_ATTR, true);
-        modeOptions.put(GAME_OVER_MESSAGE_ATTR, "This is the end of the game");
-
 
         // game exists, retrieve game and render FTL accordingly
         if(gameIDString != null || gameCenter.gameExists(currentUser,opponent) || currentGame!=null){
@@ -142,9 +137,12 @@ public class GetGameRoute implements Route {
              */
             if (currentGame.isGameOver() && currentGame.getResignee() != null) {
                 Player resignee = currentGame.getResignee();
-                Player winningPlayer = gameCenter.getCurrentOpponent(resignee);
+                Player winningPlayer = currentGame.getWinner();
                 modeOptions.put(GAME_OVER_MESSAGE_ATTR, resignee.getName() + " has resigned. " + winningPlayer.getName() + " wins by default");
-                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
+                modeOptions.put(GAME_OVER_ATTR,true);
+                vm.put(GAME_OVER_ATTR,true);
+                httpSession.removeAttribute(GetGameRoute.MOST_RECENT_GAME_ATTR);
+
             }
 
             /**
@@ -152,7 +150,9 @@ public class GetGameRoute implements Route {
              */
             else if (currentGame.isGameOver()) {
                 modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner() + "has captured all the pieces.");
-                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
+                httpSession.removeAttribute(GetGameRoute.MOST_RECENT_GAME_ATTR);
+                vm.put(GAME_OVER_ATTR,true);
+                modeOptions.put(GAME_OVER_ATTR,true);
             }
 
 
@@ -174,14 +174,6 @@ public class GetGameRoute implements Route {
             playerLobby.gameStartedNotification(currentUser,opponent);
 
             currentGame = gameCenter.getGame(currentUser, opponent);
-
-            if(currentGame.isGameOver()) {
-                gameCenter.removeGame(currentUser, opponent);
-                response.redirect("/");
-                halt();
-                return null;
-            }
-
 
             vm.put(RED_PLAYER_ATTR, currentUser);
             vm.put(WHITE_PLAYER_ATTR, opponent);

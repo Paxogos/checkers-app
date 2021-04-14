@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -70,6 +71,16 @@ public class GetHomeRoute implements Route {
 
     // Retrieve the Player object from the user's session
     Player currentUser = httpSession.attribute(PLAYER_ATTR);
+
+    if(request.queryParams("delGame") != null){
+      Game currentGame = request.session().attribute(GetGameRoute.MOST_RECENT_GAME_ATTR);
+      httpSession.attribute(GetGameRoute.MOST_RECENT_GAME_ATTR,null);
+      if(currentGame == null){
+        response.redirect("/");
+      }else if(currentUser != currentGame.getResignee()){
+        gameCenter.removeGame(currentGame.getResignee(),currentUser,currentGame.getGameID());
+      }
+    }
 
 
     Message message;

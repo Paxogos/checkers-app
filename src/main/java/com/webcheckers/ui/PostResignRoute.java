@@ -16,7 +16,6 @@ import java.util.Objects;
 
 public class PostResignRoute implements Route {
 
-    static final String GAME_RESIGN_ATTR = "gameResigned";
     private final Gson gson;
     private final GameCenter gameCenter;
 
@@ -34,8 +33,6 @@ public class PostResignRoute implements Route {
         Player currentUser = httpSession.attribute(GetGameRoute.PLAYER_ATTR);
 
         if (currentGame != null) {
-            httpSession.attribute(GAME_RESIGN_ATTR, true);
-
             currentGame.resignGame(currentUser);
             Piece.Color resigningColor = currentGame.getActiveColor();
             String resigningPlayerName = currentUser.getName();
