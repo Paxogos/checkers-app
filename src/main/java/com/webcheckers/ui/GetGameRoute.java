@@ -28,6 +28,7 @@ public class GetGameRoute implements Route {
     static final String TITLE_ATTR = "title";
     static final String GAME_ID_ATTR = "gameID";
     static final String CURRENT_USER_ATTR = "currentUser";
+    static final String GAME_ATTR = "currentGame";
     static final String VIEW_MODE_ATTR = "viewMode";
     static final String MODE_OPTIONS_ATTR = "modeOptionsAsJSON";
     static final String RED_PLAYER_ATTR = "redPlayer";
@@ -38,13 +39,9 @@ public class GetGameRoute implements Route {
     static final String MESSAGE_ATTR = "message";
     static final String DIRECT_MESSAGE_ATTR = "directMessages";
 
-
-
     static final String MOST_RECENT_GAME_ATTR = "mostRecentGame";
+    static final String GAME_OVER_ATTR = "isGameOver";
     static final String GAME_OVER_MESSAGE_ATTR = "gameOverMessage";
-    static final String GAME_RESIGN_ATTR = "gameResigned";
-    //static final String NEW_GAME_REQUEST_ATTR = "newGameRequest";
-
 
     static String TITLE = "Game";
     static String VIEW_NAME = "game.ftl";
@@ -111,6 +108,10 @@ public class GetGameRoute implements Route {
         //modeOptions decides what game state the game is in.
         final Map<String, Object> modeOptions = new HashMap<>(2);
 
+        //if the game is over, then mode options will trigger game over state
+        modeOptions.put(GAME_OVER_ATTR, true);
+        modeOptions.put(GAME_OVER_MESSAGE_ATTR, "This is the end of the game");
+
 
         // game exists, retrieve game and render FTL accordingly
         if(gameIDString != null || gameCenter.gameExists(currentUser,opponent) || currentGame!=null){
@@ -135,14 +136,23 @@ public class GetGameRoute implements Route {
                 }
             }
 
-
-
+            /**
+             * If the game is over and the game was reigned, then the game will end and display a message of the
+             * player who resigned
+             */
             if (currentGame.isGameOver() && currentGame.getResignee() != null) {
-                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getResignee().getName() + " has resigned!");
-                httpSession.removeAttribute(GetGameRoute.MOST_RECENT_GAME_ATTR);
-            }else if (currentGame.isGameOver()) {
-                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner() + "has won!");
-                httpSession.removeAttribute(GetGameRoute.MOST_RECENT_GAME_ATTR);
+                Player resignee = currentGame.getResignee();
+                Player winningPlayer = gameCenter.getCurrentOpponent(resignee);
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, resignee.getName() + " has resigned. " + winningPlayer.getName() + " wins by default");
+                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
+            }
+
+            /**
+             * If the game is over without someone resigning, then the game is over and just displays the winner
+             */
+            else if (currentGame.isGameOver()) {
+                modeOptions.put(GAME_OVER_MESSAGE_ATTR, currentGame.getWinner() + "has captured all the pieces.");
+                httpSession.removeAttribute(GetGameRoute.GAME_ATTR);
             }
 
 
@@ -191,7 +201,7 @@ public class GetGameRoute implements Route {
 
 
         /**
-         * Checks to see if the game is over. If true, then the gamve over state is triggered,
+         * Checks to see if the game is over. If true, then the gae over state is triggered,
          * otherwise the game continues and the game state doesn't change
          */
         if(currentGame.isGameOver())

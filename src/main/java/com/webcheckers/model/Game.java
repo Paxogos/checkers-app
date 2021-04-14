@@ -365,7 +365,6 @@ public class Game {
                     else
                         this.numWhitePieces++;
                 }
-
             }
         }
     }

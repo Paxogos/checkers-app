@@ -1,6 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.util.Position;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import com.webcheckers.model.Game.MoveResult;
 import com.webcheckers.model.Piece.Color;
@@ -11,6 +12,7 @@ import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("Model-tier")
 public class GameTest {
 
     private final Player player1 = new Player("Player1");
@@ -325,20 +327,70 @@ public class GameTest {
     }
 
     @Test
-    public void testGetGameID() {
+    public void getResignee_Test() {
         Game CuT = testGame;
-        assertEquals(CuT.getGameID(), 0);
+        Player resignee = player1;
+        CuT.resignGame(resignee);
+        assertEquals(CuT.getResignee(), resignee);
     }
 
-   /* @Test
+    @Test
+    public void getWinnerThroughResignation_Test() {
+        Game CuT = testGame;
+        Player resignee = player2;
+        Player winner = player1;
+        CuT.resignGame(resignee);
+
+        assertEquals(CuT.getWinner(), winner);
+    }
+
+    @Test
+    public void victoryThroughCaputresRed_Test() {
+        String[] redWinningConfig = TestBoards.RED_KING_4_5;
+        Piece.Color redPieceColor = Color.RED;
+        Game winningBoard = TestBoards.getGameFromBoardContents(redWinningConfig, redPieceColor);
+        Game CuT = winningBoard;
+
+        assertTrue(CuT.isGameOver());
+        if(CuT.isGameOver())
+            assertEquals(CuT.getWinner(), CuT.getRedPlayer());
+    }
+
+    @Test
+    public void victoryThroughCaptruesWhite_Test() {
+        String[] whiteWinningConfig = TestBoards.WHITE_KING_3_4;
+        Piece.Color whitePieceColor = Color.WHITE;
+        Game winningBoard = TestBoards.getGameFromBoardContents(whiteWinningConfig, whitePieceColor);
+        Game CuT = winningBoard;
+
+        assertTrue(CuT.isGameOver());
+        if(CuT.isGameOver())
+            assertEquals(CuT.getWinner(), CuT.getWhitePlayer());
+    }
+
+   @Test
     public void testBackup() {
-        Position FIRST_POSITION = new Position(1,2);
-        Position SECOND_POSITION = new Position(2,3);
+       Game game = TestBoards.getGameFromBoardContents(TestBoards.RED_KING_4_5, Color.RED);
 
-        Move moveToValidSpace = new Move(FIRST_POSITION, SECOND_POSITION);
-        testGame.makeMove(moveToValidSpace);
+       Position FIRST_POSITION = new Position(4,5);
+       Position SECOND_POSITION = new Position(5,4);
 
-        assertTrue(testGame.backup());
-    }*/
+       Move validMove = new Move(FIRST_POSITION, SECOND_POSITION);
+       game.makeMove(validMove);
+       assertTrue(game.backup());
+    }
 
+    /*
+    @Test
+    public void testBackupSingle() {
+        Game game = TestBoards.getGameFromBoardContents(TestBoards.WHITE_KING_3_4__RED_4_5__6_3__6_5, Color.RED);
+
+        Position FIRST_POSITION = new Position(5,4);
+        Position SECOND_POSITION = new Position(4,5);
+
+        Move validMove = new Move(FIRST_POSITION, SECOND_POSITION);
+        game.makeMove(validMove);
+        assertTrue(game.backup());
+    }
+     */
 }
