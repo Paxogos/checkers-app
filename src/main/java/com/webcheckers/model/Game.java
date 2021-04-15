@@ -276,8 +276,6 @@ public class Game {
 
     public void kingPiece() {
 
-        Piece tempPiece;
-
         Position lastSpace = activeTurn.getLastMove().end();
         Piece lastPiece = board.getPieceAt(lastSpace);
 

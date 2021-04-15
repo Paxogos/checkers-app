@@ -1,4 +1,4 @@
-package com.webcheckers.model;
+package com.webcheckers.util;
 
 import com.webcheckers.util.Position;
 import org.junit.jupiter.api.Tag;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Tag("Model-tier")
+@Tag("Util-tier")
 public class PositionTest {
 
     @Test

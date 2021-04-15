@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
 
+import org.junit.jupiter.api.Tag;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -15,6 +16,7 @@ import spark.ModelAndView;
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
+@Tag("Ui-tier")
 public class TemplateEngineTester {
 
   /** Holds the View-Model map from the Spark ModelAndView object. */
