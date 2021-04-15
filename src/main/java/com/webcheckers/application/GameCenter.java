@@ -81,6 +81,12 @@ public class GameCenter {
         }
     }
 
+    /**
+     * Get game method using just the gameID
+     *
+     * @param gameID    id of the game
+     * @return          respective game
+     */
     public Game getGame(int gameID){
         Game game = gamesIDList.get(gameID);
         if (game == null){
@@ -106,6 +112,13 @@ public class GameCenter {
         return (gamesList.containsKey(gameKey1) || gamesList.containsKey(gameKey2));
     }
 
+    /**
+     * Method for getting a key
+     *
+     * @param player1       player 1 of the game
+     * @param player2       player 2 of the game
+     * @return              the key of the game between the two players
+     */
     public String getCorrectKey(Player player1, Player player2) {
         String gameKey1 = player1.getName() + player2.getName();
         String gameKey2 = player2.getName() + player1.getName();
@@ -119,6 +132,12 @@ public class GameCenter {
         }
     }
 
+    /**
+     * Checks if the player is in a game
+     *
+     * @param player    player to check
+     * @return          true if they're in a game
+     */
     public boolean isPlayerInGame(Player player) {
         if (player == null) {
             throw new IllegalArgumentException("The provided player object is null");
@@ -130,6 +149,12 @@ public class GameCenter {
         return !opponentList.get(player).isEmpty();
     }
 
+    /**
+     * Get the current opponent of the given user
+     *
+     * @param currentUser       current user
+     * @return                  thier opponent
+     */
     public Player getCurrentOpponent(Player currentUser) {
         ArrayList<Player> opponents = opponentList.get(currentUser);
         if(opponents == null){
@@ -151,6 +176,13 @@ public class GameCenter {
         return opponentList.get(player);
     }
 
+    /**
+     * Remove a game from the games list
+     *
+     * @param player1   first player of the game
+     * @param player2   second player of the game
+     * @param id        id of the game
+     */
     public void removeGame(Player player1, Player player2,int id) {
         gamesList.remove(getCorrectKey(player1, player2));
         gamesIDList.remove(id);
@@ -160,6 +192,12 @@ public class GameCenter {
         player2List.remove(player1);
     }
 
+    /**
+     * Get a list of the games this player is partaking in
+     *
+     * @param player        player to get games of
+     * @return              ArrayList of games
+     */
     public ArrayList<String> getCurrentGameList(Player player) {
         if(player == null){
             throw new IllegalArgumentException();
