@@ -59,7 +59,9 @@ public class GetGameRoute implements Route {
      * The constructor for the {@code GET /game} route handler.
      *
      * @param templateEngine The {@link TemplateEngine} used for rendering page HTML.
-     * @param gson
+     * @param playerLobby  PlayerLobby object of the Webserver
+     * @param gameCenter   GameCenter object of the WebServer
+     * @param gson    Gson object used for converting JavaScript files
      */
     GetGameRoute(PlayerLobby playerLobby, GameCenter gameCenter, final TemplateEngine templateEngine, Gson gson) {
         this.gson = gson;

@@ -45,6 +45,13 @@ public class King extends Piece{
         return this.canJumpForward(currentPosition, board) || this.canJumpBackward(currentPosition, board);
     }
 
+    /**
+     * Private method used to determine if this Piece can legally jump backward
+     *
+     * @param currentPosition   current position of the piece
+     * @param board             board that the piece is on
+     * @return                  true if the piece can legally jump in the backward direction
+     */
     private boolean canJumpBackward(Position currentPosition, Board board) {
 
         boolean canJumpRight;

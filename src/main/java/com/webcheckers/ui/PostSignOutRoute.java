@@ -15,6 +15,12 @@ public class PostSignOutRoute implements Route {
     final String USERNAME_PARAM = "userName";
     static final String SIGNED_OUT_ATTR = "playerSignOut";
 
+    /**
+     * Route controller for signing out of Webcheckers
+     *
+     * @param playerLobby   PlayerLobby object of the WebServer
+     * @param templateEngine    TemplateEngine used for rendering .html files
+     */
     public PostSignOutRoute(PlayerLobby playerLobby, TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         this.playerLobby = Objects.requireNonNull(playerLobby, "playerLobby is required");

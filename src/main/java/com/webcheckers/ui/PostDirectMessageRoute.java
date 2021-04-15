@@ -13,6 +13,12 @@ public class PostDirectMessageRoute implements Route {
     private final PlayerLobby playerLobby;
     private final Gson gson;
 
+    /**
+     * Route controller for sending direct messages
+     *
+     * @param gson    Gson object used for converting JavaScript files
+     * @param playerLobby  PlayerLobby object of the Webserver
+     */
     public PostDirectMessageRoute(Gson gson, PlayerLobby playerLobby) {
         this.playerLobby = playerLobby;
         this.gson = gson;

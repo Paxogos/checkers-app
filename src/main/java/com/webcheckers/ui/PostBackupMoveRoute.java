@@ -16,6 +16,12 @@ public class PostBackupMoveRoute implements Route {
     private Gson gson;
     private GameCenter gameCenter;
 
+    /**
+     * Route controller for backing up a move
+     *
+     * @param gameCenter   GameCenter object of the WebServer
+     * @param gson    Gson object used for converting JavaScript files
+     */
     public PostBackupMoveRoute(Gson gson, GameCenter gameCenter) {
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
         this.gameCenter = gameCenter;

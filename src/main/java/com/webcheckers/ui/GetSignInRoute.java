@@ -18,6 +18,12 @@ public class GetSignInRoute implements Route {
 
     private static final Message SIGN_IN_MSG = Message.info("Select a name to get started.");
 
+
+    /**
+     * Route controller for retrieving the sign-in page
+     *
+     * @param templateEngine    TemplateEngine used for rendering .html files
+     */
     public GetSignInRoute(final TemplateEngine templateEngine) {
 
         // Validation

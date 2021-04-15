@@ -28,6 +28,13 @@ public class PostSignInRoute implements Route {
     private final GameCenter gameCenter;
     private final TemplateEngine templateEngine;
 
+
+    /**
+     * Route controller for signing into Webcheckers
+     *
+     * @param playerLobby   PlayerLobby object of the WebServer
+     * @param templateEngine    TemplateEngine used for rendering .html files
+     */
     public PostSignInRoute(PlayerLobby playerLobby,GameCenter gameCenter,TemplateEngine templateEngine) {
         // validation
         Objects.requireNonNull(playerLobby, "playerLobby must not be null");

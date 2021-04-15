@@ -20,6 +20,13 @@ public class PostCheckTurnRoute implements Route {
     private GameCenter gameCenter;
     PlayerLobby playerLobby;
 
+    /**
+     * Route controller for checking if it is the current user's turn
+     *
+     * @param playerLobby  PlayerLobby object of the Webserver
+     * @param gameCenter   GameCenter object of the WebServer
+     * @param gson    Gson object used for converting JavaScript files
+     */
     public PostCheckTurnRoute(Gson gson, GameCenter gameCenter, PlayerLobby playerLobby) {
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
         this.gameCenter = gameCenter;

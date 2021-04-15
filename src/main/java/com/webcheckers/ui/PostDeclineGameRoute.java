@@ -13,6 +13,12 @@ public class PostDeclineGameRoute implements Route {
     private final PlayerLobby playerLobby;
     private final Gson gson;
 
+    /**
+     * Route controller for declining a game
+     *
+     * @param gson          Gson object used for converting JavaScript files
+     * @param playerLobby   PlayerLobby object of the WebServer
+     */
     public PostDeclineGameRoute(Gson gson, PlayerLobby playerLobby) {
         this.playerLobby = playerLobby;
         this.gson = gson;
