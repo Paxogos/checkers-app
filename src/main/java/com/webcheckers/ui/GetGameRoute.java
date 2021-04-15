@@ -97,6 +97,9 @@ public class GetGameRoute implements Route {
         }
 
         Player opponent = playerLobby.getPlayer(opponentString);
+        if(opponent == null){
+            opponent = new Player(opponentString);
+        }
         String gameIDString = request.queryParams("gameID");
 
 
