@@ -13,6 +13,12 @@ public class PostDeleteNotificationRoute implements Route {
     private final PlayerLobby playerLobby;
     private final Gson gson;
 
+    /**
+     * Route controller for deleting notifications
+     *
+     * @param gson    Gson object used for converting JavaScript files
+     * @param playerLobby  PlayerLobby object of the Webserver
+     */
     public PostDeleteNotificationRoute(Gson gson, PlayerLobby playerLobby) {
         this.playerLobby = playerLobby;
         this.gson = gson;

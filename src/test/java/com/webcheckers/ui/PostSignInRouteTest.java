@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -37,6 +38,7 @@ class PostSignInRouteTest {
 
         gameCenter = mock(GameCenter.class);
         playerLobby = new PlayerLobby();
+        gameCenter = new GameCenter();
 
         when(request.session()).thenReturn(session);
 

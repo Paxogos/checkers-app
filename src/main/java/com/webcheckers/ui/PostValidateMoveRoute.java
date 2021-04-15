@@ -21,6 +21,12 @@ public class PostValidateMoveRoute implements Route {
 
     private final String ACTION_DATA_ATTR = "actionData";
 
+    /**
+     * Route controller for validating a move
+     *
+     * @param gameCenter   GameCenter object of the WebServer
+     * @param gson    Gson object used for converting JavaScript files
+     */
     public PostValidateMoveRoute(Gson gson, GameCenter gameCenter) {
 
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");

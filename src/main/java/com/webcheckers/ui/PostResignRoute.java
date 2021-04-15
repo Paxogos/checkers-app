@@ -19,6 +19,13 @@ public class PostResignRoute implements Route {
     private final Gson gson;
     private final GameCenter gameCenter;
 
+
+    /**
+     * Route controller for resigning
+     *
+     * @param gameCenter   GameCenter object of the WebServer
+     * @param gson    Gson object used for converting JavaScript files
+     */
     public PostResignRoute(Gson gson, GameCenter gameCenter) {
         this.gson = Objects.requireNonNull(gson, "Gson must not be null.");
         this.gameCenter = gameCenter;
