@@ -31,6 +31,7 @@ public class Game {
     // Ints for checking how many pieces are left
     private int numWhitePieces = 0;
     private int numRedPieces = 0;
+    private int playersInGame = 2;
 
     /**
      * Enum for checking the status of a move
@@ -40,6 +41,13 @@ public class Game {
         KING_RESTRICTED, SIMPLE_MOVES_EXCEEDED, NON_CONTINUOUS, CAN_PLAY_JUMP, EMPTY
     }
 
+    public void decrementPlayersInGame(){
+        playersInGame--;
+    }
+
+    public int getPlayersInGame() {
+        return playersInGame;
+    }
 
     /**
      * The Game constructor
