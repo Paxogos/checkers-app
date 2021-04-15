@@ -26,7 +26,7 @@ public class GameCenterTest {
     @Test
     public void testGetGame() {
         GameCenter testGC = new GameCenter();
-        Game newGame = testGC.getGame(RED_PLAYER, WHITE_PLAYER);
+        Game newGame = testGC.getGame(RED_PLAYER, WHITE_PLAYER,0);
         assertEquals(newGame, testGameRW);
         assertEquals(newGame.getRedPlayer(), RED_PLAYER);
         assertEquals(newGame.getWhitePlayer(), WHITE_PLAYER);
@@ -42,7 +42,7 @@ public class GameCenterTest {
     @Test
     public void testGameDoesExist_RegularArgs() {
         GameCenter testGC = new GameCenter();
-        testGC.getGame(RED_PLAYER, WHITE_PLAYER);
+        testGC.getGame(RED_PLAYER, WHITE_PLAYER,0);
         assertTrue(testGC.gameExists(RED_PLAYER, WHITE_PLAYER),
                 "Game should exist between Red and White");
     }
@@ -50,7 +50,7 @@ public class GameCenterTest {
     @Test
     public void testGameDoesExist_ReversedArgs() {
         GameCenter testGC = new GameCenter();
-        testGC.getGame(RED_PLAYER, WHITE_PLAYER);
+        testGC.getGame(RED_PLAYER, WHITE_PLAYER,0);
         assertTrue(testGC.gameExists(WHITE_PLAYER, RED_PLAYER),
                     "Game should exist between White and Red");
     }
@@ -58,7 +58,7 @@ public class GameCenterTest {
     @Test
     public void testGetOpponent() {
         GameCenter testGC = new GameCenter();
-        testGC.getGame(RED_PLAYER, WHITE_PLAYER);
+        testGC.getGame(RED_PLAYER, WHITE_PLAYER,0);
 
         assertEquals(WHITE_PLAYER, testGC.getCurrentOpponent(RED_PLAYER),
                 WHITE_PLAYER.getName() + "'s opponent was supposed to be " + RED_PLAYER.getName() +
@@ -71,7 +71,7 @@ public class GameCenterTest {
     @Test
     public void testGetCorrectKey() {
         GameCenter testGC = new GameCenter();
-        testGC.getGame(RED_PLAYER, WHITE_PLAYER);
+        testGC.getGame(RED_PLAYER, WHITE_PLAYER,0);
 
         assertEquals(RED_PLAYER_NAME + WHITE_PLAYER_NAME, testGC.getCorrectKey(RED_PLAYER, WHITE_PLAYER),
                 "Key should exist for Red and White with arg(Red,White).");

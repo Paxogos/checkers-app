@@ -78,7 +78,7 @@ public class GetHomeRouteTest {
         currentUser = playerLobby.getPlayer("Test1");
         opponent = playerLobby.getPlayer("TestOpp1");
 
-        Game currentGame = gameCenter.getGame(currentUser,opponent);
+        Game currentGame = gameCenter.getGame(currentUser, opponent, 0);
 
         when(session.attribute("currentUser")).thenReturn(currentUser);
 
@@ -102,7 +102,7 @@ public class GetHomeRouteTest {
         Player opponent1 = playerLobby.getPlayer("TestOpp1");
         Player opponent2 = playerLobby.getPlayer("TestOpp2");
 
-        Game opponentGame = gameCenter.getGame(opponent1,opponent2);
+        Game opponentGame = gameCenter.getGame(opponent1,opponent2,0);
 
 
         when(session.attribute("currentUser")).thenReturn(currentUser);

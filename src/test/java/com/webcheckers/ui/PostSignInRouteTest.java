@@ -33,6 +33,7 @@ class PostSignInRouteTest {
         response = mock(Response.class);
         engine = mock(TemplateEngine.class);
 
+        gameCenter = mock(GameCenter.class);
         playerLobby = new PlayerLobby();
 
         when(request.session()).thenReturn(session);
@@ -61,7 +62,7 @@ class PostSignInRouteTest {
 
     @Test
     void logged_in() throws Exception {
-        when(session.attribute("currentUser")).thenReturn(new Player("LoggedIn1"));
+        when(request.queryParams("userName")).thenReturn("LoggedIn1");
         try{
             CuT.handle(request,response);
         }catch (spark.HaltException e){

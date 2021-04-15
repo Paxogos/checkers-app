@@ -20,7 +20,7 @@ class SpaceTest {
     GameCenter gameCenter = new GameCenter();
     BoardView boardView;
 
-    private Game testGame = gameCenter.getGame(new Player("Test1"), new Player("Test2"));
+    private Game testGame = gameCenter.getGame(new Player("Test1"), new Player("Test2"),0);
 
 
     @BeforeEach

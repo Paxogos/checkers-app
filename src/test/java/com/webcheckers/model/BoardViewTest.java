@@ -10,7 +10,7 @@ class BoardViewTest {
     int GRID_LENGTH = BoardView.GRID_LENGTH;
 
     GameCenter gameCenter = new GameCenter();
-    Game testGame = gameCenter.getGame(new Player("Test1"), new Player("Test2"));
+    Game testGame = gameCenter.getGame(new Player("Test1"), new Player("Test2"),0);
     BoardView boardView;
 
     @Test

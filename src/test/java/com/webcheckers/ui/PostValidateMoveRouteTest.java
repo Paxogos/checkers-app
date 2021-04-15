@@ -38,9 +38,6 @@ public class PostValidateMoveRouteTest {
     private Gson gson;
 
 
-
-
-
     @BeforeEach
     public void setup() {
         request = mock(Request.class);
@@ -56,7 +53,7 @@ public class PostValidateMoveRouteTest {
         playerLobby.signIn("Test2");
         currentUser = playerLobby.getPlayer("Test1");
         opponent = playerLobby.getPlayer("Test2");
-        currentGame = gameCenter.getGame(currentUser,opponent);
+        currentGame = gameCenter.getGame(currentUser,opponent,0);
         gson = new Gson();
 
         when(request.session()).thenReturn(session);
