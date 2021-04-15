@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+
 /**
  * The type Board view represents a game of checkers.
  */
@@ -88,24 +89,6 @@ public class BoardView implements Iterable<Row>{
         return newBoard;
     }
 
-    public boolean equals(Object obj) {
-        if (!(obj instanceof BoardView))
-            return false;
-        BoardView newBoard = (BoardView)obj;
 
-        for (int row = 0; row < GRID_LENGTH; row++) {
-            for (int cell = 0; cell < GRID_LENGTH; cell++) {
-                if (this.rowArrayList.get(row).getSpaceArrayList().get(cell).equals(
-                        newBoard.getRowArrayList().get(row).getSpaceArrayList().get(cell))){
-                }else{
-                    return false;
-                }
-
-            }
-        }
-
-        return true;
-
-    }
 
 }

@@ -212,34 +212,34 @@ public class WebServer {
     // Shows the Checkers Game page.
     get(GAME_URL, new GetGameRoute(playerLobby, gameCenter, templateEngine, gson));
 
-    //
+    // Submits a name for signing in.
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby,gameCenter, templateEngine));
 
-    //
+    // Request for signing out of Webcheckers.
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby, templateEngine));
 
-    //
+    // Ajax request for validating a move.
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gson,gameCenter));
 
-    //
+    // Ajax request for checking if it is the user's turn.
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gson,gameCenter,playerLobby));
 
-    //
+    // Ajax request for submitting a turn.
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gson,gameCenter));
 
-    //
+    // Ajax request for backing up a move.
     post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gson,gameCenter));
 
-    //
+    // Ajax request for resigning the game.
     post(RESIGN_URL, new PostResignRoute(gson,gameCenter));
 
-    //
+    // Declines an incoming challenge.
     post(DECLINE_GAME_URL, new PostDeclineGameRoute(gson,playerLobby));
 
-    //
+    // Removes notification from the home page.
     post(DELETE_NOTIFICATION_URL, new PostDeleteNotificationRoute(gson,playerLobby));
 
-    //
+    // Sends a message to the current opponent
     post(DIRECT_MESSAGE_URL, new PostDirectMessageRoute(gson,playerLobby));
 
 
