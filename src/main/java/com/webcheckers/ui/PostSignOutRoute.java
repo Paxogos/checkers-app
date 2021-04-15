@@ -1,7 +1,10 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Game;
+import com.webcheckers.model.Piece;
 import com.webcheckers.model.Player;
+import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.Objects;
@@ -21,6 +24,11 @@ public class PostSignOutRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         final Session session = request.session();
         Player currentUser = session.attribute("currentUser");
+
+        Game currentGame = session.attribute(GetGameRoute.MOST_RECENT_GAME_ATTR);
+        if (currentGame != null) {
+            currentGame.resignGame(currentUser);
+        }
 
         
         //Session attribute to set player sign out status
