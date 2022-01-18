@@ -1,4 +1,3 @@
-/*
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
@@ -88,7 +87,7 @@ class GetGameRouteTest {
         when(engine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
         when(session.attribute("currentUser")).thenReturn(currentUser);
 
-        Game currentGame = gameCenter.getGame(currentUser,opponent);
+        Game currentGame = gameCenter.getGame(currentUser,opponent,0);
 
         try{
             CuT.handle(request,response);
@@ -126,4 +125,3 @@ class GetGameRouteTest {
     }
 }
 
- */
